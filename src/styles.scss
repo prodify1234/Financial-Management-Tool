@@ -1,6 +1,15 @@
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+
+//Global Colours
+$primary-color: #4361EE;
+$secondary-color: #F1F2F5;
+$accent-color: #FF6F61;
+$text-color: #333333;
+$background-color: #FFFFFF;
+
+
 @use '@angular/material' as mat;
 
 html {
@@ -15,5 +24,5 @@ html {
   ));
 }/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100vh; background-color: #F1F2F5; overflow-y: hidden; }
+html, body { height: 100vh; background-color: $secondary-color; overflow-y: hidden; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

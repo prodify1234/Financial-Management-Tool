@@ -15,6 +15,6 @@ export class LoginComponent {
 
 
   onSubmit(){
-    this.router.navigate(['/register'])
+    this.router.navigate(['/dashboard'])
   }
 }
