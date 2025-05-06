@@ -4,28 +4,28 @@
   </div>
 
   <div class="login-container__form-container">
-    <form class="login-container__form-container__form">
+    <form class="login-container__form-container__form" (ngSubmit)="onSubmit()">
 
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput>
+        <input matInput type="email">
       </mat-form-field>
 
       <br>
 
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput>
+        <input matInput type="password">
       </mat-form-field>
 
       <br>
 
-      <button mat-flat-button>Login</button>
+      <button mat-flat-button (click)="onSubmit()">Login</button>
 
     </form>
   </div>
 
   <div class="login-container__footer">
-    Don't have an account. <a href="#">Register Now</a>
+    Don't have an account. <a routerLink="/register">Register Now</a>
   </div>
 </div>

@@ -1,0 +1,66 @@
+<div class="register-container">
+  <div class="register-container__header">
+    <h2>Financial Dashboard</h2>
+  </div>
+
+  <div class="register-container__form-container">
+    <form class="register-container__form-container__form" (ngSubmit)="onSubmit()">
+
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>Email Address</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>PAN Number</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>Aadhar Number</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <textarea matInput placeholder="Enter Address..."></textarea>
+      </mat-form-field>
+
+      <br>
+
+      <button mat-flat-button (click)="onSubmit()">Register</button>
+
+    </form>
+  </div>
+
+  <div class="register-container__footer">
+    Already have an account. <a routerLink="/">Login Now</a>
+  </div>
+</div>
