@@ -1,71 +1,121 @@
-
 <div class="register">
   <div class="register-container">
     <div class="register-container__header">
       <h2>Financial Dashboard</h2>
     </div>
-  
-    <div class="register-container__form-container">
-      <form class="register-container__form-container__form" (ngSubmit)="onSubmit()">
-  
-        <mat-form-field>
-          <mat-label>First Name</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>Last Name</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>Email Address</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>Phone Number</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>PAN Number</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>Aadhar Number</mat-label>
-          <input matInput>
-        </mat-form-field>
-  
-        <br>
-  
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <textarea matInput placeholder="Enter Address..."></textarea>
-        </mat-form-field>
-  
-        <br>
-  
-        <button mat-flat-button (click)="onSubmit()">Register</button>
-  
-      </form>
-    </div>
-  
-    <div class="register-container__footer">
-      Already have an account. <a routerLink="/">Login Now</a>
-    </div>
+    <div class="register-container__form-container"></div>
+    @if(step() === 'first'){
+    <form class="register-container__form-container__form">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Email Address</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>PAN Number</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Aadhar Number</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <textarea matInput placeholder="Enter Address..."></textarea>
+      </mat-form-field>
+
+      <br />
+
+      <button mat-flat-button type="button" (click)="onNavigate('second')">
+        Next
+      </button>
+    </form>
+    } @else {
+    <form class="register-container__form-container__form">
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <br />
+
+      <mat-form-field>
+        <mat-label>Confirm Password</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="">
+        Already have an account. <a routerLink="/">Login Now</a>
+      </div>
+
+      <br />
+      <br />
+      <div class="register-buttons register-container__footer">
+        <button
+          class="register-buttons__action"
+          mat-raised-button
+          type="button"
+          (click)="onNavigate('first')"
+        >
+          Back
+        </button>
+        <button
+          class="register-buttons__action"
+          mat-flat-button
+          type="button"
+          (click)="onSubmit()"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+    }
   </div>
-
 </div>
-

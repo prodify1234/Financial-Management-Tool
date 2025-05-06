@@ -46,4 +46,14 @@
       line-height: 50px;
     }
   }
+
+  &-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 60%;
+
+    &__action {
+      width: 100% !important;
+    }
+  }
 }
