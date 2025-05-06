@@ -1,9 +1,11 @@
-.login-container{
+.login {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  &-container {
   background-color: #fff;
-  width: fit-content;
-  position: absolute;
-  top: 30%;
-  left: 35%;
   padding: 20px;
   width: 500px;
   border-radius: 5px;
@@ -11,6 +13,7 @@
   &__header{
     width: 100%;
     text-align: center;
+    padding: 0px 20px 20px 20px;
   }
 
   &__form-container{
@@ -25,7 +28,7 @@
 
       button{
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         border-radius: 5px;
         border: none;
         cursor: pointer;
@@ -40,5 +43,7 @@
     width: 100%;
     text-align: center;
     line-height: 50px;
+    margin-top: 20px;
+  }
   }
 }
