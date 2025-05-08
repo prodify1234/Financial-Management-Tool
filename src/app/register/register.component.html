@@ -113,6 +113,7 @@
             <button
               class="register-buttons__action"
               mat-flat-button
+              [disabled]="step2Form.invalid"
               type="button"
               (click)="onCreateClient()"
             >

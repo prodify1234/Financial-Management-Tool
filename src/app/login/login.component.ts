@@ -56,7 +56,7 @@ export class LoginComponent {
         localStorage.setItem("token_type", response.token_type)
         this.snackbar.open('Login Successfully', 'Close');
         this.loader.update(() => false);
-        this.router.navigate(['/register']);
+        this.router.navigate(['/dashboard']);
       },
       (error) => {
         this.loader.update(() => false);
