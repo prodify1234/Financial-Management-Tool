@@ -23,3 +23,8 @@ html {
 
 html, body { height: 100vh; background-color: #F1F2F5; overflow-y: hidden; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.disabled { 
+  opacity: 0.5;
+  cursor: not-allowed;
+}

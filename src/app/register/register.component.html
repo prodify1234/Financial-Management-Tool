@@ -1,121 +1,130 @@
 <div class="register">
-  <div class="register-container">
-    <div class="register-container__header">
-      <h2>Financial Dashboard</h2>
+  <div class="register-wrapper">
+    @if(loader()){
+      <mat-progress-bar  mode="indeterminate"></mat-progress-bar>
+    } 
+    <div class="register-container" [class.disabled]="loader()">
+        <div class="register-container__header">
+          <h2>Financial Dashboard</h2>
+        </div>
+        <div class="register-container__form-container"></div>
+        @if(step() === 'first'){
+        <form [formGroup]="step1Form" class="register-container__form-container__form">
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name"/>
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput  formControlName="last_name"/>
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Email Address</mat-label>
+            <input matInput formControlName="email"/>
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone_number"/>
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>PAN Number</mat-label>
+            <input matInput formControlName="pan_number" />
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Aadhar Number</mat-label>
+            <input matInput formControlName="aadhaar_number"/>
+          </mat-form-field>
+    
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Address</mat-label>
+            <textarea matInput placeholder="Enter Address..." formControlName="address"></textarea>
+          </mat-form-field>
+    
+          <br />
+    
+          <button [disabled]="step1Form.invalid" mat-flat-button type="button" (click)="onNavigate('second')">
+            Next
+          </button>
+        </form>
+        } @else {
+        <form [formGroup]="step2Form" class="register-container__form-container__form">
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hide() ? 'password' : 'text'" />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()"
+            >
+              <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <br />
+    
+          <mat-form-field>
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirm_password" [type]="hide() ? 'password' : 'text'" />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()"
+            >
+              <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <div class="">
+            Already have an account. <a routerLink="/">Login Now</a>
+          </div>
+    
+          <br />
+          <br />
+          <div class="register-buttons register-container__footer">
+            <button
+              class="register-buttons__action"
+              mat-raised-button
+              type="button"
+              (click)="onNavigate('first')"
+            >
+              Back
+            </button>
+            <button
+              class="register-buttons__action"
+              mat-flat-button
+              type="button"
+              (click)="onCreateClient()"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+        }
     </div>
-    <div class="register-container__form-container"></div>
-    @if(step() === 'first'){
-    <form class="register-container__form-container__form">
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>Email Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>Phone Number</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>PAN Number</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>Aadhar Number</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <textarea matInput placeholder="Enter Address..."></textarea>
-      </mat-form-field>
-
-      <br />
-
-      <button mat-flat-button type="button" (click)="onNavigate('second')">
-        Next
-      </button>
-    </form>
-    } @else {
-    <form class="register-container__form-container__form">
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" />
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          (click)="clickEvent($event)"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide()"
-        >
-          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
-        </button>
-      </mat-form-field>
-      <br />
-
-      <mat-form-field>
-        <mat-label>Confirm Password</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" />
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          (click)="clickEvent($event)"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide()"
-        >
-          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
-        </button>
-      </mat-form-field>
-      <div class="">
-        Already have an account. <a routerLink="/">Login Now</a>
-      </div>
-
-      <br />
-      <br />
-      <div class="register-buttons register-container__footer">
-        <button
-          class="register-buttons__action"
-          mat-raised-button
-          type="button"
-          (click)="onNavigate('first')"
-        >
-          Back
-        </button>
-        <button
-          class="register-buttons__action"
-          mat-flat-button
-          type="button"
-          (click)="onSubmit()"
-        >
-          Register
-        </button>
-      </div>
-    </form>
-    }
+  
+   
+  
+   
   </div>
 </div>

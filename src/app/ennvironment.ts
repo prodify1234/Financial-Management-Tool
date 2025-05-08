@@ -1,0 +1,1 @@
+export const API_URL = 'https://ai-moderator.prodifyllp.com/api/'; // Replace with your actual API URL
