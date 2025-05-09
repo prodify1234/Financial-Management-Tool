@@ -1,0 +1,53 @@
+@use "../../../sass/variables" as var;
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 64px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+
+  &__menu {
+    display: flex;
+    align-items: center;
+
+    &__title {
+      color : var.$primary-color;
+      h2 {
+        font-weight: 800;
+      }
+    }
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    // gap: 12px;
+
+    &__username {
+      font-size: 16px;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+
+    &__avatar {
+      font-size: 30px;
+      &.mat-icon {
+        height: 32px;
+        width: 32px;
+      }
+    }
+  }
+
+  &__button {
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  
+}

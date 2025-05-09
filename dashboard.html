@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Financial Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --success-color: #4caf50;
+      --danger-color: #f44336;
+      --warning-color: #ff9800;
+      --info-color: #2196f3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: var(--dark-color);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* Login and Registration Pages */
+    .auth-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f2f5;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 450px;
+      padding: 30px;
+    }
+
+    .auth-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--dark-color);
+      color: white;
+      padding: 20px 0;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-brand {
+      padding: 15px 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-menu li:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-menu li.active {
+      background-color: var(--primary-color);
+    }
+
+    .sidebar-menu li i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .topbar-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .user-profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    /* Dashboard sections */
+    .dashboard-welcome {
+      text-align: center;
+      padding: 50px 0;
+    }
+
+    .dashboard-welcome img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-welcome h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .dashboard-welcome p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: black;
+    }
+
+    .modal-footer {
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+      margin-top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Package cards */
+    .package-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .package-card {
+      flex: 1;
+      min-width: 250px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .package-card.active {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .package-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .package-price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .package-features {
+      list-style: none;
+      margin: 15px 0;
+    }
+
+    .package-features li {
+      padding: 5px 0;
+    }
+
+    .package-features li i {
+      color: var(--success-color);
+      margin-right: 10px;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .search-bar button {
+      padding: 10px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+
+    /* Utility classes */
+    .d-flex {
+      display: flex;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .align-center {
+      align-items: center;
+    }
+
+    .mb-20 {
+      margin-bottom: 20px;
+    }
+
+    /* Hide all sections by default */
+    .dashboard-section {
+      display: none;
+    }
+
+    /* Show active section */
+    .dashboard-section.active {
+      display: block;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      .package-cards {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="loginPage" class="auth-page">
+    <div class="card auth-card">
+      <h2>Financial Dashboard</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        <p style="text-align: center; margin-top: 15px;">
+          Don't have an account? <a href="#" id="showRegistration">Register now</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Registration Page (Personal Details) -->
+  <div id="registrationPage" class="auth-page" style="display: none;">
+    <div class="card auth-card">
+      <h2>Create Account</h2>
+      <form id="registrationForm">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" required>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" class="form-control" placeholder="Enter your last name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+          <label for="panNumber">PAN Number</label>
+          <input type="text" id="panNumber" class="form-control" placeholder="Enter your PAN number" required>
+        </div>
+        <div class="form-group">
+          <label for="aadhaarNumber">Aadhaar Number</label>
+          <input type="text" id="aadhaarNumber" class="form-control" placeholder="Enter your Aadhaar number" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" class="form-control" placeholder="Enter your address" required rows="3"></textarea>
+        </div>
+        <button type="button" id="nextToPassword" class="btn btn-primary" style="width: 100%;">Next</button>
+        <p style="text-align: center; margin-top: 15px;">
+          Already have an account? <a href="#" id="showLogin">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Password Setup Page -->
+  <div id="passwordSetupPage" class="auth-page" style="display: none;">
+    <div class="card auth-card">
+      <h2>Create Password</h2>
+      <form id="passwordForm">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+        <p style="text-align: center; margin-top: 15px;">
+          <a href="#" id="backToDetails">Back to details</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboardPage" style="display: none;">
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-brand">Financial Tool</div>
+        <ul class="sidebar-menu">
+          <li class="active" data-section="welcome">
+            <i class="fas fa-home"></i> Dashboard
+          </li>
+          <li data-section="familyMembers">
+            <i class="fas fa-users"></i> Family Members
+          </li>
+          <li data-section="accounts">
+            <i class="fas fa-university"></i> Accounts
+          </li>
+          <li data-section="packages">
+            <i class="fas fa-box"></i> Packages
+          </li>
+          <li data-section="transactions">
+            <i class="fas fa-exchange-alt"></i> Transaction Details
+          </li>
+          <li data-section="assetsLiabilities">
+            <i class="fas fa-balance-scale"></i> Assets & Liabilities
+          </li>
+          <li data-section="categories">
+            <i class="fas fa-tags"></i> Categories
+          </li>
+          <li data-section="networth">
+            <i class="fas fa-chart-line"></i> Networth
+          </li>
+          <li data-section="cashflows">
+            <i class="fas fa-money-bill-wave"></i> Cashflows
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-actions">
+            <button class="btn btn-outline" id="uploadBtn">
+              <i class="fas fa-upload"></i> Upload
+            </button>
+            <button class="btn btn-outline" id="settingsBtn">
+              <i class="fas fa-cog"></i> Settings
+            </button>
+            <div class="user-profile">
+              <img src="/api/placeholder/35/35" alt="Profile">
+              <span>John Doe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div id="welcome" class="dashboard-section active">
+          <div class="dashboard-welcome">
+            <img src="/api/placeholder/400/300" alt="Financial Journey">
+            <h1>Start Your Financial Journey</h1>
+            <p>Welcome to your personal financial dashboard. Upload your transaction statements, categorize your expenses, track your assets and liabilities, and get insights into your financial health.</p>
+          </div>
+        </div>
+
+        <!-- Family Members Section -->
+        <div id="familyMembers" class="dashboard-section">
+          <div class="d-flex justify-between align-center mb-20">
+            <h2>Family Members</h2>
+            <button class="btn btn-primary" id="addFamilyMemberBtn">
+              <i class="fas fa-plus"></i> Add Family Member
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Relationship</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Jane Doe</td>
+                    <td>Spouse</td>
+                    <td>jane@example.com</td>
+                    <td>+91 9876543210</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accounts Section -->
+        <div id="accounts" class="dashboard-section">
+          <div class="d-flex justify-between align-center mb-20">
+            <h2>Accounts</h2>
+            <button class="btn btn-primary" id="addAccountBtn">
+              <i class="fas fa-plus"></i> Add Account
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Account Holder</th>
+                    <th>Account Type</th>
+                    <th>Provider</th>
+                    <th>Account Number</th>
+                    <th>Interest Rate</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>SAVINGS</td>
+                    <td>HDFC Bank</td>
+                    <td>XXXX1234</td>
+                    <td>3.5%</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 30px;">Linked Accounts</h3>
+          <div class="card">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Account Holder</th>
+                    <th>Relationship</th>
+                    <th>Account Type</th>
+                    <th>Provider</th>
+                    <th>Account Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Jane Doe</td>
+                    <td>Spouse</td>
+                    <td>SAVINGS</td>
+                    <td>SBI Bank</td>
+                    <td>XXXX5678</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Packages Section -->
+        <div id="packages" class="dashboard-section">
+          <h2 class="mb-20">Packages</h2>
+          <div class="package-cards">
+            <div class="package-card active">
+              <h3>Basic Package</h3>
+              <p>Perfect for individual users</p>
+              <div class="package-price">₹999</div>
+              <p>Valid for 365 days</p>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> 1 User</li>
+                <li><i class="fas fa-check"></i> Basic financial analysis</li>
+                <li><i class="fas fa-check"></i> Transaction categorization</li>
+              </ul>
+              <button class="btn btn-primary" style="width: 100%;">Current Plan</button>
+            </div>
+            <div class="package-card">
+              <h3>Family Package</h3>
+              <p>Ideal for family financial planning</p>
+              <div class="package-price">₹1999</div>
+              <p>Valid for 365 days</p>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> 5 Users</li>
+                <li><i class="fas fa-check"></i> Advanced financial analysis</li>
+                <li><i class="fas fa-check"></i> Transaction categorization</li>
+                <li><i class="fas fa-check"></i> Family asset tracking</li>
+              </ul>
+              <button class="btn btn-outline" style="width: 100%;">Upgrade</button>
+            </div>
+            <div class="package-card">
+              <h3>Premium Package</h3>
+              <p>Complete financial solution</p>
+              <div class="package-price">₹3999</div>
+              <p>Valid for 365 days</p>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> 10 Users</li>
+                <li><i class="fas fa-check"></i> Comprehensive financial analysis</li>
+                <li><i class="fas fa-check"></i> Advanced transaction categorization</li>
+                <li><i class="fas fa-check"></i> Family asset tracking</li>
+                <li><i class="fas fa-check"></i> Investment recommendations</li>
+              </ul>
+              <button class="btn btn-outline" style="width: 100%;">Upgrade</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transaction Details Section -->
+        <div id="transactions" class="dashboard-section">
+          <div class="d-flex justify-between align-center mb-20">
+            <h2>Transaction Details</h2>
+            <button class="btn btn-primary" id="uploadTransactionBtn">
+              <i class="fas fa-upload"></i> Upload Statement
+            </button>
+          </div>
+          <div class="card">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2023-04-15</td>
+                    <td>Grocery Shopping</td>
+                    <td>-₹2,500</td>
+                    <td>Food & Groceries</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i> Update Category
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2023-04-10</td>
+                    <td>Salary Credit</td>
+                    <td>+₹50,000</td>
+                    <td>Income</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i> Update Category
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assets and Liabilities Section -->
+        <div id="assetsLiabilities" class="dashboard-section">
+          <div class="d-flex justify-between align-center mb-20">
+            <h2>Assets & Liabilities</h2>
+            <div>
+              <button class="btn btn-primary" id="addAssetBtn">
+                <i class="fas fa-plus"></i> Add Asset
+              </button>
+              <button class="btn btn-outline" id="addLiabilityBtn">
+                <i class="fas fa-plus"></i> Add Liability
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Assets</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Asset Name</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Home Property</td>
+                    <td>Real Estate</td>
+                    <td>₹80,00,000</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Liabilities</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Liability Name</th>
+                    <th>Type</th>
+                    <th>Outstanding Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Home Loan</td>
+                    <td>Mortgage</td>
+                    <td>₹40,00,000</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div id="categories" class="dashboard-section">
+          <div class="d-flex justify-between align-center mb-20">
+            <h2>Categories</h2>
+            <div>
+              <button class="btn btn-primary" id="addCategoryBtn">
+                <i class="fas fa-plus"></i> Add Category
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="search-bar">
+              <input type="text" placeholder="Search categories...">
+              <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Head</th>
+                    <th>Main Classification</th>
+                    <th>Sub Classification</th>
+                    <th>Type</th>
+                    <th>Frequency</th>
+                    <th>Budget Allocation %</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Income</td>
+                    <td>Salary</td>
+                    <td>Regular</td>
+                    <td>Credit</td>
+                    <td>Monthly</td>
+                    <td>100%</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i> Update
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Expense</td>
+                    <td>Food</td>
+                    <td>Groceries</td>
+                    <td>Debit</td>
+                    <td>Monthly</td>
+                    <td>20%</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i> Update
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Expense</td>
+                    <td>Housing</td>
+                    <td>Rent</td>
+                    <td>Debit</td>
+                    <td>Monthly</td>
+                    <td>30%</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="btn btn-outline">
+                          <i class="fas fa-edit"></i> Update
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Networth Section -->
+        <div id="networth" class="dashboard-section">
+          <h2 class="mb-20">Networth Analysis</h2>
+          <div class="card">
+            <div style="height: 400px; display: flex; justify-content: center; align-items: center;">
+              <img src="/api/placeholder/600/400" alt="Networth Chart">
+            </div>
+            <div class="d-flex justify-between" style="margin-top: 20px;">
+              <div>
+                <h3>Total Assets</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--success-color);">₹90,00,000</p>
+              </div>
+              <div>
+                <h3>Total Liabilities</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--danger-color);">₹45,00,000</p>
+              </div>
+              <div>
+                <h3>Net Worth</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-color);">₹45,00,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cashflows Section -->
+        <div id="cashflows" class="dashboard-section">
+          <h2 class="mb-20">Cashflow Analysis</h2>
+          <div class="card">
+            <div style="height: 400px; display: flex; justify-content: center; align-items: center;">
+              <img src="/api/placeholder/600/400" alt="Cashflow Chart">
+            </div>
+            <div class="d-flex justify-between" style="margin-top: 20px;">
+              <div>
+                <h3>Total Income</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--success-color);">₹75,000</p>
+              </div>
+              <div>
+                <h3>Total Expenses</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--danger-color);">₹45,000</p>
+              </div>
+              <div>
+                <h3>Net Cashflow</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-color);">₹30,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <!-- Add Family Member Modal -->
+  <div id="addFamilyMemberModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Family Member</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="familyMemberForm">
+        <div class="form-group">
+          <label for="familyFirstName">First Name</label>
+          <input type="text" id="familyFirstName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="familyLastName">Last Name</label>
+          <input type="text" id="familyLastName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="relationship">Relationship</label>
+          <select id="relationship" class="form-control" required>
+            <option value="">Select relationship</option>
+            <option value="Spouse">Spouse</option>
+            <option value="Child">Child</option>
+            <option value="Parent">Parent</option>
+            <option value="Sibling">Sibling</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="familyEmail">Email</label>
+          <input type="email" id="familyEmail" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="familyPhone">Phone Number</label>
+          <input type="tel" id="familyPhone" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="familyPAN">PAN Number</label>
+          <input type="text" id="familyPAN" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="familyAadhaar">Aadhaar Number</label>
+          <input type="text" id="familyAadhaar" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Family Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Account Modal -->
+  <div id="addAccountModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Account</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="accountForm">
+        <div class="form-group">
+          <label for="accountHolder">Account Holder</label>
+          <select id="accountHolder" class="form-control" required>
+            <option value="">Select account holder</option>
+            <option value="self">Self</option>
+            <option value="jane">Jane Doe (Spouse)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="accountType">Account Type</label>
+          <select id="accountType" class="form-control" required>
+            <option value="">Select account type</option>
+            <option value="SAVINGS">Savings</option>
+            <option value="CURRENT">Current</option>
+            <option value="FIXED_DEPOSIT">Fixed Deposit</option>
+            <option value="RECURRING_DEPOSIT">Recurring Deposit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="provider">Provider</label>
+          <input type="text" id="provider" class="form-control" placeholder="Bank/Financial Institution Name" required>
+        </div>
+        <div class="form-group">
+          <label for="statementType">Statement Type</label>
+          <select id="statementType" class="form-control" required>
+            <option value="">Select statement type</option>
+            <option value="Monthly Statements">Monthly Statements</option>
+            <option value="Quarterly Statements">Quarterly Statements</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="accountNumber">Account Number</label>
+          <input type="text" id="accountNumber" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="beneficiaryName">Beneficiary Name</label>
+          <input type="text" id="beneficiaryName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="interestRate">Interest Rate (%)</label>
+          <input type="number" id="interestRate" class="form-control" step="0.01" min="0">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div id="addCategoryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Category</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="categoryForm">
+        <div class="form-group">
+          <label for="head">Head</label>
+          <select id="head" class="form-control" required>
+            <option value="">Select head</option>
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+            <option value="Investment">Investment</option>
+            <option value="Savings">Savings</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mainClassification">Main Classification</label>
+          <input type="text" id="mainClassification" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="subClassification">Sub Classification</label>
+          <input type="text" id="subClassification" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select id="type" class="form-control" required>
+            <option value="">Select type</option>
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="frequency">Frequency</label>
+          <select id="frequency" class="form-control" required>
+            <option value="">Select frequency</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Yearly">Yearly</option>
+            <option value="One-time">One-time</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budgetAllocation">Budget Allocation (%)</label>
+          <input type="number" id="budgetAllocation" class="form-control" min="0" max="100" step="0.01" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Asset Modal -->
+  <div id="addAssetModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Asset</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="assetForm">
+        <div class="form-group">
+          <label for="assetName">Asset Name</label>
+          <input type="text" id="assetName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="assetType">Asset Type</label>
+          <select id="assetType" class="form-control" required>
+            <option value="">Select asset type</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Investments">Investments</option>
+            <option value="Cash">Cash</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="assetValue">Asset Value</label>
+          <input type="number" id="assetValue" class="form-control" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="assetDetails">Asset Details</label>
+          <textarea id="assetDetails" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Asset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Liability Modal -->
+  <div id="addLiabilityModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Liability</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="liabilityForm">
+        <div class="form-group">
+          <label for="liabilityName">Liability Name</label>
+          <input type="text" id="liabilityName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="liabilityType">Liability Type</label>
+          <select id="liabilityType" class="form-control" required>
+            <option value="">Select liability type</option>
+            <option value="Mortgage">Mortgage</option>
+            <option value="Personal Loan">Personal Loan</option>
+            <option value="Car Loan">Car Loan</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="liabilityAmount">Outstanding Amount</label>
+          <input type="number" id="liabilityAmount" class="form-control" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="interestRateLiability">Interest Rate (%)</label>
+          <input type="number" id="interestRateLiability" class="form-control" step="0.01" min="0">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Liability</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Upload Transaction Modal -->
+  <div id="uploadTransactionModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Upload Transaction Statement</h3>
+        <span class="close">&times;</span>
+      </div>
+      <form id="uploadTransactionForm">
+        <div class="form-group">
+          <label for="statementFile">Upload Statement File</label>
+          <input type="file" id="statementFile" class="form-control" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Upload Statement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // For demo purposes only, this would normally be a more complex implementation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navigation between auth pages
+      document.getElementById('showRegistration').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('registrationPage').style.display = 'block';
+        registrationPage.style.display = 'flex';
+      });
+
+      document.getElementById('showLogin').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('registrationPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'block';
+        loginPage.style.display = 'flex';
+      });
+
+      document.getElementById('nextToPassword').addEventListener('click', function() {
+        document.getElementById('registrationPage').style.display = 'none';
+        document.getElementById('passwordSetupPage').style.display = 'block';
+        passwordSetupPage.style.display = 'flex';
+      });
+
+      document.getElementById('backToDetails').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('passwordSetupPage').style.display = 'none';
+        document.getElementById('registrationPage').style.display = 'block';
+        passwordSetUpPage.style.display = 'flex';
+
+      });
+
+      // Form submissions (demo - would normally submit to server)
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboardPage').style.display = 'block';
+      });
+
+      document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('passwordSetupPage').style.display = 'none';
+        document.getElementById('dashboardPage').style.display = 'block';
+
+      });
+
+      // Sidebar navigation
+      const menuItems = document.querySelectorAll('.sidebar-menu li');
+      const sections = document.querySelectorAll('.dashboard-section');
+
+      menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all menu items
+          menuItems.forEach(i => i.classList.remove('active'));
+
+          // Add active class to clicked menu item
+          this.classList.add('active');
+
+          // Hide all sections
+          sections.forEach(section => section.classList.remove('active'));
+
+          // Show the relevant section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).classList.add('active');
+
+          // Update topbar title
+          document.querySelector('.topbar-title').textContent = this.textContent.trim();
+        });
+      });
+
+      // Modal functionality
+      const modals = document.querySelectorAll('.modal');
+      const closeBtns = document.querySelectorAll('.close, .close-modal');
+
+      // Button to open modals
+      document.getElementById('addFamilyMemberBtn').addEventListener('click', function() {
+        document.getElementById('addFamilyMemberModal').style.display = 'block';
+      });
+
+      document.getElementById('addAccountBtn').addEventListener('click', function() {
+        document.getElementById('addAccountModal').style.display = 'block';
+      });
+
+      document.getElementById('addCategoryBtn').addEventListener('click', function() {
+        document.getElementById('addCategoryModal').style.display = 'block';
+      });
+
+      document.getElementById('addAssetBtn').addEventListener('click', function() {
+        document.getElementById('addAssetModal').style.display = 'block';
+      });
+
+      document.getElementById('addLiabilityBtn').addEventListener('click', function() {
+        document.getElementById('addLiabilityModal').style.display = 'block';
+      });
+
+      document.getElementById('uploadTransactionBtn').addEventListener('click', function() {
+        document.getElementById('uploadTransactionModal').style.display = 'block';
+      });
+
+      // Close modals when clicking close button or outside
+      closeBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          modals.forEach(modal => {
+            modal.style.display = 'none';
+          });
+        });
+      });
+
+      window.addEventListener('click', function(e) {
+        modals.forEach(modal => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+
+      // Form submissions for modals (demo - would normally submit to server)
+      const forms = document.querySelectorAll('form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          // In a real application, submit data to server
+          // For demo, just close the modal
+          modals.forEach(modal => {
+            modal.style.display = 'none';
+          });
+          // Could also show success message
+          alert('Data saved successfully!');
+        });
+      });
+
+      // Upload button functionality
+      document.getElementById('uploadBtn').addEventListener('click', function() {
+        document.getElementById('uploadTransactionModal').style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,45 @@
+@use "../../../sass/variables" as var;
+
+
+.drawer {
+    height: calc(100vh - 64px);
+    
+    &-sidenav {
+      padding: 24px 24px 24px 8px;
+      background-color: var.$background-color;
+
+      &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+
+        &__item { 
+          color: var.$primary-color;
+          cursor: pointer;
+          padding: 12px 12px;
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          font-weight: 500;
+          &:hover {
+            background-color: var.$primary-color;
+            border-radius: 20px;
+            color: var.$background-color;
+          }
+          a {
+            text-decoration: none;
+            // color : var.$primary-color;
+            // &:hover {
+            //   color: var.$background-color
+            // }
+          }
+        }
+      }
+    }
+}
+
+.main {
+  padding: 20px;
+  height: calc(100vh - 64px);
+}

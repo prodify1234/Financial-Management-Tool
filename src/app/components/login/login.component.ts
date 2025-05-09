@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginService } from './login.service';
+import { LoginService } from '../../services/login.service'
 
 @Component({
   selector: 'app-login',
@@ -54,9 +54,10 @@ export class LoginComponent {
       (response: any) => {
         localStorage.setItem('access_token', response?.access_token)
         localStorage.setItem("token_type", response.token_type)
+        localStorage.setItem('clientId',response.client_id)
         this.snackbar.open('Login Successfully', 'Close');
         this.loader.update(() => false);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home/dashboard']);
       },
       (error) => {
         this.loader.update(() => false);

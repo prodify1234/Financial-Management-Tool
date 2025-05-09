@@ -21,10 +21,10 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RegisterService } from './register.service';
+import { RegisterService } from '../../services/register.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import CreatePerson from '../../Models/CreatePerson.model';
+import CreatePerson from '../../../Models/CreatePerson.model';
 
 @Component({
   selector: 'app-register',
@@ -89,9 +89,25 @@ export class RegisterComponent implements OnInit {
     });
 
     this.step2Form = this.formBuilder.group({
-      password: new FormControl<string>('', [Validators.required]),
-      confirm_password: new FormControl<string>('', [Validators.required]),
+      password: new FormControl<string>('', [Validators.required,Validators.minLength(4)]),
+      confirm_password: new FormControl<string>('', [Validators.required,Validators.minLength(4)]),
+    }, { validators : this.checkPasswordsMatching });
+
+    this.step2Form.valueChanges.subscribe((value) => {
+      console.log(value);
     });
+  }
+
+  checkPasswordsMatching(formGroup : FormGroup):{[key:string]: boolean} | null{
+    //function to check whether the password and confirm password are same
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirm_password')?.value;
+    if( password && confirmPassword && password !== confirmPassword){
+      return {passwordMismatch: true};
+    }else {
+      return null;
+    }
+
   }
 
   createPerson() {
@@ -132,6 +148,9 @@ export class RegisterComponent implements OnInit {
   onNavigate(type: string) {
     if (type === 'second') {
       this.createPerson();
+    } else {
+      this.step.update(() => 'first');
+      this.step2Form.reset();
     }
   }
 }

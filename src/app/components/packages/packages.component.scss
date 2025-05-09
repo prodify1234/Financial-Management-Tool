@@ -1,0 +1,36 @@
+@use "../../../sass/variables" as var;
+.packages {
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  height: 100%;
+  gap:20px;
+
+  &-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap:10px;
+
+    h2 {
+      font-weight: 800;
+      line-height: 0.8px;
+      color: var.$primary-color;
+    }
+  }
+
+  &-body {
+    width: 100%;
+    padding-top: 28px;
+
+  }
+}
+
+.fill-space {
+  flex: 1 1 auto;
+}
+
