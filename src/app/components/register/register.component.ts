@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import CreatePerson from '../../../Models/CreatePerson.model';
+import CreatePerson from '../../Models/CreatePerson.model';
 
 @Component({
   selector: 'app-register',

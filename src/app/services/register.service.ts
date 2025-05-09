@@ -1,8 +1,8 @@
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import CreatePerson from '../../Models/CreatePerson.model';
+import CreatePerson from '../Models/CreatePerson.model';
 import { API } from '../app.settings';
-import CreateClient from '../../Models/CreateClient.model';
+import CreateClient from '../Models/CreateClient.model';
 
 @Injectable({
   providedIn: 'root'

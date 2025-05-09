@@ -5,7 +5,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { FamilyDetailsComponent } from './components/family-details/family-details.component';
-import { authGuard } from '../auth/auth.guard';
+import { authGuard } from './auth/auth.guard';
 import { PackagesComponent } from './components/packages/packages.component';
 
 export const routes: Routes = [

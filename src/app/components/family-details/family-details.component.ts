@@ -5,7 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEditFamilyDetailsDialogComponent } from '../add-edit-family-details-dialog/add-edit-family-details-dialog.component';
-import CreatePerson from '../../../Models/CreatePerson.model';
+import CreatePerson from '../../Models/CreatePerson.model';
 import { FamilyDetailsService } from '../../services/family-details.service';
 export interface PeriodicElement {
   name: string;
@@ -120,7 +120,7 @@ export class FamilyDetailsComponent implements OnInit {
   }
 
   getAllPersons() {
-    this.familyDetailsService.getAllPersons().subscribe((response: CreatePerson) => {
+    this.familyDetailsService.getAllFamilyMemberDetails().subscribe((response: CreatePerson) => {
        console.log(response);
     })
 
