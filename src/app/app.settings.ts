@@ -8,6 +8,10 @@ export let API = {
   loginClient: ()=>API_URL + 'clients/login',
 
 
+  //package apis 
+  getAllPackages: () => API_URL + 'packages',
+
+
 
   //persons apis
   
