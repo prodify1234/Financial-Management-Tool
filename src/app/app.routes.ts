@@ -8,6 +8,7 @@ import { FamilyDetailsComponent } from './components/family-details/family-detai
 import { authGuard } from './auth/auth.guard';
 import { PackagesComponent } from './components/packages/packages.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
+import { TransactionDetailsComponent } from './components/transaction-details/transaction-details.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -19,7 +20,8 @@ export const routes: Routes = [
       {path: 'dashboard', component: DashboardComponent},
       {path: 'family-details', component: FamilyDetailsComponent},
       {path: 'accounts', component: AccountsComponent},
-      {path: 'packages' , component: PackagesComponent}
+      {path: 'packages' , component: PackagesComponent},
+      {path: 'transaction-details', component: TransactionDetailsComponent}
     ]
   },
 
