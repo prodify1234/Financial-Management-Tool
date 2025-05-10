@@ -7,20 +7,22 @@ import { HomeComponent } from './components/home/home.component';
 import { FamilyDetailsComponent } from './components/family-details/family-details.component';
 import { authGuard } from './auth/auth.guard';
 import { PackagesComponent } from './components/packages/packages.component';
+import { AccountsComponent } from './components/accounts/accounts.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'}, 
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login' , component: LoginComponent},
   {path:'register', component: RegisterComponent},
   {path: 'header', component: HeaderComponent},
-  {path: 'home', component: HomeComponent ,canActivate:[authGuard],canActivateChild:[authGuard], 
+  {path: 'home', component: HomeComponent ,canActivate:[authGuard],canActivateChild:[authGuard],
     children:[
       {path: 'dashboard', component: DashboardComponent},
       {path: 'family-details', component: FamilyDetailsComponent},
+      {path: 'accounts', component: AccountsComponent},
       {path: 'packages' , component: PackagesComponent}
     ]
   },
- 
+
 ];
 
 
