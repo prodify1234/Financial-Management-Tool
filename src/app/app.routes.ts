@@ -23,7 +23,7 @@ export const routes: Routes = [
       {path: 'family-details', component: FamilyDetailsComponent},
       {path: 'accounts', component: AccountsComponent},
       {path: 'packages' , component: PackagesComponent},
-      {path: 'financial-items' , component: FinancialItemsComponent }
+      {path: 'financial-items' , component: FinancialItemsComponent },
       {path: 'transaction-details', component: TransactionDetailsComponent},
       {path: 'categories', component: CategoriesComponent}
     ]
