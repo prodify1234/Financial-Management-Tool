@@ -54,7 +54,9 @@ export class AddEditAccountDetailsComponent {
     console.log(this.accountDetailsForm.value);
     if(this.accountDetailsForm.valid){
       const data = this.accountDetailsForm.value;
-      this.snackbar.open('account member added successfully', 'close');
+      this.snackbar.open('account member added successfully', 'Close', {
+        duration: 3000,
+      });
       this.dialogRef.close('')
     }
   }

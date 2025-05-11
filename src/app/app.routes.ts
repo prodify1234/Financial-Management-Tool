@@ -9,6 +9,8 @@ import { authGuard } from './auth/auth.guard';
 import { PackagesComponent } from './components/packages/packages.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { FinancialItemsComponent } from './components/financial-items/financial-items.component';
+import { TransactionDetailsComponent } from './components/transaction-details/transaction-details.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -22,6 +24,8 @@ export const routes: Routes = [
       {path: 'accounts', component: AccountsComponent},
       {path: 'packages' , component: PackagesComponent},
       {path: 'financial-items' , component: FinancialItemsComponent }
+      {path: 'transaction-details', component: TransactionDetailsComponent},
+      {path: 'categories', component: CategoriesComponent}
     ]
   },
 
