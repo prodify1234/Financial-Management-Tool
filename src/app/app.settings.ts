@@ -14,7 +14,6 @@ export let API = {
     return API_URL + 'clients' +  `/${clientId}` + '/family-members/relationship-details'
   },
 
-
   //package apis 
   getAllPackages: () => API_URL + 'packages',
 

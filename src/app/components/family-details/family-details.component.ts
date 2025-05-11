@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -7,82 +7,17 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEditFamilyDetailsDialogComponent } from '../add-edit-family-details-dialog/add-edit-family-details-dialog.component';
 import CreatePerson from '../../Models/CreatePerson.model';
 import { FamilyDetailsService } from '../../services/family-details.service';
-export interface PeriodicElement {
-  name: string;
-  relationship: string;
+import { SnackbarService } from '../../services/snackbar.service';
+export interface Person {
+  first_name: string;
+  last_name: string;
+  relationship_type: string;
   email: string;
-  phone: string;
+  phone_number: string;
   actions?: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-  {
-    name: 'JohDoe',
-    relationship: 'Spouse',
-    email: 'jnanesh@gmail.com',
-    phone: '08309752441',
-  },
-];
+
 
 @Component({
   selector: 'app-family-details',
@@ -99,15 +34,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class FamilyDetailsComponent implements OnInit {
   displayedColumns: string[] = [
-    'name',
-    'relationship',
+    'first_name',
+    'last_name',
+    'relationship_type',
     'email',
-    'phone',
+    'phone_number',
     'actions',
   ];
-  dataSource = ELEMENT_DATA;
+  dataSource : Person[] = [];
+  loader  = signal<boolean>(false)
 
-  constructor(private matDialog: MatDialog,private familyDetailsService: FamilyDetailsService) {
+  constructor(private matDialog: MatDialog,private familyDetailsService: FamilyDetailsService , private snackbarService : SnackbarService) {
     // this.getAllPersons();
 
 
@@ -120,8 +57,22 @@ export class FamilyDetailsComponent implements OnInit {
   }
 
   getAllPersons() {
-    this.familyDetailsService.getAllFamilyMemberDetails().subscribe((response: CreatePerson) => {
-       console.log(response);
+    this.dataSource = []
+    this.loader.update(() => true)
+    this.familyDetailsService.getAllFamilyMemberDetails().subscribe((response: any) => {
+     console.log(response)
+     for(let item of response){
+      this.dataSource.push({
+        relationship_type: item.relationship_type,
+        ...item.person
+      })
+     }
+     this.loader.update(()=> false)
+     console.log(this.dataSource)
+     
+    } ,(error)=>{
+      this.loader.update(()=> false)
+      this.snackbarService.error('Internal server error')
     })
 
   }
@@ -137,9 +88,11 @@ export class FamilyDetailsComponent implements OnInit {
       }
 
     });
-    data.afterClosed().subscribe((result: CreatePerson | '') => {
+    data.afterClosed().subscribe((result: any | '') => {
       if(result){
         console.log(result);
+        this.getAllPersons();
+
       }
     });
   }

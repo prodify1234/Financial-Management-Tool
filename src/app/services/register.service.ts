@@ -14,8 +14,8 @@ export class RegisterService {
 
 
 
-  createPerson(person: CreatePerson){
-    return this.http.post<CreatePerson>(API.CREATE_PERSON, person, {});
+  createPerson(person: any){
+    return this.http.post<any>(API.CREATE_PERSON, person, {});
   }
 
   createClient(client: CreateClient){

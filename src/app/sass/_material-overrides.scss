@@ -38,3 +38,26 @@
 .mat-mdc-unelevated-button {
   border-radius: 8px !important;
 }
+.mat-mdc-button>.mat-icon {
+  --mat-text-button-icon-spacing: 0;
+  --mat-text-button-icon-offset: 0;
+}
+// .mat-mdc-outlined-button>.mat-icon  {
+//   --mat-outlined-button-icon-offset : 0;
+//   --mat-outlined-button-icon-spacing : 0;
+// }
+
+//tabs
+.mdc-tab {
+  min-width: 240px !important;
+}
+.mat-mdc-tab-group{
+  width: 100%;
+}
+.mat-mdc-tab-body-content {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+   gap: 16px;
+
+}

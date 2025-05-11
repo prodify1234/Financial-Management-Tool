@@ -12,16 +12,10 @@ export class FamilyDetailsService {
   constructor(private http: HttpClient) { }
   
   getAllFamilyMemberDetails() {
-  let token = localStorage.getItem('access_token')
+
     // let clientId: string = localStorage.getItem('clientId') as string
     let clientId: string = '2488abbd-43fe-4d70-82ee-490769ba168f'
-    return this.http.get<CreatePerson>(API.getFamilyMemberDetails(clientId), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        
-      }
-     
-    })
+    return this.http.get<CreatePerson>(API.getFamilyMemberDetails(clientId))
 
 }
 

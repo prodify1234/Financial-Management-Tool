@@ -27,12 +27,12 @@
     padding-top: 28px;
     display: flex;
     gap: 20px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 
     &__card {
       padding: 20px 24px 28px 24px;
       background-color: var.$background-color;
-      height: 360px;
+      height: auto;
       width: 360px;
       border-radius: 8px;
       border: 1px solid lightgray;
@@ -74,7 +74,19 @@
   }
 }
 
-.fill-space {
-  flex: 1 1 auto;
+
+.tick-list {
+  list-style: none;
+  padding: 0;
 }
+
+.tick-list li::before {
+  content: '✔️';
+  margin-right: 8px;
+  color: green;
+}
+
+// .fill-space {
+//   flex: 1 1 auto;
+// }
 

@@ -3,16 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [ MatIconModule, MatButtonModule ,MatSidenavModule ],
+  imports: [ MatIconModule, MatButtonModule ,MatSidenavModule,MatMenuModule, RouterModule ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private sidenavService: SidenavService){
+  constructor(private sidenavService: SidenavService, private router : Router){
 
 
   }
@@ -28,5 +30,11 @@ export class HeaderComponent implements OnInit {
 
   toggleSideNav(){
     this.sidenavService.openSideNav.next(!this.sidenavService.openSideNav.getValue());
+  }
+
+  onLogout(){
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('clientId')
+    this.router.navigate(['/login'])
   }
 }

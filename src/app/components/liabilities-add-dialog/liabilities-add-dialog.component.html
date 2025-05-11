@@ -1,0 +1,34 @@
+<div class="dialog-container">
+  <h1 mat-dialog-title>Add Liability</h1>
+  <div mat-dialog-content>
+    <form>
+      <mat-form-field appearance="outline">
+        <mat-label>Liability Name</mat-label>
+        <input matInput placeholder="Liability Name">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Liability Type</mat-label>
+        <mat-select>
+          <mat-option value="one">Real Estate</mat-option>
+          <mat-option value="two">Vehicle</mat-option>
+          <mat-option value="three">Investments</mat-option>
+          <mat-option value="four">Cash</mat-option>
+          <mat-option value="other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Liability value</mat-label>
+        <input type="number" matInput placeholder="Liablity Value">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Liability Details</mat-label>
+        <textarea matInput placeholder="Liability Details"></textarea>
+      </mat-form-field>
+    </form>
+
+  </div>
+  <div mat-dialog-actions>
+      <button type="button" (click)="onCancel()" mat-button>Cancel</button>
+      <button type="button" mat-flat-button>ADD</button>
+  </div>
+</div>

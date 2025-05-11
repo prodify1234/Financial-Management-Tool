@@ -1,24 +1,24 @@
 @use "../../sass/variables" as var;
-.family {
-  height: calc(100vh - 64px);
+
+.financial-items {
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: start;
   width: 100%;
   height: 100%;
-  gap: 20px;
+  gap:20px;
+  box-sizing: border-box;
 
   &-header {
     display: flex;
     width: 100%;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap:10px;
 
     h2 {
       font-weight: 800;
-      line-height: 0.8px;
       color: var.$primary-color;
     }
   }
@@ -26,19 +26,23 @@
   &-body {
     width: 100%;
     padding-top: 28px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    &__tab {
+      
+      &-actions {
+        align-self: end
+      }
+    }
+
+   
+
   }
 }
 
-.fill-space {
-  flex: 1 1 auto;
-}
-
-.badge {
-  background-color: var.$primary-color;
-  color: var.$background-color;
+.btn-actions { 
   display: flex;
-  justify-content: center;
-  width:74px;
-  font-weight: 900;
-  border-radius: 10px;
+  gap: 10px;
 }

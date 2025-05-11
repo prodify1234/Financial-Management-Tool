@@ -39,6 +39,14 @@
             />
           </mat-form-field>
           <mat-form-field appearance="outline">
+            <mat-label>Relation</mat-label>
+            <mat-select  formControlName="relation">
+              @for (relation of relationships; track relation) {
+                <mat-option [value]="relation">{{ relation}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Address</mat-label>
             <textarea
               matInput

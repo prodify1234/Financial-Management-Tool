@@ -42,7 +42,7 @@ export class AddEditFamilyDetailsDialogComponent {
   familyDetailsForm !: FormGroup;
   editFamilyDetailsForm !: FormGroup;
   loader  = signal<boolean>(false);
-  relationships = [ 'Sibling' , 'Parent' , 'Child' , 'Spouse'];
+  relationships = [ 'SIBLING' , 'PARENT' , 'CHILD' , 'SPOUSE'];
   constructor(private personsService: RegisterService, private snackbar: SnackbarService) {
     
   }
@@ -60,6 +60,7 @@ export class AddEditFamilyDetailsDialogComponent {
       pan_number: new FormControl("",[Validators.required]),
       aadhaar_number: new FormControl("",[Validators.required]),
       address: new FormControl("",[Validators.required]), 
+      relation: new FormControl("", [Validators.required])
     });
 
     this.editFamilyDetailsForm = new FormGroup({
@@ -71,8 +72,20 @@ export class AddEditFamilyDetailsDialogComponent {
     console.log(this.familyDetailsForm.value);
     if(this.familyDetailsForm.valid){
       const data = this.familyDetailsForm.value;
+      const body = {
+        relationship_type : this.familyDetailsForm.get('relation')?.value ,
+          client_id: localStorage.getItem('clientId'),
+          first_name : this.familyDetailsForm.get('first_name')?.value,
+          last_name : this.familyDetailsForm.get('last_name')?.value,
+          email : this.familyDetailsForm.get('email')?.value,
+          phone_number: this.familyDetailsForm.get('phone_number')?.value,
+          pan_number : this.familyDetailsForm.get('pan_number')?.value,
+          aadhaar_number: this.familyDetailsForm.get('aadhaar_number')?.value,
+          address: this.familyDetailsForm.get('address')?.value
+        }
       this.loader.update(()=>true)
-      this.personsService.createPerson(data).subscribe((response)=>{
+
+      this.personsService.createPerson(body).subscribe((response)=>{
         console.log(response);
         this.loader.update(()=> false)
         this.snackbar.success('Family member added successfully');
