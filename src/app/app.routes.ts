@@ -10,6 +10,7 @@ import { PackagesComponent } from './components/packages/packages.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { TransactionDetailsComponent } from './components/transaction-details/transaction-details.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { NetworthComponent } from './components/networth/networth.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -23,7 +24,9 @@ export const routes: Routes = [
       {path: 'accounts', component: AccountsComponent},
       {path: 'packages' , component: PackagesComponent},
       {path: 'transaction-details', component: TransactionDetailsComponent},
-      {path: 'categories', component: CategoriesComponent}
+      {path: 'categories', component: CategoriesComponent},
+      {path: 'networth', component: NetworthComponent},
+
     ]
   },
 
