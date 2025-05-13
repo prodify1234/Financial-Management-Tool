@@ -11,6 +11,7 @@ import { AccountsComponent } from './components/accounts/accounts.component';
 import { TransactionDetailsComponent } from './components/transaction-details/transaction-details.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { NetworthComponent } from './components/networth/networth.component';
+import { CashflowsComponent } from './components/cashflows/cashflows.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -26,6 +27,7 @@ export const routes: Routes = [
       {path: 'transaction-details', component: TransactionDetailsComponent},
       {path: 'categories', component: CategoriesComponent},
       {path: 'networth', component: NetworthComponent},
+      {path: 'cashflows', component: CashflowsComponent}
 
     ]
   },
