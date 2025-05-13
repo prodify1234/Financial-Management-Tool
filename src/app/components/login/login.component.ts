@@ -52,9 +52,9 @@ export class LoginComponent {
     this.loader.update(() => true);
     this.loginService.login(this.loginForm.value).subscribe(
       (response: any) => {
-        localStorage.setItem('access_token', response?.access_token)
-        localStorage.setItem("token_type", response.token_type)
-        localStorage.setItem('clientId',response.client_id)
+        sessionStorage.setItem('access_token', response?.access_token)
+        sessionStorage.setItem("token_type", response.token_type)
+        sessionStorage.setItem('clientId',response.client_id)
         this.snackbar.open('Login Successfully', 'Close');
         this.loader.update(() => false);
         this.router.navigate(['/home/dashboard']);

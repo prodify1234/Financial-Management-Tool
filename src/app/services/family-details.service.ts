@@ -8,12 +8,12 @@ import { API } from '../app.settings';
   providedIn: 'root'
 })
 export class FamilyDetailsService {
-  clientId: string = localStorage.getItem('clientId') as string;
+  clientId: string = sessionStorage.getItem('clientId') as string;
   constructor(private http: HttpClient) { }
-  
+
   getAllFamilyMemberDetails() {
     // let clientId: string = localStorage.getItem('clientId') as string
-    
+
     return this.http.get(API.getFamilyMemberDetails(this.clientId))
   }
   addFamilyDetails(body:any) {

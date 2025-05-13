@@ -16,7 +16,7 @@ import { FamilyDetailsService } from '../../services/family-details.service';
 
 @Component({
   selector: 'app-add-edit-family-details-dialog',
-  imports: [ 
+  imports: [
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
@@ -45,11 +45,11 @@ export class AddEditFamilyDetailsDialogComponent implements OnInit {
   loader  = signal<boolean>(false);
   relationships = [ 'SIBLING' , 'PARENT' , 'CHILD' , 'SPOUSE'];
   constructor(private familyDetails : FamilyDetailsService, private snackbar: SnackbarService) {
-    
+
   }
   ngOnInit(): void {
     console.log(this.data);
-    
+
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     if(this.data && this.data.type === 'add'){
@@ -61,7 +61,7 @@ export class AddEditFamilyDetailsDialogComponent implements OnInit {
         phone_number: new FormControl("",[Validators.required]),
         pan_number: new FormControl("",[Validators.required]),
         aadhaar_number: new FormControl("",[Validators.required]),
-        address: new FormControl("",[Validators.required]), 
+        address: new FormControl("",[Validators.required]),
         relation: new FormControl("", [Validators.required])
       });
     } else {
@@ -73,12 +73,12 @@ export class AddEditFamilyDetailsDialogComponent implements OnInit {
         phone_number: new FormControl({value : this.data?.data?.phone_number , disabled:true},[Validators.required]),
         pan_number: new FormControl({value : this.data?.data?.pan_number , disabled:true},[Validators.required]),
         aadhaar_number: new FormControl({value : this.data?.data?.aadhaar_number , disabled:true},[Validators.required]),
-        address: new FormControl({value : this.data?.data?.address , disabled:true},[Validators.required]), 
+        address: new FormControl({value : this.data?.data?.address , disabled:true},[Validators.required]),
         relation: new FormControl({value : this.data?.data?.relationship_type , disabled:false}, [Validators.required])
       });
 
     }
-    
+
   }
 
   onAdd(){
@@ -87,7 +87,7 @@ export class AddEditFamilyDetailsDialogComponent implements OnInit {
       const data = this.familyDetailsForm.value;
       const body = {
         relationship_type : this.familyDetailsForm.get('relation')?.value ,
-          client_id: localStorage.getItem('clientId'),
+          client_id: sessionStorage.getItem('clientId'),
           first_name : this.familyDetailsForm.get('first_name')?.value,
           last_name : this.familyDetailsForm.get('last_name')?.value,
           email : this.familyDetailsForm.get('email')?.value,

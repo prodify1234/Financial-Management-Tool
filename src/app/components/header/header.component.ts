@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     this.sidenavService.openSideNav.subscribe((value) => {
       console.log(value);
     });
-    
+
   }
 
   toggleSideNav(){
@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout(){
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('clientId')
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('clientId')
     this.router.navigate(['/login'])
   }
 }

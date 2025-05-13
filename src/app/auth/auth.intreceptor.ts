@@ -12,7 +12,7 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-  const authToken = localStorage.getItem('access_token'); // You can inject a service if needed
+  const authToken = sessionStorage.getItem('access_token'); // You can inject a service if needed
 
   const cloned = req.clone({
     setHeaders: {
