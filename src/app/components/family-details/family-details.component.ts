@@ -8,6 +8,7 @@ import { AddEditFamilyDetailsDialogComponent } from '../add-edit-family-details-
 import CreatePerson from '../../Models/CreatePerson.model';
 import { FamilyDetailsService } from '../../services/family-details.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { FamilyDetailsDeleteDialogComponent } from '../family-details-delete-dialog/family-details-delete-dialog.component';
 export interface Person {
   first_name: string;
   last_name: string;
@@ -97,21 +98,48 @@ export class FamilyDetailsComponent implements OnInit {
     });
   }
 
-  onEdit(){
+  onEdit(element:any){
+    console.log(element)
     const data = this.matDialog.open(AddEditFamilyDetailsDialogComponent,{
       width: '600px',
       minWidth: '600px',
       height: 'auto',
       disableClose: true,
       data: {
-        type: 'edit'
+        type: 'edit',
+        data:  element
       }
 
     });
     data.afterClosed().subscribe((result: CreatePerson | '') => {
       if(result){
         console.log(result);
+        this.getAllPersons();
       }
     });
+  }
+
+  onDelete(element: any){
+    console.log(element)
+    const data = this.matDialog.open(FamilyDetailsDeleteDialogComponent,{
+      width: '400px',
+      minWidth: '400px',
+      height: '300px',
+      minHeight: '300px',
+      disableClose: true,
+      data: {
+        type: 'delete',
+        data:  element
+      }
+    })
+
+    data.afterClosed().subscribe((result: any) => {
+      if(result){
+        console.log(result);
+        
+      }
+      this.getAllPersons();
+    });
+
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MAT_DIALOG_DATA, MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { MatListOption } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { FamilyDetailsService } from '../../services/family-details.service';
 
 @Component({
   selector: 'app-add-edit-family-details-dialog',
@@ -35,7 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './add-edit-family-details-dialog.component.html',
   styleUrl: './add-edit-family-details-dialog.component.scss'
 })
-export class AddEditFamilyDetailsDialogComponent {
+export class AddEditFamilyDetailsDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<AddEditFamilyDetailsDialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   // readonly animal = model(this.data.animal);
@@ -43,7 +44,7 @@ export class AddEditFamilyDetailsDialogComponent {
   editFamilyDetailsForm !: FormGroup;
   loader  = signal<boolean>(false);
   relationships = [ 'SIBLING' , 'PARENT' , 'CHILD' , 'SPOUSE'];
-  constructor(private personsService: RegisterService, private snackbar: SnackbarService) {
+  constructor(private familyDetails : FamilyDetailsService, private snackbar: SnackbarService) {
     
   }
   ngOnInit(): void {
@@ -51,21 +52,33 @@ export class AddEditFamilyDetailsDialogComponent {
     
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    
-    this.familyDetailsForm = new FormGroup({
-      first_name: new FormControl('' , [Validators.required]),
-      last_name: new FormControl("", [Validators.required]),
-      email: new FormControl("",[Validators.required, Validators.email]),
-      phone_number: new FormControl("",[Validators.required]),
-      pan_number: new FormControl("",[Validators.required]),
-      aadhaar_number: new FormControl("",[Validators.required]),
-      address: new FormControl("",[Validators.required]), 
-      relation: new FormControl("", [Validators.required])
-    });
+    if(this.data && this.data.type === 'add'){
+      this.familyDetailsForm = new FormGroup({
+        id: new FormControl(''),
+        first_name: new FormControl('' , [Validators.required]),
+        last_name: new FormControl("", [Validators.required]),
+        email: new FormControl("",[Validators.required, Validators.email]),
+        phone_number: new FormControl("",[Validators.required]),
+        pan_number: new FormControl("",[Validators.required]),
+        aadhaar_number: new FormControl("",[Validators.required]),
+        address: new FormControl("",[Validators.required]), 
+        relation: new FormControl("", [Validators.required])
+      });
+    } else {
+      this.familyDetailsForm = new FormGroup({
+        id: new FormControl({value : this.data?.data?.id , disabled:false}),
+        first_name: new FormControl({value : this.data?.data?.first_name , disabled:true} , [Validators.required]),
+        last_name: new FormControl({value : this.data?.data?.last_name , disabled:true}, [Validators.required]),
+        email: new FormControl({value : this.data?.data?.email , disabled:true},[Validators.required, Validators.email]),
+        phone_number: new FormControl({value : this.data?.data?.phone_number , disabled:true},[Validators.required]),
+        pan_number: new FormControl({value : this.data?.data?.pan_number , disabled:true},[Validators.required]),
+        aadhaar_number: new FormControl({value : this.data?.data?.aadhaar_number , disabled:true},[Validators.required]),
+        address: new FormControl({value : this.data?.data?.address , disabled:true},[Validators.required]), 
+        relation: new FormControl({value : this.data?.data?.relationship_type , disabled:false}, [Validators.required])
+      });
 
-    this.editFamilyDetailsForm = new FormGroup({
-      relation : new FormControl('', [Validators.required]),
-    })
+    }
+    
   }
 
   onAdd(){
@@ -85,7 +98,7 @@ export class AddEditFamilyDetailsDialogComponent {
         }
       this.loader.update(()=>true)
 
-      this.personsService.createPerson(body).subscribe((response)=>{
+      this.familyDetails.addFamilyDetails(body).subscribe((response)=>{
         console.log(response);
         this.loader.update(()=> false)
         this.snackbar.success('Family member added successfully');
@@ -95,7 +108,15 @@ export class AddEditFamilyDetailsDialogComponent {
     }
   }
   onUpdate(){
-    
+    this.loader.update(()=> true)
+    console.log(this.familyDetailsForm)
+    this.familyDetails.updateFamilyDetails(this.familyDetailsForm.get('id')?.value , this.familyDetailsForm.get('relation')?.value)
+    .subscribe((response)=>{
+      console.log(response);
+      this.loader.update(()=> false)
+      this.snackbar.success('Family member updated successfully');
+      this.dialogRef.close(response)
+    })
   }
 
   onCancel(){

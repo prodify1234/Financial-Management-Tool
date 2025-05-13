@@ -23,8 +23,11 @@
         </div>
         <div class="package-body__card__list">
           <ul class="tick-list">
-            @for(info of item.additional_information; track info){
-              <li>{{info}}</li>
+            <li>{{item.max_users}} Users</li>
+            @for(info of item.additional_information; track info; let index = $index){
+              @if(index !==0) {
+                <li>{{info}}</li>
+              }
             }
           </ul>
         </div>

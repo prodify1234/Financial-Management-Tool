@@ -1,4 +1,4 @@
-import { API_URL } from "../ennvironment";
+import { API_URL } from '../ennvironment';
 
 export let API = {
   //person apis
@@ -6,25 +6,36 @@ export let API = {
   getAllPersons: () => API_URL + 'persons',
 
   //client apis
-  createClient: ()=> API_URL + 'clients/register',
+  createClient: () => API_URL + 'clients/register',
   loginClient: () => API_URL + 'clients/login',
-  
-  //family-member apis 
+
+  //family-member apis
   getFamilyMemberDetails: (clientId: string) => {
-    return API_URL + 'clients' +  `/${clientId}` + '/family-members/relationship-details'
+    return (
+      API_URL +
+      'clients' +
+      `/${clientId}` +
+      '/family-members/relationship-details'
+    );
+  },
+  addFamilyMemberDetails: () => {
+    return API_URL + 'family/members';
+  },
+  updateFamilyMemberDetails: (clientId: string) => {
+    return API_URL + 'clients/' + `${clientId}/` + 'relationship-update';
+  },
+  deleteFamilyMemberDetails: (clientId: string, person_id: string)=>{
+    return API_URL + `clients/` + `${clientId}` + `/family-members/` + `${person_id}`;
   },
 
-  //package apis 
+  //package apis
   getAllPackages: () => API_URL + 'packages',
 
-
-
   //persons apis
-  
+
   CREATE_PERSON: API_URL + 'persons',
   //CLIENT APIS
-  
-  CREATE_CLIENT: API_URL + 'clients/register',
-  LOGIN_CLIENT : API_URL + 'clients/login'
 
-}
+  CREATE_CLIENT: API_URL + 'clients/register',
+  LOGIN_CLIENT: API_URL + 'clients/login',
+};
