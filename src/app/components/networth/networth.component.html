@@ -1,0 +1,35 @@
+<div class="networth">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Networth </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          Your calculated networth will be displayed here.
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="networth-total">
+        <h3>Total Assets:</h3>
+        <p>$1,250,000</p>
+      </div>
+
+      <div class="networth-total">
+        <h3>Total Liabilities:</h3>
+        <p>$350,000</p>
+      </div>
+
+      <div class="networth-total">
+        <h3>Networth:</h3>
+        <p>$900,000</p>
+      </div>
+
+      <div class="networth-total">
+        <h3>Snapshot Date:</h3>
+        <p>May 12, 2025</p>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

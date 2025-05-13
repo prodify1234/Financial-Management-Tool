@@ -1,0 +1,54 @@
+<div class="cashflows">
+  <div class="cashflows-header">
+    <div class="cashflows-header__title">
+      <h2>Cashflows</h2>
+    </div>
+
+    <div class="cashflows-header-select">
+      <mat-form-field>
+        <mat-label>Select Month</mat-label>
+        <mat-select>
+          @for (month of months; track month) {
+            <mat-option [value]="month.value">{{month.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Year</mat-label>
+        <mat-select>
+          @for (year of years; track year) {
+            <mat-option [value]="year.value">{{year.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </div>
+
+  <div class="cashflows-body">
+    <canvas #cashflowChart></canvas>
+  </div>
+
+  <div class="cashflows-details">
+    <div class="cashflow-details-monthly">
+      <h3>Cash Inflow</h3>
+      <h2>$17,488</h2>
+      <p>Monthly Income</p>
+    </div>
+    <div class="cashflow-details-monthly">
+      <h3>Cash Outflow</h3>
+      <h2>$12,266</h2>
+      <p>Monthly Expenses</p>
+    </div>
+    <div class="cashflow-details-monthly">
+      <h3>Net Cashflow</h3>
+      <h2>$5,221</h2>
+      <p>Monthly Balance</p>
+    </div>
+  </div>
+
+  <div class="cashflows-segregation">
+    <canvas #groupedChart></canvas>
+  </div>
+</div>
