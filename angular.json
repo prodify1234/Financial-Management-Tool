@@ -39,7 +39,9 @@
                 "src/sass"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "ssr": false,
+            "prerender": false
           },
           "configurations": {
             "production": {
