@@ -14,4 +14,9 @@ export class LoginService {
   login(payload : LoginClient){
     return this.http.post(API.LOGIN_CLIENT, payload);
   }
+
+  getClientById(){
+    let clientId = sessionStorage.getItem('clientId') as string;
+    return this.http.get(API.getClientById(clientId))
+  }
 }

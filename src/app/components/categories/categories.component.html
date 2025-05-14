@@ -21,58 +21,63 @@
           <mat-icon>search</mat-icon>
         </div>
       </div>
-     <table [dataSource]="categorySource" mat-table class="mat-elevation-z8">
-      <ng-container matColumnDef="head">
-        <th mat-header-cell *matHeaderCellDef> Head </th>
-        <td mat-cell *matCellDef="let element"> {{element.head}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="mainClassification">
-        <th mat-header-cell *matHeaderCellDef> Main Classification </th>
-        <td mat-cell *matCellDef="let element"> {{element.mainClassification}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="subClassification">
-        <th mat-header-cell *matHeaderCellDef> Sub Classification </th>
-        <td mat-cell *matCellDef="let element"> {{element.subClassification}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="frequency">
-        <th mat-header-cell *matHeaderCellDef> Frequency </th>
-        <td mat-cell *matCellDef="let element"> {{element.frequency}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="budgetAllocation">
-        <th mat-header-cell *matHeaderCellDef> Budget Allocation </th>
-        <td mat-cell *matCellDef="let element"> {{element.budgetAllocation}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item type="button">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
+     @if( loader() ){
+        <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer> 
+     }@else {
+       <table [dataSource]="categoriesList" mat-table class="mat-elevation-z8">
+        <ng-container matColumnDef="head">
+          <th mat-header-cell *matHeaderCellDef> Head </th>
+          <td mat-cell *matCellDef="let element"> {{element.head}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="main_classification">
+          <th mat-header-cell *matHeaderCellDef> Main Classification </th>
+          <td mat-cell *matCellDef="let element"> {{element.main_classification}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="sub_classification">
+          <th mat-header-cell *matHeaderCellDef> Sub Classification </th>
+          <td mat-cell *matCellDef="let element"> {{element.sub_classification}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let element"> {{isValueNaN(element.type)}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="frequency">
+          <th mat-header-cell *matHeaderCellDef> Frequency </th>
+          <td mat-cell *matCellDef="let element"> {{element.frequency}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="budget_allocation_percentage">
+          <th mat-header-cell *matHeaderCellDef> Budget Allocation </th>
+          <td mat-cell *matCellDef="let element"> {{element.budget_allocation_percentage}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <button mat-menu-item>
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item type="button">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="categoryColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: categoryColumns;"></tr>
+      </table>
 
-      <tr mat-header-row *matHeaderRowDef="categoryColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: categoryColumns;"></tr>
-    </table>
+     }
   </div>
 </div>

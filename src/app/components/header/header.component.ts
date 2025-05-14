@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,9 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private sidenavService: SidenavService, private router : Router){
+  person:any = {}
+
+  constructor(private sidenavService: SidenavService, private router : Router , private loginService:LoginService){
 
 
   }
@@ -25,6 +28,10 @@ export class HeaderComponent implements OnInit {
     this.sidenavService.openSideNav.subscribe((value) => {
       console.log(value);
     });
+
+    this.loginService.getClientById().subscribe((response:any)=> {
+       this.person = { ...response.person }
+    })
 
   }
 
