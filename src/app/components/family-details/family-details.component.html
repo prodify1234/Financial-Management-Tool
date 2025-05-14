@@ -10,7 +10,7 @@
   </div>
   <div class="family-body">
     @if(loader()){
-
+      <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
     } @else {
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
@@ -68,10 +68,25 @@
             </mat-menu>
           </td>
         </ng-container>
-      
+        
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container *matNoDataRow>
+          <tr>
+            <td [attr.colspan]="displayedColumns.length">
+              <div class="no-data">
+                <div class="no-data__items">
+                  <img src="../../../public/2953962.jpg" >
+                </div>
+
+              </div>
+            </td>
+          </tr>
+        </ng-container>
       </table>
+      
+      
 
     }
     

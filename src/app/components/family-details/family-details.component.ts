@@ -9,6 +9,8 @@ import CreatePerson from '../../Models/CreatePerson.model';
 import { FamilyDetailsService } from '../../services/family-details.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { FamilyDetailsDeleteDialogComponent } from '../family-details-delete-dialog/family-details-delete-dialog.component';
+import { CommonModule } from '@angular/common';
+import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 export interface Person {
   first_name: string;
   last_name: string;
@@ -23,12 +25,15 @@ export interface Person {
 @Component({
   selector: 'app-family-details',
   imports: [
+    CommonModule,
     MatIconModule,
     MatButtonModule,
     MatTableModule,
     MatMenuModule,
     MatDialogModule,
+    TableShimmerComponent,
     AddEditFamilyDetailsDialogComponent,
+
   ],
   templateUrl: './family-details.component.html',
   styleUrl: './family-details.component.scss',
@@ -72,7 +77,7 @@ export class FamilyDetailsComponent implements OnInit {
      console.log(this.dataSource)
      
     } ,(error)=>{
-      this.loader.update(()=> false)
+      // this.loader.update(()=> false)
       this.snackbarService.error('Internal server error')
     })
 

@@ -20,6 +20,7 @@
             "outputPath": "dist/financial-management-tool",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "favicon": "public/favicon.ico", 
             "polyfills": [
               "zone.js"
             ],
@@ -28,7 +29,9 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/public/"
+
               }
             ],
             "styles": [

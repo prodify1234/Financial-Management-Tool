@@ -1,0 +1,32 @@
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.table-width {
+  width: 100%;
+}
+
+.shimmer {
+  &-header {
+    height: 40px;
+    margin: 8px 0;
+    border-radius: 4px;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  &-line {
+    height: 24px;
+    margin: 8px 0;
+    border-radius: 4px;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+}

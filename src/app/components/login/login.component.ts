@@ -37,7 +37,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private loginService: LoginService
+    private loginService: LoginService, 
   ) {}
 
   ngOnInit() {
@@ -55,6 +55,7 @@ export class LoginComponent {
         sessionStorage.setItem('access_token', response?.access_token)
         sessionStorage.setItem("token_type", response.token_type)
         sessionStorage.setItem('clientId',response.client_id)
+
         this.snackbar.open('Login Successfully', 'Close');
         this.loader.update(() => false);
         this.router.navigate(['/home/dashboard']);

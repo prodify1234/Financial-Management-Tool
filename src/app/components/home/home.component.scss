@@ -42,4 +42,7 @@
 .main {
   padding: 20px;
   height: calc(100vh - 64px);
+  &-width {
+    width: calc(100vw - 240px)
+  }
 }

@@ -13,6 +13,7 @@ import { MatListOption } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { FamilyDetailsService } from '../../services/family-details.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-family-details-dialog',
@@ -29,7 +30,9 @@ import { FamilyDetailsService } from '../../services/family-details.service';
     MatProgressBarModule,
     MatSnackBarModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    CommonModule,
+    MatProgressSpinnerModule
   ],
   providers:[
   ],

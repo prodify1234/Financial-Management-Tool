@@ -26,6 +26,7 @@ export class HomeComponent implements AfterViewInit{
     this.sidenavService.openSideNav.subscribe((value) => {
       console.log(value);
       this.sidenav.toggle();
+      this.toggleSideNav.update(() => !this.toggleSideNav())
     }); 
     
   }
