@@ -9,6 +9,16 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEditCategoryDialogComponent } from '../add-edit-category-dialog/add-edit-category-dialog.component';
 import { CategoryService } from '../../services/category.service';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import Category from '../../Models/Category.model';
+import { CategoriesDeleteDialogComponent } from '../categories-delete-dialog/categories-delete-dialog.component';
 
 export interface PeriodicElement {
   head: string;
@@ -20,71 +30,160 @@ export interface PeriodicElement {
   actions?: string;
 }
 
-
-
-
-
 @Component({
   selector: 'app-categories',
-  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatFormFieldModule, MatInputModule, MatDialogModule ,TableShimmerComponent],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    TableShimmerComponent,
+    MatPaginatorModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+  ],
 
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-
-  categoryColumns: string[]= [
+  categoryColumns: string[] = [
     'head',
     'main_classification',
     'sub_classification',
     'type',
     'frequency',
     'budget_allocation_percentage',
-    'actions'
-  ]
-  categoriesList : PeriodicElement[] =[];
+    'actions',
+  ];
+  categoriesList: PeriodicElement[] = [];
   loader = signal<boolean>(false);
+  currentPage = signal<number>(0);
+  previousPage = signal<number | undefined>(0);
+  rowsOnPage = signal<number>(10);
+  totalCategories = signal<number>(0);
+  filtersForm!: FormGroup;
 
-  constructor(private matDialog : MatDialog,private categoriesService:CategoryService) {
-     this.getCategories();
+  constructor(
+    private matDialog: MatDialog,
+    private categoriesService: CategoryService
+  ) {
+    this.filtersForm = new FormGroup({
+      search: new FormControl(''),
+      type: new FormControl(''),
+    });
+    this.getCategories();
+    this.filtersForm.valueChanges.subscribe((response) => {
+      console.log(response);
+      this.getCategories();
+    });
   }
 
-
-  getCategories(){
-    const body={
-      type: 'system',
-      search_criteria : {
-
-      }
-    }
-    this.loader.update(()=> true)
-    this.categoriesService.getAllCategories(body).subscribe((response:any) => {
-      console.log(response)
-      this.categoriesList = response?.items
-      this.loader.update(() => false)
-    }, (error)=> {
-      this.loader.update(() => false)
-    })
-
-
-
+  getCategories() {
+    let search = this.filtersForm.get('search')?.value || '';
+    const body = {
+      source: this.filtersForm.get('type')?.value
+        ? [this.filtersForm.get('type')?.value]
+        : [null],
+      search_criteria: {
+        head: search,
+        main_classification: search,
+        sub_classification: search,
+        // type: search,
+        // frequency: search,
+      },
+    };
+    this.loader.update(() => true);
+    this.categoriesService
+      .getAllCategories(body, this.currentPage() + 1, this.rowsOnPage())
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.categoriesList = response?.items;
+          this.totalCategories.update(() => response?.total);
+          this.loader.update(() => false);
+        },
+        (error) => {
+          this.loader.update(() => false);
+        }
+      );
   }
 
-  addCategory(){
+  addCategory() {
     const data = this.matDialog.open(AddEditCategoryDialogComponent, {
       width: '600px',
       minWidth: '600px',
       height: 'auto',
       disableClose: true,
       data: {
-        type: 'add'
+        type: 'add',
+      },
+    });
+
+    data.afterClosed().subscribe((response) => {
+      if (response === 'success') {
+        this.getCategories();
       }
-    })
+    });
+  }
+
+  onEdit(category : Category){
+    console.log(category);
+    const data = this.matDialog.open(AddEditCategoryDialogComponent,{
+      width: '600px',
+      minWidth: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'edit',
+        category : {
+          ...category
+        }
+      },
+    });
+    data.afterClosed().subscribe((response) => {
+      if (response === 'success') {
+        this.getCategories();
+      }
+    });
+  }
+
+  onDelete(category : Category){
+    console.log(category);
+    const data = this.matDialog.open(CategoriesDeleteDialogComponent,{
+      width: '400px',
+      minWidth: '400px',
+      height: '300px',
+      minHeight: '300px',
+      disableClose: true,
+      data: {
+        type: 'delete',
+        data:  category
+      }
+    });
+    data.afterClosed().subscribe((response) => {
+      if (response === 'success') {
+        this.getCategories();
+      }
+    });
   }
 
 
+
+
   isValueNaN(value: any): any {
-    console.log(value , Number.isNaN(value))
     return value === 'NaN' ? 'N/A' : value;
+  }
+
+  onPage(event: PageEvent) {
+    console.log(event);
+    this.currentPage.update(() => event.pageIndex);
+    this.rowsOnPage.update(() => event.pageSize);
+    this.previousPage.update(() => event.previousPageIndex);
+    this.getCategories();
   }
 }

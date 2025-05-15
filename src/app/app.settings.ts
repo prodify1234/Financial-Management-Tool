@@ -8,11 +8,11 @@ export let API = {
   //client apis
   createClient: () => API_URL + 'clients/register',
   loginClient: () => API_URL + 'clients/login',
-  getClientById : (clientId:string) => {
-    return API_URL + `clients/${clientId}`
+  getClientById: (clientId: string) => {
+    return API_URL + `clients/${clientId}`;
   },
 
-  //family-member apis
+  //family-member apis¯
   getFamilyMemberDetails: (clientId: string) => {
     return (
       API_URL +
@@ -27,13 +27,24 @@ export let API = {
   updateFamilyMemberDetails: (clientId: string) => {
     return API_URL + 'clients/' + `${clientId}/` + 'relationship-update';
   },
-  deleteFamilyMemberDetails: (clientId: string, person_id: string)=>{
-    return API_URL + `clients/` + `${clientId}` + `/family-members/` + `${person_id}`;
+  deleteFamilyMemberDetails: (clientId: string, person_id: string) => {
+    return (
+      API_URL + `clients/` + `${clientId}` + `/family-members/` + `${person_id}`
+    );
   },
 
   //categories apis
-  getCategoriesList: (currentPage?: number,rowsOnPage?: number) => {
-    return API_URL+ 'category/search';
+  getCategoriesList: (client_id: string ) => {
+    return API_URL + `clients/${client_id}/category/search`;
+  },
+  postCategory: (client_id: string) => {
+    return API_URL + `clients/${client_id}/categories`;
+  },
+  updateCategory: (client_id: string,category_id: string) => {
+    return API_URL + `clients/${client_id}/categories/${category_id}/update`
+  },
+  deleteCategory: (client_id: string, category_id: string) => {
+    return API_URL + `clients/${client_id}/categories/${category_id}`
   },
 
   //package apis

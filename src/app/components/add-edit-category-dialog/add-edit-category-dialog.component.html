@@ -1,15 +1,16 @@
 <div class="dialog-container">
-  <h1 mat-dialog-title>Categories</h1>
+  <h1 mat-dialog-title>{{this.data.type === 'add' ? 'Add' : 'Edit'}} Categories</h1>
 
   <div mat-dialog-content>
-    <form [formGroup]="editCategoryForm">
+    <form [formGroup]="categoryForm">
       <mat-form-field appearance="outline">
         <mat-label>Select Head</mat-label>
         <mat-select formControlName="head">
-          <mat-option [value]="'Income'">Income</mat-option>
-          <mat-option [value]="'Expense'" >Expense</mat-option>
+          <mat-option [value]="'Expenditure'">Expenditure</mat-option>
+          <mat-option [value]="'Income'" >Income</mat-option>
+          <mat-option [value]="'Financial Obilgations'" >Financial Obilgations</mat-option>
           <mat-option [value]="'Investment'" >Investment</mat-option>
-          <mat-option [value]="'Savings'" >Savings</mat-option>
+          <mat-option [value]="'Charity'"> Charity</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -24,35 +25,42 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" >
+        <mat-label>Display Name</mat-label>
+        <input matInput formControlName="display_name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" >
         <mat-label>Type</mat-label>
         <mat-select formControlName="type">
-          <mat-option [value]="'Credit'" >Credit</mat-option>
-          <mat-option [value]="'Debit'" >Debit</mat-option>
+          <mat-option [value]="'Mandatory'" >Mandatory</mat-option>
+          <mat-option [value]="'Optional'" >Optional</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" >
         <mat-label>Frequency</mat-label>
         <mat-select formControlName="frequency">
-          <mat-option [value]="'Daily'" >Daily</mat-option>
-          <mat-option [value]="'Weekly'" >Weekly</mat-option>
-          <mat-option [value]="'Monthly'" >Monthly</mat-option>
-          <mat-option [value]="'Quarterly'" >Quarterly</mat-option>
-          <mat-option [value]="'Yearly'" >Yearly</mat-option>
-          <mat-option [value]="'One-time'" >One-time</mat-option>
+          <mat-option [value]="'1'" >Quarter - 1</mat-option>
+          <mat-option [value]="'2'" >Quarter - 2</mat-option>
+          <mat-option [value]="'3'" >Quarter - 3</mat-option>
+          <mat-option [value]="'4'" >Quarter - 4</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" >
         <mat-label>Budget Allocation (%)</mat-label>
-        <input matInput formControlName="budget_allocation"/>
+        <input matInput type="number" formControlName="budget_allocation_percentage"/>
       </mat-form-field>
     </form>
   </div>
 
   <div mat-dialog-actions>
     <button mat-button type="button" (click)="onCancel()">Cancel</button>
-
-    <button mat-flat-button type="button" class="btn-add" (click)="onAdd()">ADD</button>
+    
+    @if(data.type === 'add'){
+      <button mat-flat-button type="button" class="btn-add" (click)="onAdd()">Add</button>
+    }@else {
+      <button mat-flat-button type="button" class="btn-add" (click)="onUpdate()">Update</button>
+    }
   </div>
 </div>

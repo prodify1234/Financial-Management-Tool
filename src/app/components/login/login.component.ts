@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginService } from '../../services/login.service'
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -32,12 +33,12 @@ import { LoginService } from '../../services/login.service'
 export class LoginComponent {
   loginForm!: FormGroup;
   loader = signal<boolean>(false);
-  snackbar = inject(MatSnackBar);
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService, 
+    private snackbar : SnackbarService
   ) {}
 
   ngOnInit() {
@@ -56,7 +57,7 @@ export class LoginComponent {
         sessionStorage.setItem("token_type", response.token_type)
         sessionStorage.setItem('clientId',response.client_id)
 
-        this.snackbar.open('Login Successfully', 'Close');
+        this.snackbar.success('Login Successfully')
         this.loader.update(() => false);
         this.router.navigate(['/home/dashboard']);
       },
