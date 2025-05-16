@@ -39,7 +39,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add-edit-family-details-dialog.component.html',
   styleUrl: './add-edit-family-details-dialog.component.scss'
 })
-export class AddEditFamilyDetailsDialogComponent implements OnInit {
+export class   AddEditFamilyDetailsDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<AddEditFamilyDetailsDialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   // readonly animal = model(this.data.animal);

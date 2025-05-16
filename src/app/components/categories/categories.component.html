@@ -77,6 +77,14 @@
         <th mat-header-cell *matHeaderCellDef>Frequency</th>
         <td mat-cell *matCellDef="let element">{{ element.frequency }}</td>
       </ng-container>
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef>Source</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="badge">
+            {{ element.source }}
+          </div>
+        </td>
+      </ng-container>
 
       <ng-container matColumnDef="budget_allocation_percentage">
         <th mat-header-cell *matHeaderCellDef>Budget Allocation</th>

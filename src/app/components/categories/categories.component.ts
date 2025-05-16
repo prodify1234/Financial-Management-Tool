@@ -20,7 +20,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Category from '../../Models/Category.model';
 import { CategoriesDeleteDialogComponent } from '../categories-delete-dialog/categories-delete-dialog.component';
 
-export interface PeriodicElement {
+export interface Categories {
   head: string;
   main_classification: string;
   sub_Classification: string;
@@ -57,10 +57,11 @@ export class CategoriesComponent {
     'sub_classification',
     'type',
     'frequency',
+    'source',
     'budget_allocation_percentage',
     'actions',
   ];
-  categoriesList: PeriodicElement[] = [];
+  categoriesList: Categories[] = [];
   loader = signal<boolean>(false);
   currentPage = signal<number>(0);
   previousPage = signal<number | undefined>(0);
