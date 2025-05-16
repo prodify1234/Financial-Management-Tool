@@ -1,5 +1,5 @@
 import { SidenavService } from '../../services/sidenav.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -13,13 +13,24 @@ import { LoginService } from '../../services/login.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit,OnChanges{
 
   person:any = {}
+  @Input() rootWidth : number = 0;
 
   constructor(private sidenavService: SidenavService, private router : Router , private loginService:LoginService){
 
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    console.log(this.rootWidth)
+    if(this.rootWidth < 1024){
+      this.sidenavService.openSideNav.next(false);
+    } 
+    
   }
 
   ngOnInit(): void {

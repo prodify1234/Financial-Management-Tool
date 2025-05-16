@@ -1,11 +1,13 @@
 <div class="dialog-confirm">
   <h2 mat-dialog-title>Confirm</h2>
-
-  <div mat-dialog-content>
+  @if(loader()){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  <div mat-dialog-content [class.diabled]="loader()">
     Are you sure you want to detele the  category ?
   </div>
 
-  <div mat-dialog-actions>
+  <div mat-dialog-actions [class.disabled]="loader()">
     <button mat-button mat-dialog-close type="button">Cancel</button>
     <button mat-flat-button type="button" (click)="onDelete()">Delete</button>
   </div>

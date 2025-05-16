@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -10,10 +10,11 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { identity } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-add-edit-category-dialog',
-  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, MatOptionModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, ReactiveFormsModule, MatSnackBarModule],
+  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, MatOptionModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, ReactiveFormsModule, MatSnackBarModule,MatProgressBarModule],
   templateUrl: './add-edit-category-dialog.component.html',
   styleUrl: './add-edit-category-dialog.component.scss'
 })
@@ -21,6 +22,7 @@ export class AddEditCategoryDialogComponent {
   readonly dialogRef = inject(MatDialogRef<AddEditCategoryDialogComponent>);
   categoryForm !: FormGroup;
   readonly data = inject<any>(MAT_DIALOG_DATA);
+  loader = signal<boolean>(false)
 
   constructor(private snackbarService: SnackbarService,private categoryService: CategoryService){}
 
@@ -61,12 +63,15 @@ export class AddEditCategoryDialogComponent {
         delete data.id
       }
       data['source']="custom"
+      this.loader.update(()=> true)
       this.categoryService.postCategory(data).subscribe((response)=>{
         this.snackbarService.success('Category added Successfully.')
         this.dialogRef.close('success');
+        this.loader.update(()=> false)
       }, (error)=>{
         console.log(error)
         this.snackbarService.success('Failed to add Category.')
+        this.loader.update(()=> true)
       })
 
     }
@@ -80,13 +85,15 @@ export class AddEditCategoryDialogComponent {
       return ;
     } else {
       let categoryId = this.data.type === 'edit' ? this.data.category.id : ""
-    
+      this.loader.update(()=> true)
       this.categoryService.updateCategory(this.categoryForm.value,categoryId).subscribe((response)=>{
         this.snackbarService.success('Category updated successfully.')
         this.dialogRef.close('success');
+        this.loader.update(()=> false)
       }, (error)=>{
         console.log(error)
         this.snackbarService.success('Failed to add Category.')
+        this.loader.update(()=> false)
       })
 
     }

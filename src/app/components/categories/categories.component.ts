@@ -62,6 +62,7 @@ export class CategoriesComponent {
     'actions',
   ];
   categoriesList: Categories[] = [];
+  frequencyTypes:{ [key:string] : string} = { '1' : 'Quarter-1' , '2' : 'Quarter-2' , '3' : 'Quarter-3', '4': 'Quarter-4'}
   loader = signal<boolean>(false);
   currentPage = signal<number>(0);
   previousPage = signal<number | undefined>(0);
@@ -186,5 +187,9 @@ export class CategoriesComponent {
     this.rowsOnPage.update(() => event.pageSize);
     this.previousPage.update(() => event.previousPageIndex);
     this.getCategories();
+  }
+
+  getFrequency(element:Categories){ 
+    return this.frequencyTypes[element.frequency] ?? 'Not Available'
   }
 }
