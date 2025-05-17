@@ -1,9 +1,12 @@
 @use "../../sass/variables" as var;
 
 .networth{
-  mat-panel-title{
-    color: var.$primary-color;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  h2 {
+      color: var.$primary-color;
+    }
   &-total{
     display: flex;
     align-items: center;
