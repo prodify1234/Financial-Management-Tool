@@ -13,6 +13,7 @@ import { TransactionDetailsComponent } from './components/transaction-details/tr
 import { CategoriesComponent } from './components/categories/categories.component';
 import { NetworthComponent } from './components/networth/networth.component';
 import { CashflowsComponent } from './components/cashflows/cashflows.component';
+import { NetworthTrendsComponent } from './components/networth-trends/networth-trends.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -29,7 +30,8 @@ export const routes: Routes = [
       {path: 'transaction-details', component: TransactionDetailsComponent},
       {path: 'categories', component: CategoriesComponent},
       {path: 'networth', component: NetworthComponent},
-      {path: 'cashflows', component: CashflowsComponent}
+      {path: 'cashflows', component: CashflowsComponent},
+      {path: 'networth-trends', component: NetworthTrendsComponent}
 
     ]
   },
