@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,6 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AddEditAccountDetailsComponent {
   readonly dialogRef = inject(MatDialogRef<AddEditAccountDetailsComponent>);
+  readonly data = inject<any>(MAT_DIALOG_DATA);
 
   constructor(private snackbar: MatSnackBar) {}
 
@@ -39,15 +40,31 @@ export class AddEditAccountDetailsComponent {
   accountDetailsForm !: FormGroup;
 
   ngOnInit():void{
-    this.accountDetailsForm = new FormGroup({
-      account_holder_name: new FormControl('' , [Validators.required]),
-      account_type: new FormControl("", [Validators.required]),
-      provider: new FormControl("",[Validators.required]),
-      statement_type: new FormControl("",[Validators.required]),
-      account_number: new FormControl("",[Validators.required]),
-      benificiary_name: new FormControl("",[Validators.required]),
-      interest_rate: new FormControl("",[Validators.required]),
-    });
+    console.log(this.data);
+
+    if(this.data && this.data.type === 'add'){
+        this.accountDetailsForm = new FormGroup({
+        account_holder_name: new FormControl('' , [Validators.required]),
+        account_type: new FormControl("", [Validators.required]),
+        provider: new FormControl("",[Validators.required]),
+        statement_type: new FormControl("",[Validators.required]),
+        account_number: new FormControl("",[Validators.required]),
+        benificiary_name: new FormControl("",[Validators.required]),
+        interest_rate: new FormControl("",[Validators.required]),
+      });
+    } else {
+      this.accountDetailsForm = new FormGroup({
+        account_holder_name: new FormControl({value : this.data?.data?.account_holder_name , disabled:true} , [Validators.required]),
+        account_type: new FormControl({value : this.data?.data?.account_type , disabled:false}, [Validators.required]),
+        provider: new FormControl({value : this.data?.data?.provider , disabled:true},[Validators.required]),
+        statement_type: new FormControl({value : this.data?.data?.statement_type , disabled:true},[Validators.required]),
+        account_number: new FormControl({value : this.data?.data?.account_number , disabled:true},[Validators.required]),
+        benificiary_name: new FormControl({value : this.data?.data?.benificiary_name , disabled:false},[Validators.required]),
+        interest_rate: new FormControl({value : this.data?.data?.interest_rate , disabled:false},[Validators.required]),
+      });
+
+    }
+
   }
 
   onAdd(){

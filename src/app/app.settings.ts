@@ -33,6 +33,19 @@ export let API = {
     );
   },
 
+  //accounts apis
+  getAccountDetails:(clientId:string) => {
+    return (
+      API_URL + `accounts/clients/${clientId}`
+    );
+  },
+
+  getLinkedAccountDetails:(clientId:string)=>{
+    return (
+      API_URL + `accounts/clients/${clientId}/linked-accounts`
+    )
+  },
+
   //categories apis
   getCategoriesList: (client_id: string ) => {
     return API_URL + `clients/${client_id}/category/search`;
