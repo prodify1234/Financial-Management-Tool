@@ -3,19 +3,19 @@ import { Injectable } from '@angular/core';
 import { API } from '../app.settings';
 import { HttpClient } from '@angular/common/http';
 import Category from '../Models/Category.model';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private sharedService: SharedService) {
 
   } 
 
   getAllCategories(body:any, currentPage?: number , rowsOnPage?:number){
-    let client_id : string = sessionStorage.getItem('clientId') as string
-    let apiUrl= currentPage && rowsOnPage ? API.getCategoriesList(client_id) : API.getCategoriesList(client_id);
+    let apiUrl= currentPage && rowsOnPage ? API.getCategoriesList(this.sharedService.clientId) : API.getCategoriesList(this.sharedService.clientId);
     return this.http.post(apiUrl,body, {
       params :  {
          page : currentPage && currentPage >= 0 ? currentPage : 0,
@@ -25,16 +25,13 @@ export class CategoryService {
   }
 
   postCategory(body: Category){
-    let client_id : string = sessionStorage.getItem('clientId') as string
-    return this.http.post(API.postCategory(client_id),body)
+    return this.http.post(API.postCategory(this.sharedService.clientId),body)
   }
   updateCategory(body: { type: string , frequency: string ,budget_allocation_percentage :number }, category_id: string){
-    let client_id : string = sessionStorage.getItem('clientId') as string
-    return this.http.put(API.updateCategory(client_id,category_id),body)
+    return this.http.put(API.updateCategory(this.sharedService.clientId,category_id),body)
   }
   deleteCategory(category_id: string){
-    let client_id : string = sessionStorage.getItem('clientId') as string
-    return this.http.delete(API.deleteCategory(client_id,category_id))
+    return this.http.delete(API.deleteCategory(this.sharedService.clientId,category_id))
   }
   
 }

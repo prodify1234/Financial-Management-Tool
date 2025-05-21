@@ -6,6 +6,7 @@ import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import { SidenavService } from '../../services/sidenav.service';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,9 @@ import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
+
+
+ 
 
   
 
@@ -29,6 +33,8 @@ export class DashboardComponent implements OnInit {
   
     
   }
+
+
 
  
 

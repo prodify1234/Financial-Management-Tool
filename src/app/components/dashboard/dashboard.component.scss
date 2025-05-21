@@ -1,0 +1,33 @@
+@use "../../sass/variables" as var;
+.dashboard {
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+
+  &-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    h2 {
+      font-weight: 800;
+      color: var.$primary-color;
+    }
+
+  }
+  &-body { 
+    img {
+      width: 100%;
+      height: calc(70% - 40px);
+      display: cover;
+      
+    }
+  }
+}

@@ -14,6 +14,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginService } from '../../services/login.service'
 import { SnackbarService } from '../../services/snackbar.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,8 @@ export class LoginComponent {
     private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService, 
-    private snackbar : SnackbarService
+    private snackbar : SnackbarService,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class LoginComponent {
         sessionStorage.setItem('access_token', response?.access_token)
         sessionStorage.setItem("token_type", response.token_type)
         sessionStorage.setItem('clientId',response.client_id)
+        this.sharedService.setClientId(response.client_id)
 
         this.snackbar.success('Login Successfully')
         this.loader.update(() => false);

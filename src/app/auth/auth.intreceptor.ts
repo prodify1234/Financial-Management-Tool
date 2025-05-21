@@ -19,6 +19,6 @@ export const authInterceptor: HttpInterceptorFn = (
       Authorization: `Bearer ${authToken}`
     }
   });
-
+  next(cloned).pipe()
   return next(cloned);
 };
