@@ -58,34 +58,19 @@ ngAfterViewInit() {
     const ctx = this.chartRef.nativeElement.getContext('2d');
     if (ctx) {
       this.cashflowChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: {
           labels: ['Actual', 'Projected'],
           datasets: [{
             label: 'Amount ($)',
             data: [this.actualAmount, this.projectedAmount],
-            backgroundColor: ['#4CAF50', '#FFC107'],
+            backgroundColor: ['#3395BC', '#4CB7C3'],
             borderWidth: 1
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Amount ($)'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Cashflow Type'
-              }
-            }
-          }
         }
       });
     }
@@ -105,12 +90,12 @@ createGroupedBarChart() {
             {
               label: 'Actual',
               data: [17488, 12266, 5221],
-              backgroundColor: '#4CAF50'
+              backgroundColor: '#3395BC'
             },
             {
               label: 'Projected',
               data: [18000, 13000, 5000],
-              backgroundColor: '#FFC107'
+              backgroundColor: '#4CB7C3'
             }
           ]
         },

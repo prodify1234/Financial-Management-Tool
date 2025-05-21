@@ -5,6 +5,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEditAccountDetailsComponent } from '../add-edit-account-details/add-edit-account-details.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AccountsService } from '../../services/accounts.service';
 
 export interface PeriodicElement {
   name: string;
@@ -23,16 +25,6 @@ export interface LinkedAccount {
   accountNumber: string;
 }
 
-const ACCOUNT_DATA: PeriodicElement[] = [
-  {
-    name: 'JohDoe',
-    accountType: 'SAVINGS',
-    provider: 'jnanesh@gmail.com',
-    accountNumber: '08309752441',
-    interestRate: '3.5%'
-  },
-];
-
 const LINKED_ACCOUNT_DATA: LinkedAccount[] = [
   {
     name: 'JohnDoe',
@@ -46,35 +38,61 @@ const LINKED_ACCOUNT_DATA: LinkedAccount[] = [
 
 @Component({
   selector: 'app-accounts',
-  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule],
+  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule, MatTabsModule],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.scss'
 })
 export class AccountsComponent implements OnInit {
 
   accountColumns: string[] = [
-    'name',
-    'accountType',
+    'account_holder',
+    'account_type',
     'provider',
-    'accountNumber',
-    'interestRate',
+    'account_number',
+    'interest_rate',
     'actions',
   ];
-  accountSource = ACCOUNT_DATA;
+  accountSource : any[] = [];
+  allAccounts:any[]=[];
 
   linkedAccountColumns: string[] = [
-    'name',
+    'holder_name',
     'relationship',
-    'accountType',
+    'account_type',
     'provider',
-    'accountNumber'
+    'account_number'
   ];
-  linkedAccountSource = LINKED_ACCOUNT_DATA;
+  linkedAccountSource : any[] = [];
+  linkedAccounts:any[]=[];
 
-  constructor(private matDialog: MatDialog) {}
+  constructor(private matDialog: MatDialog, private accountsService: AccountsService) {}
 
   ngOnInit(): void {
+    this.accountsService.getAllAccountDetails().subscribe((response:any)=>{
+      console.log("Accounts Response: ", response);
+      this.allAccounts = response.accounts;
+      this.accountSource = this.allAccounts.map((acc:any)=>({
+        account_holder: acc.account_holder,
+        account_type: acc.account_type,
+        provider: acc.provider,
+        account_number: acc.account_number,
+        interest_rate: acc.interest_rate,
+        actions: ''
+      }))
 
+    })
+
+    this.accountsService.getAllLinkedAccountDetails().subscribe((response:any)=>{
+      console.log('Linked Accounts: ', response);
+      this.linkedAccounts = response.accounts;
+      this.linkedAccountSource = this.linkedAccounts.map((acc:any)=>({
+        holder_name: acc.holder_name,
+        relationship: acc.relationship,
+        account_type: acc.account_type,
+        provider: acc.provider,
+        account_number: acc.account_number
+      }))
+    })
   }
 
   onAddAccount() {
@@ -85,6 +103,21 @@ export class AccountsComponent implements OnInit {
       disableClose: true,
       data: {
         type: 'add'
+      }
+
+    });
+  }
+
+  onEdit(element:any){
+    console.log(element)
+    const data = this.matDialog.open(AddEditAccountDetailsComponent,{
+      width: '600px',
+      minWidth: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'edit',
+        data:  element
       }
 
     });

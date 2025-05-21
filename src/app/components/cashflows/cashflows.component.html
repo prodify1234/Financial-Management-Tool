@@ -27,28 +27,29 @@
   </div>
 
   <div class="cashflows-body">
-    <canvas #cashflowChart></canvas>
-  </div>
+    <div class="cashflows-body-segregation">
+      <div class="cashflows-body-segregation-details">
+        <div class="cashflow-body-segregation-details-monthly">
+          <h3>Cash Inflow</h3>
+          <h2>$17,488</h2>
+          <p>Monthly Income</p>
+        </div>
+        <div class="cashflow-body-segregation-details-monthly">
+          <h3>Cash Outflow</h3>
+          <h2>$12,266</h2>
+          <p>Monthly Expenses</p>
+        </div>
+        <div class="cashflow-body-segregation-details-monthly">
+          <h3>Net Cashflow</h3>
+          <h2>$5,221</h2>
+          <p>Monthly Balance</p>
+        </div>
+      </div>
+      <canvas #groupedChart></canvas>
+    </div>
 
-  <div class="cashflows-details">
-    <div class="cashflow-details-monthly">
-      <h3>Cash Inflow</h3>
-      <h2>$17,488</h2>
-      <p>Monthly Income</p>
+    <div class="cashflows-body-canvas">
+      <canvas #cashflowChart></canvas>
     </div>
-    <div class="cashflow-details-monthly">
-      <h3>Cash Outflow</h3>
-      <h2>$12,266</h2>
-      <p>Monthly Expenses</p>
-    </div>
-    <div class="cashflow-details-monthly">
-      <h3>Net Cashflow</h3>
-      <h2>$5,221</h2>
-      <p>Monthly Balance</p>
-    </div>
-  </div>
-
-  <div class="cashflows-segregation">
-    <canvas #groupedChart></canvas>
   </div>
 </div>

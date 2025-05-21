@@ -10,84 +10,89 @@
   </div>
 
   <div class="accounts-body">
-    <table mat-table [dataSource]="accountSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Account Holder </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
+    <mat-tab-group>
+      <mat-tab label="Accounts">
+        <table mat-table [dataSource]="accountSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="account_holder">
+            <th mat-header-cell *matHeaderCellDef> Account Holder </th>
+            <td mat-cell *matCellDef="let element"> {{element.account_holder}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="accountType">
-        <th mat-header-cell *matHeaderCellDef> Account Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountType}} </td>
-      </ng-container>
+          <ng-container matColumnDef="account_type">
+            <th mat-header-cell *matHeaderCellDef> Account Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.account_type}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="provider">
-        <th mat-header-cell *matHeaderCellDef> Provider </th>
-        <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
-      </ng-container>
+          <ng-container matColumnDef="provider">
+            <th mat-header-cell *matHeaderCellDef> Provider </th>
+            <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="accountNumber">
-        <th mat-header-cell *matHeaderCellDef> Account Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountNumber}} </td>
-      </ng-container>
+          <ng-container matColumnDef="account_number">
+            <th mat-header-cell *matHeaderCellDef> Account Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.account_number}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="interestRate">
-        <th mat-header-cell *matHeaderCellDef> Interest Rate </th>
-        <td mat-cell *matCellDef="let element"> {{element.interestRate}} </td>
-      </ng-container>
+          <ng-container matColumnDef="interest_rate">
+            <th mat-header-cell *matHeaderCellDef> Interest Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.interest_rate}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item type="button">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button" (click)="onEdit(element)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="accountColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: accountColumns;"></tr>
-    </table>
+          <tr mat-header-row *matHeaderRowDef="accountColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: accountColumns;"></tr>
+        </table>
+      </mat-tab>
 
-    <h2>Linked Accounts</h2>
-    <table mat-table [dataSource]="linkedAccountSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Account Holder </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
+      <mat-tab label="Linked Accounts">
+        <table mat-table [dataSource]="linkedAccountSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="holder_name">
+            <th mat-header-cell *matHeaderCellDef> Account Holder </th>
+            <td mat-cell *matCellDef="let element"> {{element.holder_name}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="relationship">
-        <th mat-header-cell *matHeaderCellDef> RelationShip</th>
-        <td mat-cell *matCellDef="let element"> {{element.relationship}} </td>
-      </ng-container>
+          <ng-container matColumnDef="relationship">
+            <th mat-header-cell *matHeaderCellDef> RelationShip</th>
+            <td mat-cell *matCellDef="let element"> {{element.relationship}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="accountType">
-        <th mat-header-cell *matHeaderCellDef> Account Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountType}} </td>
-      </ng-container>
+          <ng-container matColumnDef="account_type">
+            <th mat-header-cell *matHeaderCellDef> Account Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.account_type}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="provider">
-        <th mat-header-cell *matHeaderCellDef> Provider </th>
-        <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
-      </ng-container>
+          <ng-container matColumnDef="provider">
+            <th mat-header-cell *matHeaderCellDef> Provider </th>
+            <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="accountNumber">
-        <th mat-header-cell *matHeaderCellDef> Account Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.accountNumber}} </td>
-      </ng-container>
+          <ng-container matColumnDef="account_number">
+            <th mat-header-cell *matHeaderCellDef> Account Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.account_number}} </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="linkedAccountColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: linkedAccountColumns;"></tr>
-    </table>
+          <tr mat-header-row *matHeaderRowDef="linkedAccountColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: linkedAccountColumns;"></tr>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
