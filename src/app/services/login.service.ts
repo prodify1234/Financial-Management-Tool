@@ -17,7 +17,6 @@ export class LoginService {
   }
 
   getClientById(){
-    let clientId = sessionStorage.getItem('clientId') as string;
     return this.http.get(API.getClientById(this.shared.clientId))
   }
 }

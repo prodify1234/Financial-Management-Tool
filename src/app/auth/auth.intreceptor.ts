@@ -6,12 +6,14 @@ import {
   HttpHandlerFn,
   HttpEvent
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
+  const router = inject(Router)
   const authToken = sessionStorage.getItem('access_token'); // You can inject a service if needed
 
   const cloned = req.clone({
@@ -20,5 +22,15 @@ export const authInterceptor: HttpInterceptorFn = (
     }
   });
   next(cloned).pipe()
-  return next(cloned);
+  return next(cloned).pipe(catchError((error)=>{
+    console.log(error)
+    if(error.status === 401 || error.status === 403) {
+      sessionStorage.clear()
+      router.navigate(['/login'])
+      return throwError(() => error);
+    }else{
+      return throwError(() => error);
+    }
+
+  }));
 };

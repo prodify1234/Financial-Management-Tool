@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -54,6 +54,7 @@ export class AccountsComponent implements OnInit {
   ];
   accountSource : any[] = [];
   allAccounts:any[]=[];
+  accountsLoader  = signal<boolean>(false);
 
   linkedAccountColumns: string[] = [
     'holder_name',
@@ -64,6 +65,7 @@ export class AccountsComponent implements OnInit {
   ];
   linkedAccountSource : any[] = [];
   linkedAccounts:any[]=[];
+  linkedAccountsLoader = signal<boolean>(false)
 
   constructor(private matDialog: MatDialog, private accountsService: AccountsService) {}
 
