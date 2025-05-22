@@ -15,6 +15,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginService } from '../../services/login.service'
 import { SnackbarService } from '../../services/snackbar.service';
 import { SharedService } from '../../services/shared.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService, 
     private snackbar : SnackbarService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -55,11 +57,7 @@ export class LoginComponent {
     this.loader.update(() => true);
     this.loginService.login(this.loginForm.value).subscribe(
       (response: any) => {
-        sessionStorage.setItem('access_token', response?.access_token)
-        sessionStorage.setItem("token_type", response.token_type)
-        sessionStorage.setItem('clientId',response.client_id)
-        this.sharedService.setClientId(response.client_id)
-
+        this.authService.setCredentials({...response , clientId: response.client_id})
         this.snackbar.success('Login Successfully')
         this.loader.update(() => false);
         this.router.navigate(['/home/dashboard']);

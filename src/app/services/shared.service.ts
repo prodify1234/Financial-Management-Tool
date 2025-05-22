@@ -7,17 +7,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class SharedService {
 
-   clientId : string = "";
+  constructor() {}
 
-  constructor() {
-   //setting the clientId during refreshing
-   if(sessionStorage.getItem('clientId')){
-    this.setClientId(sessionStorage.getItem('clientId'))
-   }
-  
-  }
-
-   setClientId(clientId:any) {
-    this.clientId = clientId
-   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { API } from '../app.settings';
 
@@ -7,11 +7,9 @@ import { API } from '../app.settings';
   providedIn: 'root'
 })
 export class PackageService {
+  http = inject(HttpClient);
 
-  constructor(private http : HttpClient) { 
-
-
-
+  constructor() { 
   }
 
 

@@ -1,22 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { API } from '../app.settings';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountsService {
+  http = inject(HttpClient)
+  auth = inject(AuthService)
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   getAllAccountDetails(){
-    let clientId = sessionStorage.getItem('clientId') as string;
-    return this.http.get(API.getAccountDetails(clientId))
+    return this.http.get(API.getAccountDetails(this.auth.clientId))
   }
 
   getAllLinkedAccountDetails(){
-    let clientId = sessionStorage.getItem('clientId') as string;
-    return this.http.get(API.getLinkedAccountDetails(clientId))
+    return this.http.get(API.getLinkedAccountDetails(this.auth.clientId))
   }
 
 }
