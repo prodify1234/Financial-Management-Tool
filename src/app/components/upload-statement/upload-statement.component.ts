@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-upload-statement',
@@ -18,12 +19,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatDialogContent,
     MatDialogClose,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   templateUrl: './upload-statement.component.html',
   styleUrl: './upload-statement.component.scss'
 })
-export class UploadStatementComponent {
+export class UploadStatementComponent implements AfterViewInit {
+  @ViewChild('fileInput') fileInput !: ElementRef<InputEvent>
   readonly dialogRef = inject(MatDialogRef<UploadStatementComponent>);
   uploadStatementForm !: FormGroup;
 
@@ -48,5 +51,19 @@ export class UploadStatementComponent {
 
   onCancel(){
     this.dialogRef.close('');
+  }
+
+  onFileChange(event:any){
+    console.log(event)
+  }
+
+  browseFiles(){
+   
+  }
+
+  ngAfterViewInit(): void {
+
+
+      
   }
 }

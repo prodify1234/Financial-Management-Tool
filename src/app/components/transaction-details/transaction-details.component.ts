@@ -51,7 +51,7 @@ export class TransactionDetailsComponent implements OnInit {
     const data = this.matDialog.open(UploadStatementComponent, {
       width: '600px',
       minWidth: '600px',
-      height: 'auto',
+      minHeight: '400px',
       disableClose: true,
       data: {
         type: 'add'

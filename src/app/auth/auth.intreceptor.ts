@@ -21,7 +21,6 @@ export const authInterceptor: HttpInterceptorFn = (
       Authorization: `Bearer ${authToken}`
     }
   });
-  next(cloned).pipe()
   return next(cloned).pipe(catchError((error)=>{
     console.log(error)
     if(error.status === 401 || error.status === 403) {
