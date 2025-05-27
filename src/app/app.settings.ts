@@ -22,14 +22,14 @@ export let API = {
     );
   },
   addFamilyMemberDetails: () => {
-    return API_URL + 'family/members';
+    return API_URL + 'family-members';
   },
-  updateFamilyMemberDetails: (clientId: string) => {
-    return API_URL + 'clients/' + `${clientId}/` + 'relationship-update';
+  updateFamilyMemberDetails: (clientId: string, person_id: string) => {
+    return API_URL + `persons/${person_id}/clients/${clientId}/family-members`
   },
   deleteFamilyMemberDetails: (clientId: string, person_id: string) => {
     return (
-      API_URL + `clients/` + `${clientId}` + `/family-members/` + `${person_id}`
+      API_URL + `persons/${person_id}/clients/${clientId}/family-members`
     );
   },
 
@@ -54,7 +54,7 @@ export let API = {
     return API_URL + `clients/${client_id}/categories`;
   },
   updateCategory: (client_id: string,category_id: string) => {
-    return API_URL + `clients/${client_id}/categories/${category_id}/update`
+    return API_URL + `clients/${client_id}/categories/${category_id}`
   },
   deleteCategory: (client_id: string, category_id: string) => {
     return API_URL + `clients/${client_id}/categories/${category_id}`

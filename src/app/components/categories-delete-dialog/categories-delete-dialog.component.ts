@@ -24,21 +24,27 @@ export class CategoriesDeleteDialogComponent {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   loader = signal<boolean>(false);
 
-  constructor(private categoryService: CategoryService,private snackbarService: SnackbarService){
+  /* Dependencies */
+  private categoryService = inject(CategoryService);
+  private snackbarService = inject(SnackbarService);
+
+  constructor(){
     
   }
 
   onDelete(){
     this.loader.update(()=> true)
-    this.categoryService.deleteCategory(this.data?.data?.id).subscribe((response)=>{
-      console.log(response);
-      this.snackbarService.success("Category Deleted Successfully.")
-      this.dialogRef.close('success')
-      this.loader.update(()=> false)
-    } ,(error)=>{
-      console.log(error)
-      this.snackbarService.error("Internal Server error")
-      this.loader.update(()=> false)
+    this.categoryService.deleteCategory(this.data?.data?.id).subscribe({
+      next : (response: any) => {
+        console.log(response);
+        this.snackbarService.success(response.message || "Category Deleted Successfully.")
+        this.dialogRef.close('success')
+        this.loader.update(()=> false)
+      },
+      error : (error : any)=>{
+          this.snackbarService.error(error.error.message || "Internal Server Error")
+          this.loader.update(()=> false)
+      }
     })
   }
 }

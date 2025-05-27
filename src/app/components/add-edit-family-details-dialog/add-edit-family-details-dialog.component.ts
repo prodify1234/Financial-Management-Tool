@@ -47,8 +47,11 @@ export class   AddEditFamilyDetailsDialogComponent implements OnInit {
   editFamilyDetailsForm !: FormGroup;
   loader  = signal<boolean>(false);
   relationships = [ 'SIBLING' , 'PARENT' , 'CHILD' , 'SPOUSE'];
-  constructor(private familyDetails : FamilyDetailsService, private snackbar: SnackbarService) {
 
+  /** Dependencies */
+  private familyDetails = inject(FamilyDetailsService);
+  private snackbar = inject(SnackbarService);
+  constructor() {
   }
   ngOnInit(): void {
     console.log(this.data);
@@ -70,13 +73,13 @@ export class   AddEditFamilyDetailsDialogComponent implements OnInit {
     } else {
       this.familyDetailsForm = new FormGroup({
         id: new FormControl({value : this.data?.data?.id , disabled:false}),
-        first_name: new FormControl({value : this.data?.data?.first_name , disabled:true} , [Validators.required]),
-        last_name: new FormControl({value : this.data?.data?.last_name , disabled:true}, [Validators.required]),
-        email: new FormControl({value : this.data?.data?.email , disabled:true},[Validators.required, Validators.email]),
-        phone_number: new FormControl({value : this.data?.data?.phone_number , disabled:true},[Validators.required]),
+        first_name: new FormControl({value : this.data?.data?.first_name , disabled:false} , [Validators.required]),
+        last_name: new FormControl({value : this.data?.data?.last_name , disabled:false}, [Validators.required]),
+        email: new FormControl({value : this.data?.data?.email , disabled:false},[Validators.required, Validators.email]),
+        phone_number: new FormControl({value : this.data?.data?.phone_number , disabled:false},[Validators.required]),
         pan_number: new FormControl({value : this.data?.data?.pan_number , disabled:true},[Validators.required]),
         aadhaar_number: new FormControl({value : this.data?.data?.aadhaar_number , disabled:true},[Validators.required]),
-        address: new FormControl({value : this.data?.data?.address , disabled:true},[Validators.required]),
+        address: new FormControl({value : this.data?.data?.address , disabled:false},[Validators.required]),
         relation: new FormControl({value : this.data?.data?.relationship_type , disabled:false}, [Validators.required])
       });
 
@@ -91,34 +94,54 @@ export class   AddEditFamilyDetailsDialogComponent implements OnInit {
       const body = {
         relationship_type : this.familyDetailsForm.get('relation')?.value ,
           client_id: sessionStorage.getItem('clientId'),
-          first_name : this.familyDetailsForm.get('first_name')?.value,
-          last_name : this.familyDetailsForm.get('last_name')?.value,
-          email : this.familyDetailsForm.get('email')?.value,
+          first_name : this.familyDetailsForm.get('first_name')?.value.trim(),
+          last_name : this.familyDetailsForm.get('last_name')?.value.trim(),
+          email : this.familyDetailsForm.get('email')?.value.trim(),
           phone_number: this.familyDetailsForm.get('phone_number')?.value,
           pan_number : this.familyDetailsForm.get('pan_number')?.value,
           aadhaar_number: this.familyDetailsForm.get('aadhaar_number')?.value,
-          address: this.familyDetailsForm.get('address')?.value
+          address: this.familyDetailsForm.get('address')?.value.trim()
         }
       this.loader.update(()=>true)
-
-      this.familyDetails.addFamilyDetails(body).subscribe((response)=>{
-        console.log(response);
-        this.loader.update(()=> false)
-        this.snackbar.success('Family member added successfully');
-        this.dialogRef.close(response)
+      this.familyDetails.addFamilyDetails(body).subscribe({
+        next : (response: any) =>{
+          this.loader.update(()=> false)
+          this.snackbar.success(response.message || 'Family member added successfully');
+          this.dialogRef.close(response.data);
+        },
+        error : (error : any)=> {
+          this.loader.update(()=> false)
+          console.error(error);
+          this.snackbar.error(error.error.details || 'Failed to add family member');
+        }
       })
-      // this.dialogRef.close(data);
     }
   }
   onUpdate(){
     this.loader.update(()=> true)
-    console.log(this.familyDetailsForm)
-    this.familyDetails.updateFamilyDetails(this.familyDetailsForm.get('id')?.value , this.familyDetailsForm.get('relation')?.value)
-    .subscribe((response)=>{
-      console.log(response);
-      this.loader.update(()=> false)
-      this.snackbar.success('Family member updated successfully');
-      this.dialogRef.close(response)
+    if(this.familyDetailsForm.invalid){
+      return;
+    }
+    const body = {
+      relationship_type : this.familyDetailsForm.get('relation')?.value ,
+      first_name : this.familyDetailsForm.get('first_name')?.value.trim(),
+      last_name : this.familyDetailsForm.get('last_name')?.value.trim(),
+      email : this.familyDetailsForm.get('email')?.value.trim(),
+      phone_number: this.familyDetailsForm.get('phone_number')?.value.trim(),
+      address: this.familyDetailsForm.get('address')?.value.trim()
+
+    }
+    this.familyDetails.updateFamilyDetails(this.familyDetailsForm.get('id')?.value , body)
+    .subscribe({
+      next : (response : any) => {
+        this.loader.update(()=> false);
+        this.snackbar.success(response.message || 'Family member updated successfully');
+        this.dialogRef.close(response.data);
+      },
+      error : (error : any ) => {
+        this.loader.update(()=> false);
+        this.snackbar.error(error.error.details || 'Failed to update family member');
+      }
     })
   }
 

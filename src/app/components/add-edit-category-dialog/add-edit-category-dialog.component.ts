@@ -24,7 +24,11 @@ export class AddEditCategoryDialogComponent {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   loader = signal<boolean>(false)
 
-  constructor(private snackbarService: SnackbarService,private categoryService: CategoryService){}
+  /** Dependencies */
+  private snackbarService = inject(SnackbarService);
+  private categoryService = inject(CategoryService);
+
+  constructor(){}
 
   ngOnInit(): void{
     console.log(this.data)
@@ -48,7 +52,7 @@ export class AddEditCategoryDialogComponent {
         display_name: new FormControl({value : this.data.category.display_name, disabled : true} , [Validators.required]),
         type: new FormControl({value : this.data.category.type, disabled : false},[Validators.required]),
         frequency: new FormControl({value : `${this.data.category.frequency}`, disabled : false},[Validators.required]),
-        budget_allocation_percentage: new FormControl({value : this.data.category.budget_allocation_percentage, disabled : false},[Validators.required]),
+        budget_allocation_percentage: new FormControl<number>({value : +this.data.category.budget_allocation_percentage, disabled : false},[Validators.required]),
       })
     }
   }
@@ -64,16 +68,18 @@ export class AddEditCategoryDialogComponent {
       }
       data['source']="custom"
       this.loader.update(()=> true)
-      this.categoryService.postCategory(data).subscribe((response)=>{
-        this.snackbarService.success('Category added Successfully.')
-        this.dialogRef.close('success');
-        this.loader.update(()=> false)
-      }, (error)=>{
-        console.log(error)
-        this.snackbarService.success('Failed to add Category.')
-        this.loader.update(()=> true)
-      })
 
+      this.categoryService.postCategory(data).subscribe({
+        next: (response:any)=>{
+          this.snackbarService.success(response.message || 'Category added Successfully.');
+          this.dialogRef.close('success');
+          this.loader.update(() => false)
+        },
+        error : (error : any) => {
+          this.snackbarService.error(error.error.details || 'Failed to add Category.')
+          this.loader.update(() => false)
+        }
+      })
     }
     
   }
@@ -86,16 +92,19 @@ export class AddEditCategoryDialogComponent {
     } else {
       let categoryId = this.data.type === 'edit' ? this.data.category.id : ""
       this.loader.update(()=> true)
-      this.categoryService.updateCategory(this.categoryForm.value,categoryId).subscribe((response)=>{
-        this.snackbarService.success('Category updated successfully.')
-        this.dialogRef.close('success');
-        this.loader.update(()=> false)
-      }, (error)=>{
-        console.log(error)
-        this.snackbarService.success('Failed to add Category.')
-        this.loader.update(()=> false)
+      this.categoryService.updateCategory(this.categoryForm.value,categoryId).subscribe({
+        next : (response :any) =>{
+          console.log(response);
+          this.snackbarService.success(response.message || 'Category updated successfully.')
+          this.dialogRef.close('success');
+          this.loader.update(()=> false)
+        },
+        error: (error:any)=>{
+          console.log(error);
+          this.snackbarService.error(error.error.details || 'Failed to update Category.')
+          this.loader.update(()=> false)  
+        }
       })
-
     }
   }
 

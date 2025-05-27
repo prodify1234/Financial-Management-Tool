@@ -22,9 +22,8 @@ export class FamilyDetailsService {
   addFamilyDetails(body:any) {
     return this.http.post( API.addFamilyMemberDetails(), body)
   }
-  updateFamilyDetails(person_id:string, relation:string){
-    return this.http.put(API.updateFamilyMemberDetails(this.auth.clientId), {person_id ,relationship_type: relation})
-
+  updateFamilyDetails(person_id:string, body:any){
+    return this.http.put(API.updateFamilyMemberDetails(this.auth.clientId , person_id), body);
   }
   deleteFamilyDetails(person_id: string){
     return this.http.delete(API.deleteFamilyMemberDetails(this.auth.clientId,person_id));

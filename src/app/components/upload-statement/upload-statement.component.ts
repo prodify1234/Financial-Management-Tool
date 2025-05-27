@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,10 +19,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogTitle,
     MatDialogContent,
     MatDialogClose,
-    MatInputModule,
     MatSnackBarModule,
     MatIconModule
   ],
+  standalone: true,
   templateUrl: './upload-statement.component.html',
   styleUrl: './upload-statement.component.scss'
 })
@@ -62,8 +63,6 @@ export class UploadStatementComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
-
       
   }
 }

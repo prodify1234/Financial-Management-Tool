@@ -1,11 +1,12 @@
 import { SidenavService } from '../../services/sidenav.service';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-header',
@@ -17,33 +18,39 @@ export class HeaderComponent implements OnInit,OnChanges{
 
   person:any = {}
   @Input() rootWidth : number = 0;
+  snackbar = inject(SnackbarService)
+  sidenavService = inject(SidenavService);
+  router= inject(Router);
+  loginService = inject(LoginService);
 
-  constructor(private sidenavService: SidenavService, private router : Router , private loginService:LoginService){
-
+  constructor(){
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(this.rootWidth)
     if(this.rootWidth < 1024){
       this.sidenavService.openSideNav.next(false);
     } 
-    
+  
   }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.sidenavService.openSideNav.subscribe((value) => {
-      console.log(value);
-    });
+    this.getPersonName();
+  }
 
-    this.loginService.getClientById().subscribe((response:any)=> {
-       this.person = { ...response.person }
+  getPersonName(){
+    this.loginService.getClientById().subscribe({
+      next : (response:any)=>{
+         this.person = response.data.person;
+      },
+      error :(error)=>{
+          this.snackbar.error(error.error.details || 'Failed to fetch person details');
+      }
     })
-
   }
 
   toggleSideNav(){

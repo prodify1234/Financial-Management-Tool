@@ -25,6 +25,7 @@ import { RegisterService } from '../../services/register.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import CreatePerson from '../../Models/CreatePerson.model';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -51,7 +52,7 @@ export class RegisterComponent implements OnInit {
   isFirstStep = computed(() => this.step() === 'first');
   step1Form!: FormGroup;
   step2Form!: FormGroup;
-  snackbar = inject(MatSnackBar);
+  snackbar = inject(SnackbarService);
   loader = signal<boolean>(false)
 
   clickEvent(event: MouseEvent) {
@@ -113,18 +114,19 @@ export class RegisterComponent implements OnInit {
   createPerson() {
     console.log(this.step1Form.value);
     this.loader.update(() =>true)
-    this.registerService.createPerson(this.step1Form.value).subscribe(
-      (response: CreatePerson) => {
-        this.step1Form.patchValue({ id: response?.id });
+    this.registerService.createPerson(this.step1Form.value).subscribe({
+      next : (response: any) => {
+        console.log(response);
+        this.step1Form.patchValue({ id: response.data.id });
         this.step2Form.reset();
         this.loader.update(()=> false)
         this.step.update(() => 'second');
       },
-      (error) => {
-        this.snackbar.open(error?.error?.detail, 'Close');
+      error: (error) =>{
+        this.snackbar.error(error.error.details);
         this.loader.update(()=> false)
       }
-    );
+    });
   }
 
   onCreateClient() {
@@ -135,14 +137,17 @@ export class RegisterComponent implements OnInit {
         person_id: this.step1Form.value.id,
         ...this.step2Form.value,
       })
-      .subscribe((response) => {
-        this.router.navigate(['/login'])
-        this.loader.update(()=> false)
-        this.snackbar.open('Registered Successfully', 'Close');
-      },(error) => {
-        this.loader.update(()=> false)
-        this.snackbar.open(error?.error?.detail, 'Close');
-      });
+      .subscribe({
+        next : (response)=>{
+          this.router.navigate(['/login'])
+          this.loader.update(()=> false)
+          this.snackbar.success(response.message);
+        },
+        error: (error)=>{
+          this.loader.update(()=> false)
+          this.snackbar.open(error?.error?.details);
+        }
+      })
   }
 
   onNavigate(type: string) {

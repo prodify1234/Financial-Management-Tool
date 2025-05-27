@@ -55,17 +55,17 @@ export class LoginComponent {
 
   onSubmit() {
     this.loader.update(() => true);
-    this.loginService.login(this.loginForm.value).subscribe(
-      (response: any) => {
-        this.authService.setCredentials({...response , clientId: response.client_id})
-        this.snackbar.success('Login Successfully')
-        this.loader.update(() => false);
+    this.loginService.login(this.loginForm.value).subscribe({
+      next: (response:any)=>{
+        this.snackbar.success(response.message);
+        this.authService.setCredentials({...response.data , clientId: response.data.client_id});
         this.router.navigate(['/home/dashboard']);
-      },
-      (error) => {
         this.loader.update(() => false);
-        this.snackbar.open(error?.error?.detail, 'Close');
+      },
+      error:(error)=>{
+        this.snackbar.error(error.error.detail);
+        this.loader.update(() => false);
       }
-    );
+    })
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -50,9 +50,12 @@ export class FamilyDetailsComponent implements OnInit {
   dataSource : Person[] = [];
   loader  = signal<boolean>(false)
 
-  constructor(private matDialog: MatDialog,private familyDetailsService: FamilyDetailsService , private snackbarService : SnackbarService) {
-    // this.getAllPersons();
+  /** Dependencies  */
+  private matDialog = inject(MatDialog)
+  private familyDetailsService = inject(FamilyDetailsService);
+  private snackbarService = inject(SnackbarService);
 
+  constructor() {
 
   }
 
@@ -65,22 +68,22 @@ export class FamilyDetailsComponent implements OnInit {
   getAllPersons() {
     this.dataSource = []
     this.loader.update(() => true)
-    this.familyDetailsService.getAllFamilyMemberDetails().subscribe((response: any) => {
-     console.log(response)
-     for(let item of response){
-      this.dataSource.push({
-        relationship_type: item.relationship_type,
-        ...item.person
-      })
-     }
-     this.loader.update(()=> false)
-     console.log(this.dataSource)
-     
-    } ,(error)=>{
-      // this.loader.update(()=> false)
-      this.snackbarService.error('Internal server error')
+    this.familyDetailsService.getAllFamilyMemberDetails().subscribe({
+      next :(response : any) => {
+        for(let item of response.data){
+            this.dataSource.push({
+              relationship_type: item.relationship_type,
+              ...item.person
+            })
+         }
+        this.loader.update(() => false)
+      },
+      error: (error)=>{
+        this.snackbarService.error(error.error.details || 'Failed to fetch family details');
+        this.loader.update(() => false)
+        this.dataSource=[]
+      }
     })
-
   }
 
   onAddFamilyMember() {

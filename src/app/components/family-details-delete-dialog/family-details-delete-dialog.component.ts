@@ -22,21 +22,21 @@ export class FamilyDetailsDeleteDialogComponent {
   readonly dialogRef = inject(MatDialogRef<FamilyDetailsDeleteDialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
+  /** Dependencies */
+  private familyDetailsService = inject(FamilyDetailsService);
+  private snackbarService = inject(SnackbarService);
 
-
-
-  constructor(private familyDetailsService: FamilyDetailsService,private snackbarService: SnackbarService){
-    
-  }
-
+  constructor(){}
   onDelete(){
-    this.familyDetailsService.deleteFamilyDetails(this.data?.data?.id).subscribe((response)=>{
-      console.log(response);
-      this.snackbarService.success("Family Member Deleted Successfully.")
-      this.dialogRef.close(response)
-    } ,(error)=>{
-      console.log(error)
-      this.snackbarService.error("Internal Server error")
+    this.familyDetailsService.deleteFamilyDetails(this.data?.data?.id).subscribe({
+      next: (response :any ) => {
+        console.log(response);
+        this.snackbarService.success(response.message || "Family Member Deleted Successfully.");
+        this.dialogRef.close(response);
+      },
+      error : (error : any) => {
+        this.snackbarService.error(error.error.message || "Internal Server Error");
+      }
     })
   }
 

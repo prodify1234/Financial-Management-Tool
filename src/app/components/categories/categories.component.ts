@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -19,6 +19,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Category from '../../Models/Category.model';
 import { CategoriesDeleteDialogComponent } from '../categories-delete-dialog/categories-delete-dialog.component';
+import { SnackbarService } from '../../services/snackbar.service';
 
 export interface Categories {
   head: string;
@@ -70,19 +71,22 @@ export class CategoriesComponent {
   totalCategories = signal<number>(0);
   filtersForm!: FormGroup;
 
-  constructor(
-    private matDialog: MatDialog,
-    private categoriesService: CategoryService
-  ) {
+  // Dependencies 
+  private matDialog = inject(MatDialog);
+  private categoriesService = inject(CategoryService);
+  private snackbar = inject(SnackbarService)
+  constructor() {
     this.filtersForm = new FormGroup({
       search: new FormControl(''),
       type: new FormControl(''),
     });
     this.getCategories();
-    this.filtersForm.valueChanges.subscribe((response) => {
-      console.log(response);
+    this.filtersForm.valueChanges.subscribe(() => { 
+      this.currentPage.update(() => 0);
+      this.previousPage.update(() => 0);  
+      this.rowsOnPage.update(() => 10);
       this.getCategories();
-    });
+    })
   }
 
   getCategories() {
@@ -102,17 +106,19 @@ export class CategoriesComponent {
     this.loader.update(() => true);
     this.categoriesService
       .getAllCategories(body, this.currentPage() + 1, this.rowsOnPage())
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: any) => {
           console.log(response);
-          this.categoriesList = response?.items;
-          this.totalCategories.update(() => response?.total);
+          this.categoriesList = response?.data?.items;
+          this.totalCategories.update(() => response?.data?.total);
           this.loader.update(() => false);
         },
-        (error) => {
+        error: (error) => {
+          this.snackbar.error(error?.error.details || 'Failed to fetch categories');
           this.loader.update(() => false);
-        }
-      );
+          this.categoriesList =[]
+        },
+      })
   }
 
   addCategory() {
