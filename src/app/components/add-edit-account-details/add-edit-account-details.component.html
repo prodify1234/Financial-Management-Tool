@@ -8,19 +8,19 @@
     <form [formGroup]="accountDetailsForm">
       <mat-form-field appearance="outline">
         <mat-label>Account Holder</mat-label>
-        <mat-select formControlName="account_holder_name">
-          <mat-option [value]="'Self'">Self</mat-option>
-          <mat-option [value]="'John Doe'" >John Doe</mat-option>
+        <mat-select formControlName="person_id">
+          <mat-option *ngFor="let person of persons" [value]="person.person_id">{{person.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Account Type</mat-label>
         <mat-select formControlName="account_type">
-          <mat-option [value]="'Savings'" >Savings</mat-option>
-          <mat-option [value]="'Current'" >Current</mat-option>
-          <mat-option [value]="'Fixed Deposit'" >Fixed Deposit</mat-option>
-          <mat-option [value]="'Recurring Deposit'" >Recurring Deposit</mat-option>
+          <mat-option [value]="'SAVINGS'" >SAVINGS</mat-option>
+          <mat-option [value]="'CURRENT'" >CURRENT</mat-option>
+          <mat-option [value]="'FIXED_DEPOSIT'" >FIXED_DEPOSIT</mat-option>
+          <mat-option [value]="'RECURRING_DEPOSIT'" >RECURRING_DEPOSIT</mat-option>
+          <mat-option [value]="'CREDIT CARD'">CREDIT CARD</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -43,8 +43,8 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Benificiary Number</mat-label>
-        <input matInput formControlName="benificiary_name"/>
+        <mat-label>Beneficiary Name</mat-label>
+        <input matInput formControlName="beneficiary_name"/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -62,7 +62,6 @@
           mat-flat-button
           type="button"
           class="btn-add"
-          [disabled]="accountDetailsForm.invalid"
           (click)="onAdd()"
         >
           ADD
@@ -73,6 +72,7 @@
           type="button"
           class="btn-add"
           [disabled]="accountDetailsForm.invalid"
+          (click)="onUpdate()"
         >
           Update
         </button>

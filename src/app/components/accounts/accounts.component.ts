@@ -7,6 +7,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEditAccountDetailsComponent } from '../add-edit-account-details/add-edit-account-details.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AccountsService } from '../../services/accounts.service';
+import UpdateAccount from '../../Models/UpdateAccount';
+import { AccountDetailsDeleteDialogComponent } from '../account-details-delete-dialog/account-details-delete-dialog.component';
+import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 
 export interface PeriodicElement {
   name: string;
@@ -25,27 +28,17 @@ export interface LinkedAccount {
   accountNumber: string;
 }
 
-const LINKED_ACCOUNT_DATA: LinkedAccount[] = [
-  {
-    name: 'JohnDoe',
-    relationship: 'Spouse',
-    accountType: 'Savings',
-    provider: 'SBI Bank',
-    accountNumber: 'xxxx5678'
-  }
-]
-
 
 @Component({
   selector: 'app-accounts',
-  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule, MatTabsModule],
+  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule, MatTabsModule, TableShimmerComponent],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.scss'
 })
 export class AccountsComponent implements OnInit {
 
   accountColumns: string[] = [
-    'account_holder',
+    'beneficiary_name',
     'account_type',
     'provider',
     'account_number',
@@ -66,34 +59,49 @@ export class AccountsComponent implements OnInit {
   linkedAccountSource : any[] = [];
   linkedAccounts:any[]=[];
   linkedAccountsLoader = signal<boolean>(false)
+  loader  = signal<boolean>(false)
 
   constructor(private matDialog: MatDialog, private accountsService: AccountsService) {}
 
   ngOnInit(): void {
+    this.loadAccountDetails();
+
+    this.loadLinkedAccountDetails();
+  }
+
+  loadAccountDetails(){
+    this.loader.update(() => true)
+    console.log('load account details called.')
     this.accountsService.getAllAccountDetails().subscribe((response:any)=>{
       console.log("Accounts Response: ", response);
-      this.allAccounts = response.accounts;
+      this.allAccounts = response.data.accounts;
       this.accountSource = this.allAccounts.map((acc:any)=>({
-        account_holder: acc.account_holder,
+        id: acc.id,
+        beneficiary_name: acc.beneficiary_name,
         account_type: acc.account_type,
         provider: acc.provider,
         account_number: acc.account_number,
         interest_rate: acc.interest_rate,
         actions: ''
       }))
-
+      this.loader.update(()=> false)
     })
+  }
 
+  loadLinkedAccountDetails(){
+    this.loader.update(() => true)
     this.accountsService.getAllLinkedAccountDetails().subscribe((response:any)=>{
       console.log('Linked Accounts: ', response);
-      this.linkedAccounts = response.accounts;
+      this.linkedAccounts = response.data.accounts;
       this.linkedAccountSource = this.linkedAccounts.map((acc:any)=>({
+        id: acc.id,
         holder_name: acc.holder_name,
         relationship: acc.relationship,
         account_type: acc.account_type,
         provider: acc.provider,
         account_number: acc.account_number
       }))
+      this.loader.update(()=> false)
     })
   }
 
@@ -106,8 +114,14 @@ export class AccountsComponent implements OnInit {
       data: {
         type: 'add'
       }
-
     });
+  data.afterClosed().subscribe((result:any)=>{
+    if(result) {
+      console.log(result);
+      this.loadAccountDetails();
+      this.loadLinkedAccountDetails();
+    }
+  })
   }
 
   onEdit(element:any){
@@ -121,7 +135,34 @@ export class AccountsComponent implements OnInit {
         type: 'edit',
         data:  element
       }
+    });
+    data.afterClosed().subscribe((result: UpdateAccount | '') => {
+      if(result){
+        console.log(result);
+        this.loadAccountDetails();
+        this.loadLinkedAccountDetails();
+      }
+    });
+  }
 
+  onDelete(element:any){
+    const data = this.matDialog.open(AccountDetailsDeleteDialogComponent, {
+      width: '400px',
+      minWidth: '400px',
+      height: '300px',
+      minHeight: '300px',
+      disableClose: true,
+      data: {
+        type: 'delete',
+        data:  element
+      }
+    });
+    data.afterClosed().subscribe((result: any) => {
+      if(result){
+        console.log(result);
+        this.loadAccountDetails();
+        this.loadLinkedAccountDetails();
+      }
     });
   }
 }

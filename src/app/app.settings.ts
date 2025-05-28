@@ -36,13 +36,37 @@ export let API = {
   //accounts apis
   getAccountDetails:(clientId:string) => {
     return (
-      API_URL + `accounts/clients/${clientId}`
+      API_URL + `clients/${clientId}/accounts`
     );
   },
 
   getLinkedAccountDetails:(clientId:string)=>{
     return (
-      API_URL + `accounts/clients/${clientId}/linked-accounts`
+      API_URL + `clients/${clientId}/linked-accounts`
+    )
+  },
+
+  updateAccountDetails: (account_id:string)=>{
+    return (
+      API_URL +`accounts/${account_id}`
+    )
+  },
+
+  deleteAccountDetails:(account_id:string)=>{
+    return (
+      API_URL + `accounts/${account_id}`
+    )
+  },
+
+  getAccountHolderDetails:(clientId:string)=>{
+    return (
+      API_URL + `clients/${clientId}/account-holders`
+    )
+  },
+
+  createAccount(){
+    return (
+      API_URL + `accounts`
     )
   },
 
