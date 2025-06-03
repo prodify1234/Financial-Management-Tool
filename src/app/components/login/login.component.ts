@@ -39,7 +39,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private loginService: LoginService, 
+    private loginService: LoginService,
     private snackbar : SnackbarService,
     private sharedService: SharedService,
     private authService: AuthService
@@ -57,7 +57,10 @@ export class LoginComponent {
     this.loader.update(() => true);
     this.loginService.login(this.loginForm.value).subscribe({
       next: (response:any)=>{
+        console.log('response.data:', response.data);
+        console.log('person_id:', response.data?.person_id);
         this.snackbar.success(response.message);
+        sessionStorage.setItem('person_id', response.data.person_id);
         this.authService.setCredentials({...response.data , clientId: response.data.client_id});
         this.router.navigate(['/home/dashboard']);
         this.loader.update(() => false);

@@ -10,7 +10,9 @@
       <input class="hidden" type="file" (change)="onFileChange($event)" #fileInput >
     </div>
 
-
+    <div *ngIf="uploadStatementForm.get('uploadFile')?.value as selectedFile" class="selected-file">
+      <p><strong>Selected File:</strong> {{ selectedFile.name }}</p>
+    </div>
   </div>
 
   <div mat-dialog-actions align="end">

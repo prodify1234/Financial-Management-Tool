@@ -86,4 +86,9 @@ export let API = {
 
   //package apis
   getAllPackages: () => API_URL + 'packages',
+
+  //file upload
+  uploadFile: () => API_URL + 'generate-upload-url',
+
+  validateFile: () => API_URL + 'validate-uploaded-file'
 };

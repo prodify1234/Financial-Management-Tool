@@ -4,6 +4,7 @@ interface Credentials {
   access_token: string;
   token_type: string;
   clientId: string;
+  person_id: string;
 }
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class AuthService {
         access_token: token,
         token_type: sessionStorage.getItem('token_type') as string,
         clientId: sessionStorage.getItem('clientId') as string,
+        person_id: sessionStorage.getItem('personId') as string,
       };
       this.setCredentials(credentials);
     }
@@ -31,6 +33,7 @@ export class AuthService {
     sessionStorage.setItem('clientId', credentials.clientId);
     sessionStorage.setItem('access_token', credentials.access_token);
     sessionStorage.setItem('token_type', credentials.token_type);
+    sessionStorage.setItem('personId', credentials.person_id)
     this.client_id = credentials.clientId;
   }
 
