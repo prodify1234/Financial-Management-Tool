@@ -90,5 +90,10 @@ export let API = {
   //file upload
   uploadFile: () => API_URL + 'generate-upload-url',
 
-  validateFile: () => API_URL + 'validate-uploaded-file'
+  validateFile: () => API_URL + 'validate-uploaded-file',
+
+  //transaction details apis
+  getTransactionDetails: (personId: string)=>{
+    return API_URL + `persons/${personId}/statement-uploads`
+  },
 };

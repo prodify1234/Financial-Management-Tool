@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FileUploadService } from '../../services/file-upload.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-upload-statement',
@@ -23,7 +24,8 @@ import { FileUploadService } from '../../services/file-upload.service';
     MatDialogClose,
     MatSnackBarModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    MatProgressBarModule
   ],
   standalone: true,
   templateUrl: './upload-statement.component.html',
@@ -33,7 +35,7 @@ export class UploadStatementComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput !: ElementRef<InputEvent>
   readonly dialogRef = inject(MatDialogRef<UploadStatementComponent>);
   uploadStatementForm !: FormGroup;
-
+  loader  = signal<boolean>(false);
   constructor(private snackbar: MatSnackBar, private fileUploadService: FileUploadService){}
 
   ngOnInit():void{
@@ -42,8 +44,14 @@ export class UploadStatementComponent implements AfterViewInit {
     });
   }
 
+  isUploading : boolean = false;
+
   onUpload(){
+    this.loader.update(()=> true)
     console.log(this.uploadStatementForm.value);
+    if (!this.uploadStatementForm.get('uploadFile')?.value) return;
+    this.isUploading = true;
+
     const data : File = this.uploadStatementForm.value.uploadFile;
 
     const body = {
@@ -73,17 +81,28 @@ export class UploadStatementComponent implements AfterViewInit {
         'file_key' : response.data.file_key
       }
 
-      this.fileUploadService.validateFile(validateBody).subscribe((response:any)=>{
+      this.fileUploadService.validateFile(validateBody).subscribe(
+        (response:any)=>{
         console.log('Validate file response: ', response);
+        this.loader.update(()=>false);
+        this.snackbar.open('File uploaded successfully', 'Close', {
+          duration: 3000,
+        });
+        this.dialogRef.close(response);
+      },(error: any) => {
+        console.log('Validation error:', error);
+        const errorMessage = error.statusText;
+        this.loader.update(() => false);
+        this.snackbar.open(errorMessage, 'Close', {
+          duration: 3000,
+        });
+        this.dialogRef.close(error);
       })
     })
-    this.snackbar.open('File uploaded successfully', 'Close', {
-      duration: 3000,
-    });
-    this.dialogRef.close('')
   }
 
   onCancel(){
+    this.isUploading = false;
     this.dialogRef.close('');
   }
 
