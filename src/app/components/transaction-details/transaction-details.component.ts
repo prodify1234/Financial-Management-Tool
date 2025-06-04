@@ -8,6 +8,7 @@ import { UploadStatementComponent } from '../upload-statement/upload-statement.c
 import { TransactionDetailsService } from '../../services/transaction-details.service';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
 
 export interface PeriodicElement {
   FileName: string;
@@ -22,7 +23,7 @@ export interface PeriodicElement {
 }
 @Component({
   selector: 'app-transaction-details',
-  imports: [MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule, TableShimmerComponent, MatPaginatorModule],
+  imports: [CommonModule,MatIconModule, MatButtonModule, MatTableModule, MatMenuModule, MatDialogModule, TableShimmerComponent, MatPaginatorModule],
   templateUrl: './transaction-details.component.html',
   styleUrl: './transaction-details.component.scss'
 })
