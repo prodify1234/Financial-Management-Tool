@@ -10,7 +10,11 @@ export class TransactionDetailsService {
   constructor(private http: HttpClient) { }
   personId = sessionStorage.getItem('personId') as string;
 
-  loadDetails(){
-    return this.http.get(API.getTransactionDetails(this.personId))
+  loadDetails(currentPage: any, rowsOnPage: any){
+    const params = {
+      page: currentPage,
+      page_size: rowsOnPage
+    };
+    return this.http.get(API.getTransactionDetails(this.personId), {params})
   }
 }

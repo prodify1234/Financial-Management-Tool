@@ -11,11 +11,13 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 export interface PeriodicElement {
   FileName: string;
-  CreatedAt: string;
   AccountType: string;
-  Provider: string;
   AccountNumber: string;
+  Provider: string;
   BeneficiaryName: string;
+  Status: string;
+  TransactionCount: string;
+  UploadedAt: string;
   actions?:string
 }
 @Component({
@@ -28,17 +30,19 @@ export class TransactionDetailsComponent implements OnInit {
 
   transactionColumns: string[] = [
     'FileName',
-    'CreatedAt',
     'AccountType',
-    'Provider',
     'AccountNumber',
+    'Provider',
     'BeneficiaryName',
+    'Status',
+    'TransactionCount',
+    'UploadedAt',
     'actions',
   ];
   currentPage = signal<number>(0);
   previousPage = signal<number | undefined>(0);
   rowsOnPage = signal<number>(10);
-  totalCategories = signal<number>(0);
+  totalTransactions = signal<number>(0);
 
   transactionSource : any[]=[];
   allTransactions : any[] =[];
@@ -53,16 +57,20 @@ export class TransactionDetailsComponent implements OnInit {
 
   loadTransactionDetails(){
     this.loader.update(() => true)
-    this.transactionDetailsService.loadDetails().subscribe((response:any)=>{
+    this.transactionDetailsService.loadDetails(this.currentPage() + 1, this.rowsOnPage()).subscribe((response:any)=>{
       console.log('Transaction Details Response: ', response);
+      this.totalTransactions.update(() => response?.data?.total);
       this.allTransactions = response.data.items;
       this.transactionSource = this.allTransactions.map((item:any)=>({
         id: item.id,
         FileName : item.file_name,
-        CreatedAt: new Date(item.created_at).toLocaleDateString('en-GB'),
         AccountType : item.account.account_type,
+        AccountNumber : item.account.account_number,
         Provider : item.account.provider,
         BeneficiaryName : item.account.beneficiary_name,
+        Status: item.upload_status,
+        TransactionCount: item.transaction_count,
+        UploadedAt: new Date(item.created_at).toLocaleDateString('en-GB'),
         actions : ''
       }))
       this.loader.update(()=> false)
@@ -85,5 +93,13 @@ export class TransactionDetailsComponent implements OnInit {
       this.loadTransactionDetails();
     }
   })
+  }
+
+  onPage(event: PageEvent) {
+    console.log(event);
+    this.currentPage.update(() => event.pageIndex);
+    this.rowsOnPage.update(() => event.pageSize);
+    this.previousPage.update(() => event.previousPageIndex);
+    this.loadTransactionDetails();
   }
 }

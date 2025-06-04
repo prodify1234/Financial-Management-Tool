@@ -32,10 +32,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrl: './upload-statement.component.scss'
 })
 export class UploadStatementComponent implements AfterViewInit {
-  @ViewChild('fileInput') fileInput !: ElementRef<InputEvent>
+
   readonly dialogRef = inject(MatDialogRef<UploadStatementComponent>);
   uploadStatementForm !: FormGroup;
   loader  = signal<boolean>(false);
+
+  currentPage = signal<number>(0);
+  previousPage = signal<number | undefined>(0);
+  rowsOnPage = signal<number>(10);
+  totalCategories = signal<number>(0);
+
   constructor(private snackbar: MatSnackBar, private fileUploadService: FileUploadService){}
 
   ngOnInit():void{
