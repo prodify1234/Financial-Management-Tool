@@ -22,10 +22,12 @@ export interface PeriodicElement {
 
 export interface LinkedAccount {
   name: string;
-  relationship: string;
   accountType: string;
   provider: string;
   accountNumber: string;
+  interestRate: string;
+  relationship: string;
+  actions?:string;
 }
 
 
@@ -50,11 +52,13 @@ export class AccountsComponent implements OnInit {
   accountsLoader  = signal<boolean>(false);
 
   linkedAccountColumns: string[] = [
-    'holder_name',
-    'relationship',
+    'beneficiary_name',
     'account_type',
     'provider',
-    'account_number'
+    'account_number',
+    'interest_rate',
+    'relationship',
+    'actions',
   ];
   linkedAccountSource : any[] = [];
   linkedAccounts:any[]=[];
@@ -95,11 +99,13 @@ export class AccountsComponent implements OnInit {
       this.linkedAccounts = response.data.accounts;
       this.linkedAccountSource = this.linkedAccounts.map((acc:any)=>({
         id: acc.id,
-        holder_name: acc.holder_name,
-        relationship: acc.relationship,
+        beneficiary_name: acc.beneficiary_name,
         account_type: acc.account_type,
         provider: acc.provider,
-        account_number: acc.account_number
+        account_number: acc.account_number,
+        interest_rate: acc.interest_rate,
+        relationship: acc.relationship,
+        actions: ''
       }))
       this.loader.update(()=> false)
     })
