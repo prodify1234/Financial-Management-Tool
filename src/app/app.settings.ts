@@ -96,4 +96,10 @@ export let API = {
   getTransactionDetails: (personId: string)=>{
     return API_URL + `persons/${personId}/statement-uploads`
   },
+  getTransactionDetailsById: (personId: string, transactionId: string) => {
+    return API_URL + `persons/${personId}/transactions/${transactionId}`;
+  },
+  getStatementDetailsById:(personId: string, transactionId: string) => {
+    return API_URL + `persons/${personId}/statement-uploads/${transactionId}`;
+  },
 };

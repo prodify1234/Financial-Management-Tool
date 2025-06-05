@@ -1,0 +1,124 @@
+<div class="transaction-view">
+  <!-- <div class="transaction-view__header">
+    <h3 class="transaction-view__title">Transaction View</h3> 
+  </div> -->
+  <app-breadcrumps></app-breadcrumps>
+  <div class="transaction-view-body">
+      <div class="transaction-view-body__header-card">
+        <div class="transaction-view-body__header-card__details">
+          <div class="transaction-attribute flex-24">
+            <span class="transaction-attribute__label">Beneficiary name</span>
+            <span class="transaction-attribute__value">{{statement?.account?.beneficiary_name }}</span>
+          </div>
+          <div class="transaction-attribute flex-24">
+            <span class="transaction-attribute__label">File Name</span>
+            <span class="transaction-attribute__value">{{ statement?.file_name}}</span>
+          </div>
+          <div class="transaction-attribute">
+            <span class="transaction-attribute__label">Account Type</span>
+            <span class="transaction-attribute__value">{{statement?.account?.account_type}}</span>
+          </div>
+          <div class="transaction-attribute">
+            <span class="transaction-attribute__label">Account Number</span>
+            <span class="transaction-attribute__value">{{statement?.account?.account_number}}</span>
+          </div>
+          <div class="transaction-attribute flex-24">
+            <span class="transaction-attribute__label">Provider</span>
+            <span class="transaction-attribute__value">{{statement?.account?.provider}}</span>
+          </div>
+         
+          <div class="transaction-attribute flex-24" >
+            <span class="transaction-attribute__label">Trans Count</span>
+            <span class="transaction-attribute__value">{{statement?.transaction_count}}</span>
+          </div>
+          <div class="transaction-attribute">
+            <span class="transaction-attribute__label">Status</span>
+            <span class="transaction-attribute__value badge badge-success">{{statement?.upload_status}}</span>
+          </div>
+          <div class="transaction-attribute">
+            <span class="transaction-attribute__label">Updated At</span>
+            <span class="transaction-attribute__value">{{statement.created_at | date}}</span>
+          </div>
+          
+        </div>
+        <div class="transaction-view-body__header-card__actions">
+          <button mat-mini-fab  type="button" #tooltip="matTooltip" matTooltip="Download" matTooltipHideDelay="100000" (click)="downloadFileFromS3()">
+            <mat-icon>download</mat-icon>
+          </button>
+        </div>
+      </div>
+  </div>
+
+  <div class="transaction-view-statements">
+    <div class="transaction-view-statements__header">
+      <h3 class="transaction-view-statements__title">Transaction List</h3>
+    </div>
+    <div class="transaction-view-statements__list">
+      <div class="transaction-view-statements__list-item">
+        <div class="transaction-view-statements__list-item__details">
+          <div class="transaction-view-statements__list-item__details__icon">
+            <mat-icon>event</mat-icon>
+            <div>
+              Aug 9, 2005
+            </div>
+          </div>
+          <div class="transaction-view-statements__list-item__details__data">
+            <div class="transaction-view-statements__list-item__details__data--description">Statement Description</div>
+            <div class="transaction-view-statements__list-item__details__data--id">XXXXXXXXXXXXXXXXXXXX</div>
+          </div>
+          <div class="transaction-view-statements__list-item__details__amount">
+              <mat-icon>currency_rupee</mat-icon>
+            <div class="transaction-view-statements__list-item__details__amount--content">
+               200000
+              <mat-icon class="danger">arrow_outward</mat-icon>
+            </div>
+          </div>
+          <div class="fill-space"></div>
+          <div class="transaction-view-statements__list-item__details__balance">
+            <div class="transaction-view-statements__list-item__details__balance--header">
+              Total Balance
+            </div>
+            <div class="transaction-view-statements__list-item__details__balance--amount">
+              <mat-icon>currency_rupee</mat-icon>
+              200000
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="transaction-view-statements__list-item">
+        <div class="transaction-view-statements__list-item__details">
+          <div class="transaction-view-statements__list-item__details__icon">
+            <mat-icon>event</mat-icon>
+            <div>
+              Aug 9, 2005
+            </div>
+          </div>
+          <div class="transaction-view-statements__list-item__details__data">
+            <div class="transaction-view-statements__list-item__details__data--description">Statement Description</div>
+            <div class="transaction-view-statements__list-item__details__data--id">XXXXXXXXXXXXXXXXXXXX</div>
+          </div>
+          <div class="transaction-view-statements__list-item__details__amount">
+              <mat-icon>currency_rupee</mat-icon>
+            <div class="transaction-view-statements__list-item__details__amount--content">
+               200000
+              <mat-icon class="success">call_received</mat-icon>
+            </div>
+          </div>
+          <div class="fill-space"></div>
+          <div class="transaction-view-statements__list-item__details__balance">
+            <div class="transaction-view-statements__list-item__details__balance--header">
+              Total Balance
+            </div>
+            <div class="transaction-view-statements__list-item__details__balance--amount">
+              <mat-icon>currency_rupee</mat-icon>
+              200000
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@
 @use "../src/app/sass/variables" as var;
 @use "../src/app/sass/dialog";
 @use "../src/app/sass/material-overrides";
+@use "../src/app/sass/flex";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 
@@ -55,10 +56,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: var.$background-color;
   display: flex;
   justify-content: center;
+  align-items: center;
   text-transform: uppercase;
-  width:74px;
+  width:74px !important;
+  height: 20px !important;
   font-weight: 900;
-  font-size: 10px;
+  font-size: 10px !important;
   border-radius: 10px;
 
   &-success {

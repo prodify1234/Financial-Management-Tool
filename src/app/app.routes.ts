@@ -14,6 +14,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { NetworthComponent } from './components/networth/networth.component';
 import { CashflowsComponent } from './components/cashflows/cashflows.component';
 import { NetworthTrendsComponent } from './components/networth-trends/networth-trends.component';
+import { TransactionDetailsViewComponent } from './components/transaction-details-view/transaction-details-view.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -27,7 +28,10 @@ export const routes: Routes = [
       {path: 'accounts', component: AccountsComponent},
       {path: 'packages' , component: PackagesComponent},
       {path: 'financial-items' , component: FinancialItemsComponent },
-      {path: 'transaction-details', component: TransactionDetailsComponent},
+      {path: 'transaction-details' , children : [
+        { path : "" , component: TransactionDetailsComponent },
+        { path : "view",component: TransactionDetailsViewComponent },
+      ]},
       {path: 'categories', component: CategoriesComponent},
       {path: 'networth', component: NetworthComponent},
       {path: 'cashflows', component: CashflowsComponent},

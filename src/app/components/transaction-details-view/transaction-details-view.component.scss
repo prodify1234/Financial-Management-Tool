@@ -1,0 +1,176 @@
+@use "../../sass/variables" as var;
+
+
+.transaction-view {
+  display: flex;
+  flex-direction: column;
+  gap:16px;
+  &__header {
+    margin-top: 10px;
+    color: var.$primary-color;
+  }
+
+  &-body {
+    &__header-card {
+      height: 120px;
+      width: 100%;
+      padding: 12px 20px;
+      // background-color: var.$background-color;
+      border-radius: 4px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: row;
+      gap:8px;
+      flex-wrap: wrap;
+      &__details {
+        display: flex;
+        flex: 0 0 80%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap:4px
+      }
+      &__actions {
+        display: flex;
+        width: auto;
+        flex: 1 1 auto;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  &-statements {
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+
+    &__header {
+      color: var.$primary-color;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: auto;
+      gap:8px;
+      &-item {
+        height :80px;
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: row;
+        border: 1px solid var.$border-color;
+        border-radius: 4px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        &__details {
+          flex: 1 1 80%;
+          display: flex;
+          justify-content: start;
+          gap:28px;
+         
+          &__icon {
+            max-width: 100px;
+            align-self: center;
+            flex: 1 1 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap:8px;
+            color: var.$primary-color;
+            .mat-icon {
+              color: var.$primary-color;
+              width: 32px;
+              height: 32px;
+              font-size: 32px;
+            }
+          }
+
+          &__data {
+            justify-self: start;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 25%;
+            gap: 4px;
+            max-width: 400px;
+            &--description {
+              text-overflow: ellipsis;
+            }
+
+            &--id {
+              font-size: 12px;
+              width: 200px;
+              background-color: var.$light-grey;
+              text-align: center;
+              padding: 4px 8px;
+              border-radius: 4px;
+            }
+          }
+          &__amount {
+            flex: 1 1 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            &--header {
+              .mat-icon {
+                padding: 0;
+              }
+            }
+            &--content{
+              display: flex;
+              align-items: center;
+              gap: 4px;
+            }
+          }
+          &__balance {
+            // flex: 1 1 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            gap: 8px;
+            &--amount {
+              font-size: 28px;
+              font-weight: 700;
+              color: var.$primary-color;
+              display: flex;
+              align-items: center;
+            }
+          }
+        
+        }
+      }
+    }
+
+  }
+}
+
+.transaction-attribute {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 48px;
+  flex: 0 0 20%;
+  &__label {
+    font-weight: 300;
+    font-size: 12px;   
+  }
+  &__value {
+    font-size: 16px;
+    font-weight: 400;
+    height: auto
+  }
+}
+
+.success {
+  color: var.$success-color;
+}
+.warning {
+  color: var.$warning-color;
+}
+.danger {
+  color: var.$danger-color;
+}

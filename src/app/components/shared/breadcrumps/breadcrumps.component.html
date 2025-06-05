@@ -1,0 +1,17 @@
+<div class="bread-crump">
+  <ul class="bread-crump__list">
+    @for (item of breadCrumpList; track $index; let index = $index) {
+      @if(index > 1) {
+        <li class="bread-crump__list-item" [class.gap--8px]="index === 2">
+          @if(index == 2 ){
+            <mat-icon >home</mat-icon>
+            <a class="sentence-case"> {{item}}</a>
+          } @else {
+            <mat-icon>chevron_right</mat-icon>
+            <a class="sentence-case"> {{item}}</a>
+          }
+        </li>
+      }
+    }
+  </ul>
+</div>

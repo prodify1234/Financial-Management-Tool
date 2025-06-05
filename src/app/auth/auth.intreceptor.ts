@@ -15,6 +15,12 @@ export const authInterceptor: HttpInterceptorFn = (
 ): Observable<HttpEvent<any>> => {
   const router = inject(Router)
   const authToken = sessionStorage.getItem('access_token'); // You can inject a service if needed
+  
+  if (req.headers.has('X-Skip-Interceptor')) {
+    const newHeaders = req.headers.delete('X-Skip-Interceptor');
+    const cleanReq = req.clone({ headers: newHeaders });
+    return next(cleanReq);
+  }
 
   const cloned = req.clone({
     setHeaders: {
