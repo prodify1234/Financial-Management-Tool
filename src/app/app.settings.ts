@@ -102,4 +102,7 @@ export let API = {
   getStatementDetailsById:(personId: string, transactionId: string) => {
     return API_URL + `persons/${personId}/statement-uploads/${transactionId}`;
   },
+  getTransactionsByStatementId:(accountId: string, statementId: string) => {
+    return API_URL + `analyze/account/${accountId}/transactions/${statementId}`;
+  }
 };

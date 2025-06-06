@@ -28,5 +28,7 @@ export class TransactionDetailsService {
     return this.http.get(API.getStatementDetailsById(this.personId, transactionId));
   }
 
-
+  getTransactionsByStatementId(accountId:any, statementId:any){
+    return this.http.post(API.getTransactionsByStatementId(accountId, statementId), {});
+  }
 }

@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 export interface PeriodicElement {
+  id: string,
+  account_id: string,
   FileName: string;
   AccountType: string;
   AccountNumber: string;
@@ -63,7 +65,7 @@ export class TransactionDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private auth = inject(AuthService)
-  
+
   ngOnInit(): void {
     this.loadTransactionDetails();
     console.log(this.route.pathFromRoot)
@@ -86,6 +88,7 @@ export class TransactionDetailsComponent implements OnInit {
         this.allTransactions = response.data.items;
         this.transactionSource = this.allTransactions.map((item: any) => ({
           id: item.id,
+          account_id: item.account.id,
           FileName: item.file_name,
           AccountType: item.account.account_type,
           AccountNumber: item.account.account_number,
@@ -130,5 +133,12 @@ export class TransactionDetailsComponent implements OnInit {
   onView(element: any ){
     console.log('View Element: ', element);
     this.router.navigate(['view'], { queryParams : { person_id : this.auth.clientId , statement_id: element.id} , relativeTo: this.route });
+  }
+
+  onAnalyze(element:any) {
+    console.log('Analyze Element: ', element);
+    console.log('account ID: ', element.account_id);
+    console.log('statement ID: ', element.id);
+    this.router.navigate(['analyze'], {queryParams : {account_id: element.account_id, statement_id: element.id}, relativeTo: this.route});
   }
 }
