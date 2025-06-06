@@ -129,6 +129,6 @@ export class TransactionDetailsComponent implements OnInit {
 
   onView(element: any ){
     console.log('View Element: ', element);
-    this.router.navigate(['view'], { queryParams : { person_id : this.auth.clientId , statement_id: element.id} , relativeTo: this.route });
+    this.router.navigate(['view'], { queryParams : { person_id : this.auth.personId , statement_id: element.id} , relativeTo: this.route });
   }
 }

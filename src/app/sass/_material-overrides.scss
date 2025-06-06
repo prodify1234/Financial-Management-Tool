@@ -64,3 +64,10 @@
 .mat-mdc-paginator {
   margin-top: 8px;
 }
+
+.mat-cell, .mat-header-cell {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center;     /* Vertical centering */
+}
+

@@ -11,6 +11,8 @@ interface Credentials {
 })
 export class AuthService {
   private client_id!: string;
+  private person_id!: string;
+
   clientDetails!: Credentials;
 
   constructor() {
@@ -35,6 +37,7 @@ export class AuthService {
     sessionStorage.setItem('token_type', credentials.token_type);
     sessionStorage.setItem('personId', credentials.person_id)
     this.client_id = credentials.clientId;
+    this.person_id = credentials.person_id;
   }
 
   get client() {
@@ -43,5 +46,8 @@ export class AuthService {
 
   get clientId() {
     return this.client_id;
+  }
+  get personId(){
+    return this.person_id
   }
 }

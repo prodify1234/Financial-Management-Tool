@@ -26,6 +26,9 @@
             background-color: var.$primary-color;
             border-radius: 20px;
             color: var.$background-color;
+            .mat-icon {
+              color: var.$background-color;
+            }
           }
           a {
             text-decoration: none;

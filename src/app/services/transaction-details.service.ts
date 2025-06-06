@@ -20,8 +20,13 @@ export class TransactionDetailsService {
   }
 
 
-  getTransactionDetailsView(person_id : string , transactionId: string){
-    return this.http.get(API.getTransactionDetailsById(this.personId, transactionId));
+  getTransactionDetailsView(body:any,pageNumber: number , rowsOnPage : number){
+    return this.http.post(API.getTransactionDetailsById(),body , {
+      params : {
+        page : pageNumber,
+        page_size : rowsOnPage
+      }
+    });
   }
 
   getStatementDetailsById(person_id:string , transactionId:string){

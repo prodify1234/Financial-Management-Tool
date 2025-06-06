@@ -12,7 +12,7 @@
           </div>
           <div class="transaction-attribute flex-24">
             <span class="transaction-attribute__label">File Name</span>
-            <span class="transaction-attribute__value">{{ statement?.file_name}}</span>
+            <span class="transaction-attribute__value text-ellipses">{{ statement?.file_name}}</span>
           </div>
           <div class="transaction-attribute">
             <span class="transaction-attribute__label">Account Type</span>
@@ -42,83 +42,163 @@
           
         </div>
         <div class="transaction-view-body__header-card__actions">
-          <button mat-mini-fab  type="button" #tooltip="matTooltip" matTooltip="Download" matTooltipHideDelay="100000" (click)="downloadFileFromS3()">
+          <button mat-mini-fab  type="button" #tooltip="matTooltip" matTooltip="Download" matTooltipHideDelay="100" (click)="downloadFileFromS3()">
             <mat-icon>download</mat-icon>
           </button>
         </div>
       </div>
   </div>
-
-  <div class="transaction-view-statements">
-    <div class="transaction-view-statements__header">
-      <h3 class="transaction-view-statements__title">Transaction List</h3>
-    </div>
-    <div class="transaction-view-statements__list">
-      <div class="transaction-view-statements__list-item">
-        <div class="transaction-view-statements__list-item__details">
-          <div class="transaction-view-statements__list-item__details__icon">
-            <mat-icon>event</mat-icon>
-            <div>
-              Aug 9, 2005
-            </div>
-          </div>
-          <div class="transaction-view-statements__list-item__details__data">
-            <div class="transaction-view-statements__list-item__details__data--description">Statement Description</div>
-            <div class="transaction-view-statements__list-item__details__data--id">XXXXXXXXXXXXXXXXXXXX</div>
-          </div>
-          <div class="transaction-view-statements__list-item__details__amount">
-              <mat-icon>currency_rupee</mat-icon>
-            <div class="transaction-view-statements__list-item__details__amount--content">
-               200000
-              <mat-icon class="danger">arrow_outward</mat-icon>
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="transaction-view-statements__list-item__details__balance">
-            <div class="transaction-view-statements__list-item__details__balance--header">
-              Total Balance
-            </div>
-            <div class="transaction-view-statements__list-item__details__balance--amount">
-              <mat-icon>currency_rupee</mat-icon>
-              200000
+  <div class="tranction-view-content">
+    <div class="transaction-view-statements">
+      <div class="transaction-view-statements__header">
+        <h3 class="transaction-view-statements__title">Transaction List</h3>
+        <div class="fill-space">
+        </div>
+        <div class="transaction-view-statements__toogle">
+          <mat-button-toggle-group name="view" aria-label="Transaction view" [value]="viewType()">
+            <mat-button-toggle type="button" value="table" #tooltip="matTooltip" matTooltip="Table view" matTooltipHideDelay="100" (click)="onToggle('table')"> <mat-icon class="primary">grid_on</mat-icon></mat-button-toggle>
+            <!-- <mat-button-toggle value="italic">Italic</mat-button-toggle> -->
+            <mat-button-toggle type="button" value="list" #tooltip="matTooltip" matTooltip="List view" matTooltipHideDelay="100" (click)="onToggle('list')"><mat-icon class="primary">table_rows</mat-icon></mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      @if(viewType() === 'list'){
+        <div class="transaction-view-statements__list">
+          @for(transaction of transactionsList; track transaction.id; let i = $index) {
+            <div class="transaction-view-statements__list-item">
+              <div class="transaction-view-statements__list-item__details">
+                <div class="transaction-view-statements__list-item__details__icon">
+                  <mat-icon>event</mat-icon>
+                  <div>
+                   {{ transaction.transaction_date | date}}
+                  </div>
+                </div>
+                <div class="transaction-view-statements__list-item__details__data">
+                  <div class="transaction-view-statements__list-item__details__data--description text-ellipses">{{transaction.description}}</div>
+                  <!-- <div class="transaction-view-statements__list-item__details__data--id">{{transaction.id}}</div> -->
+                </div>
+                <div class="transaction-view-statements__list-item__details__amount">
+                    <mat-icon>currency_rupee</mat-icon>
+                  <div class="transaction-view-statements__list-item__details__amount--content">
+                      {{ transaction.debit}}
+                    <mat-icon class="danger">arrow_outward</mat-icon>
+                  </div>
+                </div>
+                <div class="fill-space"></div>
+                <div class="transaction-view-statements__list-item__details__balance">
+                  <div class="transaction-view-statements__list-item__details__balance--header">
+                    Total Balance
+                  </div>
+                  <div class="transaction-view-statements__list-item__details__balance--amount">
+                    <mat-icon>currency_rupee</mat-icon>
+                    {{transaction.amount}}
+                  </div>
+                  
+                </div>
+              </div>
             </div>
             
-          </div>
+          }
+          <!-- <div class="transaction-view-statements__list-item">
+            <div class="transaction-view-statements__list-item__details">
+              <div class="transaction-view-statements__list-item__details__icon">
+                <mat-icon>event</mat-icon>
+                <div>
+                  Aug 9, 2005
+                </div>
+              </div>
+              <div class="transaction-view-statements__list-item__details__data">
+                <div class="transaction-view-statements__list-item__details__data--description">Statement Description</div>
+                <div class="transaction-view-statements__list-item__details__data--id">XXXXXXXXXXXXXXXXXXXX</div>
+              </div>
+              <div class="transaction-view-statements__list-item__details__amount">
+                  <mat-icon>currency_rupee</mat-icon>
+                <div class="transaction-view-statements__list-item__details__amount--content">
+                   200000
+                  <mat-icon class="success">call_received</mat-icon>
+                </div>
+              </div>
+              <div class="fill-space"></div>
+              <div class="transaction-view-statements__list-item__details__balance">
+                <div class="transaction-view-statements__list-item__details__balance--header">
+                  Total Balance
+                </div>
+                <div class="transaction-view-statements__list-item__details__balance--amount">
+                  <mat-icon>currency_rupee</mat-icon>
+                  200000
+                </div>
+              </div>
+            </div>
+          </div> -->
+    
+    
         </div>
-      </div>
-      <div class="transaction-view-statements__list-item">
-        <div class="transaction-view-statements__list-item__details">
-          <div class="transaction-view-statements__list-item__details__icon">
-            <mat-icon>event</mat-icon>
-            <div>
-              Aug 9, 2005
-            </div>
-          </div>
-          <div class="transaction-view-statements__list-item__details__data">
-            <div class="transaction-view-statements__list-item__details__data--description">Statement Description</div>
-            <div class="transaction-view-statements__list-item__details__data--id">XXXXXXXXXXXXXXXXXXXX</div>
-          </div>
-          <div class="transaction-view-statements__list-item__details__amount">
-              <mat-icon>currency_rupee</mat-icon>
-            <div class="transaction-view-statements__list-item__details__amount--content">
-               200000
-              <mat-icon class="success">call_received</mat-icon>
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="transaction-view-statements__list-item__details__balance">
-            <div class="transaction-view-statements__list-item__details__balance--header">
-              Total Balance
-            </div>
-            <div class="transaction-view-statements__list-item__details__balance--amount">
-              <mat-icon>currency_rupee</mat-icon>
-              200000
-            </div>
-          </div>
-        </div>
-      </div>
+      }@else{
+        @if(loader()){
+          <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
+        }@else {
+          <table mat-table [dataSource]="transactionsList" class="mat-elevation-z8">
+  
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="transaction_date">
+              <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.transaction_date | date}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="debit">
+              <th mat-header-cell *matHeaderCellDef> Debit </th>
+              <td mat-cell *matCellDef="let element"> 
+                <div class="transaction-amount">
+                  <mat-icon>currency_rupee</mat-icon>
+                  {{element.debit}} 
+                  <!-- <mat-icon class="danger">arrow_outward</mat-icon> -->
+                </div>
+              </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="credit">
+              <th mat-header-cell *matHeaderCellDef> Credit </th>
+              <td mat-cell *matCellDef="let element"> 
+                <div class="transaction-amount">
+                  <mat-icon>currency_rupee</mat-icon>
+                  {{element.debit}} 
+                  <!-- <mat-icon class="danger">arrow_outward</mat-icon> -->
+                </div>
+               </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        }
 
-
+      }
+      
+      <mat-paginator [length]="totalTransactions()"
+                [pageSize]="rowsOnPage()"
+                [pageIndex]="currentPage()"
+                [showFirstLastButtons]="true"
+                (page)="onPage($event)"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page">
+      </mat-paginator>
     </div>
+
   </div>
 </div>

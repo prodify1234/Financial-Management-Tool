@@ -44,6 +44,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: var.$primary-color;
   color: var.$background-color !important;
   border-radius: 20px;
+  .mat-icon {
+    color : var.$background-color
+  }
 }
 
 
@@ -91,4 +94,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .hidden {
   display: none;
+}
+
+.text-ellipses {
+  text-overflow: ellipsis;
 }

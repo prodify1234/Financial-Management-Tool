@@ -1,13 +1,13 @@
 @use "../../sass/variables" as var;
 
-
 .transaction-view {
   display: flex;
   flex-direction: column;
-  gap:16px;
+  gap: 16px;
   &__header {
     margin-top: 10px;
     color: var.$primary-color;
+   
   }
 
   &-body {
@@ -20,7 +20,7 @@
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: row;
-      gap:8px;
+      gap: 8px;
       flex-wrap: wrap;
       &__details {
         display: flex;
@@ -28,7 +28,7 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap:4px
+        gap: 4px;
       }
       &__actions {
         display: flex;
@@ -43,10 +43,12 @@
   &-statements {
     display: flex;
     flex-direction: column;
-    gap:16px;
+    gap: 16px;
 
     &__header {
       color: var.$primary-color;
+      display: flex;
+      align-items: center;
     }
 
     &__list {
@@ -54,9 +56,9 @@
       flex-direction: column;
       justify-content: center;
       height: auto;
-      gap:8px;
+      gap: 8px;
       &-item {
-        height :80px;
+        height: 80px;
         padding: 8px 16px;
         display: flex;
         flex-direction: row;
@@ -67,16 +69,15 @@
           flex: 1 1 80%;
           display: flex;
           justify-content: start;
-          gap:28px;
-         
+          gap: 28px;
+
           &__icon {
-            max-width: 100px;
             align-self: center;
-            flex: 1 1 25%;
+            flex: 1 1 10%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap:8px;
+            gap: 8px;
             color: var.$primary-color;
             .mat-icon {
               color: var.$primary-color;
@@ -90,7 +91,7 @@
             justify-self: start;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: start;
             justify-content: center;
             flex: 1 1 25%;
             gap: 4px;
@@ -119,7 +120,7 @@
                 padding: 0;
               }
             }
-            &--content{
+            &--content {
               display: flex;
               align-items: center;
               gap: 4px;
@@ -140,11 +141,9 @@
               align-items: center;
             }
           }
-        
         }
       }
     }
-
   }
 }
 
@@ -156,13 +155,18 @@
   flex: 0 0 20%;
   &__label {
     font-weight: 300;
-    font-size: 12px;   
+    font-size: 12px;
   }
   &__value {
     font-size: 16px;
     font-weight: 400;
-    height: auto
   }
+}
+
+.transaction-amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .success {
