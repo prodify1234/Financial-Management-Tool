@@ -1,53 +1,28 @@
-.transaction-card {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background-color: #fff;
+.container {
+  margin: 24px;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 24px 0px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+table {
+  width: 100%;
+}
+
+.chip {
+  background-color: #00cfe8;
+  color: white;
+  padding: 4px 8px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
-
-  &__title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #333;
-  }
-
-  &__icon {
-    font-size: 1.2rem;
-    color: #666;
-  }
-
-  &__field {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-
-  &__field-icon {
-    font-size: 1rem;
-    color: #888;
-    margin-top: 2px;
-  }
-
-  &__label {
-    font-weight: 600;
-    color: #444;
-    margin-right: 0.25rem;
-  }
-
-  &__value {
-    color: #222;
-
-    &--processing {
-      color: #f39c12;
-      font-weight: bold;
-    }
-  }
+  font-size: 12px;
 }

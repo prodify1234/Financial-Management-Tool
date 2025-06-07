@@ -31,4 +31,13 @@ export class TransactionDetailsService {
   getTransactionsByStatementId(accountId:any, statementId:any){
     return this.http.post(API.getTransactionsByStatementId(accountId, statementId), {});
   }
+
+  getTransactionAnalysis(personId:any, statementId: any){
+    //const personId = sessionStorage.getItem('personId')
+    const body = {
+      person_id_in : [personId],
+      statement_upload_id_in : [statementId]
+    }
+    return this.http.post(API.getTransactionAnalysis(), body)
+  }
 }

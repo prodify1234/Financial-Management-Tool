@@ -11,18 +11,17 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 export interface PeriodicElement {
   id: string,
   account_id: string,
   FileName: string;
   AccountType: string;
-  AccountNumber: string;
   Provider: string;
   BeneficiaryName: string;
-  Status: string;
-  TransactionCount: string;
-  UploadedAt: string;
+  UploadStatus: string;
+  AnalysisStatus: string
   actions?: string;
 }
 @Component({
@@ -45,14 +44,14 @@ export class TransactionDetailsComponent implements OnInit {
   transactionColumns: string[] = [
     'FileName',
     'AccountType',
-    'AccountNumber',
     'Provider',
     'BeneficiaryName',
-    'Status',
-    'TransactionCount',
-    'UploadedAt',
+    'UploadStatus',
+    'AnalysisStatus',
     'actions',
   ];
+  loader = signal<boolean>(false);
+
   currentPage = signal<number>(0);
   previousPage = signal<number | undefined>(0);
   rowsOnPage = signal<number>(10);
@@ -64,14 +63,14 @@ export class TransactionDetailsComponent implements OnInit {
   /**Dependencies */
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private auth = inject(AuthService)
+  private auth = inject(AuthService);
+  private snackbar = inject(SnackbarService)
+  private transactionService = inject(TransactionDetailsService);
 
   ngOnInit(): void {
     this.loadTransactionDetails();
     console.log(this.route.pathFromRoot)
   }
-
-  loader = signal<boolean>(false);
 
   constructor(
     private matDialog: MatDialog,
@@ -91,12 +90,10 @@ export class TransactionDetailsComponent implements OnInit {
           account_id: item.account.id,
           FileName: item.file_name,
           AccountType: item.account.account_type,
-          AccountNumber: item.account.account_number,
           Provider: item.account.provider,
           BeneficiaryName: item.account.beneficiary_name,
-          Status: item.upload_status,
-          TransactionCount: item.transaction_count,
-          UploadedAt: item.created_at,
+          UploadStatus: item.upload_status,
+          AnalysisStatus: item.overall_analysis_status,
           actions: '',
         }));
         this.loader.update(() => false);
@@ -139,6 +136,27 @@ export class TransactionDetailsComponent implements OnInit {
     console.log('Analyze Element: ', element);
     console.log('account ID: ', element.account_id);
     console.log('statement ID: ', element.id);
-    this.router.navigate(['analyze'], {queryParams : {account_id: element.account_id, statement_id: element.id}, relativeTo: this.route});
+    //this.router.navigate(['analyze'], {queryParams : {account_id: element.account_id, statement_id: element.id}, relativeTo: this.route});
+
+    this.getTransactionsByStatementId(element.account_id, element.id);
+  }
+
+  viewAnalysis(element:any) {
+    console.log('View Analysis Element: ', element);
+    console.log('account ID: ', element.account_id);
+    console.log('statement ID: ', element.id);
+
+    const person_id = sessionStorage.getItem('personId');
+    const statement_upload_id= element.id;
+
+    this.router.navigate(['analysis'], {queryParams: {person_id: person_id, statement_upload_id}, relativeTo: this.route});
+  }
+
+  getTransactionsByStatementId(accountId : any, statementId: any){
+    this.transactionService.getTransactionsByStatementId(accountId, statementId).subscribe((response:any)=>{
+      console.log('Transactions By statement ID Response: ', response)
+      this.snackbar.open(response.data.message, 'Close', 3000);
+      this.loadTransactionDetails();
+    })
   }
 }

@@ -27,5 +27,13 @@
   &-body{
     width: 100%;
     padding-top: 28px;
+
+    .action-header{
+      text-align: center;
+    }
+
+    .actions {
+      display: flex;
+    }
   }
 }
