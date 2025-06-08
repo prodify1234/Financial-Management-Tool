@@ -3,54 +3,83 @@
 .login {
   display: flex;
   height: 100vh;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: start;
   align-items: center;
 
-
+  &_image {
+    flex: 1 1 70%;
+   
+  }
 
   &-container {
-  background-color: #fff;
-  padding: 20px;
-  width: 500px;
-  border-radius: 5px;
+    flex: 1 1 30%;
+    height: 100vh;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // gap:16px;
 
-  &__header{
-    width: 100%;
-    text-align: center;
-    padding: 0px 20px 20px 20px;
-  }
+    &__content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      gap: 16px;
+      // align-items: center;
+      justify-content: center;
 
-  &__form-container{
-    &__form{
-      .mat-mdc-form-field{
+      &__header {
         width: 100%;
-
-        .mdc-text-field--filled{
-          background-color: whitesmoke !important;
+      }
+  
+      &__form-container {
+        &__form {
+          .mat-mdc-form-field {
+            width: 100%;
+  
+            .mdc-text-field--filled {
+              background-color: whitesmoke !important;
+            }
+          }
+  
+          button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            // background-color: #4361EE;
+            color: white;
+            font-weight: bold;
+          }
         }
       }
-
-      button {
+  
+      &__footer {
         width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        // background-color: #4361EE;
-        color: white;
-        font-weight: bold;
+        text-align: center;
+        line-height: 50px;
+        margin-top: 20px;
       }
     }
-  }
 
-  &__footer{
-    width: 100%;
-    text-align: center;
-    line-height: 50px;
-    margin-top: 20px;
   }
+}
+@keyframes loginImage {
+  0% {
+    transform: opacity(0);
   }
+  50% {
+    transform: opacity(1);
+  }
+  100%{
+    transform: opacity(0);
+  }
+  
 }
 // .mat-mdc-progress-bar{
 //   width: 500px !important;

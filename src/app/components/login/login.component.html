@@ -1,41 +1,52 @@
+@if(loader()){
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
 
 <div class="login">
-  <div class="login-wrapper">
-    @if(loader()){
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    }
+   @if(Index() % 3 === 0){
+    <img class="login_image" src="public/loginImage.png" alt="Login Image">
+   }@else if( Index() % 3 === 1){
+    <img class="login_image" src="public/loginImage2.png" alt="Login Image">
+   }@else {
+    <img class="login_image" src="public/loginImage3.png" alt="Login Image">
+   }
+ 
+   
     <div class="login-container" [class.disabled]="loader()">
-      <div class="login-container__header">
-        <h2>Financial Tool</h2>
-      </div>
-    
-      <div class="login-container__form-container">
-        <div class="login-container__form-container__form" >
-          <form [formGroup]="loginForm">
-      
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email">
-            </mat-form-field>
-      
-            <br>
-      
-            <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input matInput type="password" formControlName="password">
-            </mat-form-field>
-          </form>
-          <br>
-          <button mat-flat-button type="button" [disabled]="!loginForm.valid" (click)="onSubmit()">Login</button>
+     
+      <div class="login-container__content">
+        <div class="login-container__content__header">
+          <h1>Login</h1>
         </div>
-      </div>
-    
-      <div class="login-container__footer">
-        Don't have an account. <a routerLink="/register">Register Now</a>
+  
+        <div class="login-container__content__form-container">
+          <div class="login-container__content__form-container__form" >
+            <form [formGroup]="loginForm">
+        
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email">
+              </mat-form-field>
+        
+              <br>
+        
+              <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password">
+              </mat-form-field>
+            </form>
+            <br>
+            <button mat-flat-button type="button" [disabled]="!loginForm.valid" (click)="onSubmit()">Login</button>
+          </div>
+        </div>
+      
+        <div class="login-container__content__footer">
+          Don't have an account. <a routerLink="/register">Register Now</a>
+        </div>
+
       </div>
     </div>
-
-  </div>
 
  
 </div>

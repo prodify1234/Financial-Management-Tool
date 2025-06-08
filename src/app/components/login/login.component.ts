@@ -35,6 +35,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   loginForm!: FormGroup;
   loader = signal<boolean>(false);
+  Index = signal<number>(0);
 
   constructor(
     private router: Router,
@@ -43,7 +44,12 @@ export class LoginComponent {
     private snackbar : SnackbarService,
     private sharedService: SharedService,
     private authService: AuthService
-  ) {}
+  ) {
+
+    setInterval(() => {
+     this.Index.update((value) => value + 1 );
+    },6000);
+  }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
