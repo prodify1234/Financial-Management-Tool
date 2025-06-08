@@ -13,17 +13,31 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { TableShimmerComponent } from "../shared/table-shimmer/table-shimmer.component";
+import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
+import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.component';
 
 @Component({
   selector: 'app-transaction-details-analyze',
-  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, MatSliderModule, MatTableModule, MatButtonModule, MatProgressBarModule, FormsModule, CommonModule, RouterModule, MatPaginatorModule, TableShimmerComponent],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatSliderModule,
+    MatTableModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    MatPaginatorModule,
+    TableShimmerComponent,
+    BreadcrumpsComponent,
+  ],
   templateUrl: './transaction-details-analyze.component.html',
-  styleUrl: './transaction-details-analyze.component.scss'
+  styleUrl: './transaction-details-analyze.component.scss',
 })
 export class TransactionDetailsAnalyzeComponent implements OnInit {
-
-  transactionColumns:string[]=[
+  transactionColumns: string[] = [
     'date',
     'account_Provider',
     'amount',
@@ -32,7 +46,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     'confidence_Score',
     'credit',
     'debit',
-    'manually_Overridden'
+    'manually_Overridden',
   ];
   loader = signal<boolean>(false);
 
@@ -65,32 +79,39 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
 
   viewTransactionAnalysis() {
     this.loader.update(() => true);
-    this.route.queryParams.subscribe((params:any) => {
-      this.personId = params['person_id'],
-      this.statementId = params['statement_upload_id']
+    this.route.queryParams.subscribe((params: any) => {
+      (this.personId = params['person_id']),
+        (this.statementId = params['statement_upload_id']);
 
       console.log('Person ID: ', this.personId);
       console.log('Statement ID: ', this.statementId);
-    })
+    });
 
-    this.transactionService.viewTransactionAnalysis(this.currentPage() + 1, this.rowsOnPage(), this.personId, this.statementId).subscribe((response:any)=>{
-      console.log('View Transaction Analysis Response: ', response);
-      this.totalTransactions.update(() => response?.data?.total);
-      this.allTransactions = response.data.items;
-      console.log('All transactions: ', this.allTransactions)
-      this.transactionSource = this.allTransactions.map((item:any)=>({
-        date: new Date(item.transaction_date).toLocaleDateString('en-GB'),
-        account_Provider: item.account_provider,
-        amount: item.amount,
-        classification: item.classification,
-        sub_Classification: item.sub_classification,
-        confidence_Score: item.confidence_score,
-        credit: item.credit,
-        debit: item.debit,
-        manually_Overridden: item.manually_overridden
-      }))
-      this.loader.update(() => false);
-    })
+    this.transactionService
+      .viewTransactionAnalysis(
+        this.currentPage() + 1,
+        this.rowsOnPage(),
+        this.personId,
+        this.statementId
+      )
+      .subscribe((response: any) => {
+        console.log('View Transaction Analysis Response: ', response);
+        this.totalTransactions.update(() => response?.data?.total);
+        this.allTransactions = response.data.items;
+        console.log('All transactions: ', this.allTransactions);
+        this.transactionSource = this.allTransactions.map((item: any) => ({
+          date: new Date(item.transaction_date).toLocaleDateString('en-GB'),
+          account_Provider: item.account_provider,
+          amount: item.amount,
+          classification: item.classification,
+          sub_Classification: item.sub_classification,
+          confidence_Score: item.confidence_score,
+          credit: item.credit,
+          debit: item.debit,
+          manually_Overridden: item.manually_overridden,
+        }));
+        this.loader.update(() => false);
+      });
   }
 
   onPage(event: PageEvent) {
@@ -100,5 +121,4 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     this.previousPage.update(() => event.previousPageIndex);
     this.viewTransactionAnalysis();
   }
-
 }

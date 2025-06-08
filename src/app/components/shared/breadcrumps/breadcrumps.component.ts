@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +14,7 @@ export class BreadcrumpsComponent implements OnInit {
    breadCrumpList : any = [];
   /** Dependencies */
   private route = inject(ActivatedRoute);
+  private router = inject(Router)
 
 
 
@@ -27,6 +28,14 @@ export class BreadcrumpsComponent implements OnInit {
     this.route.pathFromRoot.forEach((route) => {
       this.breadCrumpList.push(route.snapshot.routeConfig?.path)
     })
+  }
+
+  onItemClick(item: string) {
+    this.router.navigate([`/home/${item}`]);
+  }
+
+  onHome(){
+      this.router.navigate(['/home/dashboard'])
   }
  
 }

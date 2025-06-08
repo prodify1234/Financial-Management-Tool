@@ -4,8 +4,8 @@
       @if(index > 1) {
         <li class="bread-crump__list-item" [class.gap--8px]="index === 2">
           @if(index == 2 ){
-            <mat-icon >home</mat-icon>
-            <a class="sentence-case"> {{item}}</a>
+            <mat-icon (click)="onHome()">home</mat-icon>
+            <a class="sentence-case" (click)="onItemClick(item)"> {{item}}</a>
           } @else {
             <mat-icon>chevron_right</mat-icon>
             <a class="sentence-case"> {{item}}</a>
