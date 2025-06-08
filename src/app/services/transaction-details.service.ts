@@ -36,4 +36,17 @@ export class TransactionDetailsService {
   getTransactionsByStatementId(accountId:any, statementId:any){
     return this.http.post(API.getTransactionsByStatementId(accountId, statementId), {});
   }
+
+  viewTransactionAnalysis(currentPage:any, rowsOnPage:any, personId:any, statementId:any){
+    const params = {
+      page: currentPage,
+      page_size: rowsOnPage
+    }
+    const body = {
+      person_id_in : [personId],
+      statement_upload_id_in : [statementId]
+    }
+
+    return this.http.post(API.viewTransactionAnalaysis(), body, {params})
+  }
 }

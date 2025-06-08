@@ -104,5 +104,9 @@ export let API = {
   },
   getTransactionsByStatementId:(accountId: string, statementId: string) => {
     return API_URL + `analyze/account/${accountId}/transactions/${statementId}`;
+  },
+  viewTransactionAnalaysis:()=>{
+    return API_URL + `transactions-analysis/search`;
   }
+
 };

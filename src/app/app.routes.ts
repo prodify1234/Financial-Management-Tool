@@ -32,7 +32,7 @@ export const routes: Routes = [
       {path: 'transaction-details' , children : [
         { path : "" , component: TransactionDetailsComponent },
         { path : "view",component: TransactionDetailsViewComponent },
-        { path : "analyze", component: TransactionDetailsAnalyzeComponent}
+        { path : "analysis", component: TransactionDetailsAnalyzeComponent}
       ]},
       {path: 'categories', component: CategoriesComponent},
       {path: 'networth', component: NetworthComponent},
