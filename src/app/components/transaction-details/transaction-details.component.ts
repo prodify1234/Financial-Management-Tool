@@ -149,7 +149,7 @@ export class TransactionDetailsComponent implements OnInit {
     const person_id = sessionStorage.getItem('personId');
     const statement_upload_id= element.id;
 
-    this.router.navigate(['analysis'], {queryParams: {person_id: person_id, statement_upload_id}, relativeTo: this.route});
+    this.router.navigate(['analysis'], {queryParams: {person_id: person_id, statement_upload_id: statement_upload_id}, relativeTo: this.route});
   }
 
   getTransactionsByStatementId(accountId : any, statementId: any){
