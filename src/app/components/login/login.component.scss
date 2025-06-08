@@ -8,7 +8,9 @@
   align-items: center;
 
   &_image {
-    flex: 1 1 70%;
+    flex: 1 2 70%;
+    min-width: 600px;
+    min-height: 100vh;
    
   }
 
