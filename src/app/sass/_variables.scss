@@ -1,5 +1,6 @@
 $primary-color: #005cbb;
-$primary-color-light: #EBF5FF;
+$primary-color-light: #0070E0;
+$primary-color-lighter: #EBF5FF;
 $secondary-color: #F1F2F5;
 $accent-color: #FF6F61;
 $text-color: #333333;
@@ -11,6 +12,19 @@ $warning-color: #FF9800;
 $danger-color: #F44336;
 $light-grey: #DFDEE3;
 $lighter-grey: #F4F4F6;
+
+// Font Sizes in px
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;  // base
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+$font-size-3xl: 30px;
+$font-size-4xl: 36px;
+$font-size-5xl: 48px;
+$font-size-6xl: 64px;
+
 
 .primary {
   color : $primary-color

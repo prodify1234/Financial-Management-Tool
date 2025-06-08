@@ -12,6 +12,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonToggleGroup, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
+import { TextTrimPipe } from '../../pipes/text-trim.pipe';
 
 @Component({
   selector: 'app-transaction-details-view',
@@ -26,7 +27,9 @@ import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.com
     MatButtonToggleModule,
     MatButtonToggleGroup,
     MatTableModule,
-    TableShimmerComponent
+    TableShimmerComponent,
+    TextTrimPipe
+
   ],
   templateUrl: './transaction-details-view.component.html',
   styleUrl: './transaction-details-view.component.scss',
@@ -41,7 +44,7 @@ export class TransactionDetailsViewComponent {
   rowsOnPage = signal<number>(10);
   totalTransactions = signal<number>(0);
   viewType = signal<string>('table')
-  displayedColumns: string[] = ['transaction_date', 'description', 'debit', 'credit' , 'amount'];
+  displayedColumns: string[] = ['transaction_date', 'description', 'debit' , 'amount'];
   loader = signal<boolean>(false);
 
   /** Dependencies */
@@ -133,5 +136,9 @@ export class TransactionDetailsViewComponent {
 
   onToggle(value:string){
     this.viewType.update(()=>value);
+  }
+
+  hasMatToolTip(value:string , maxLength:number = 20): string | null {
+    return value.length > maxLength ? value : null;
   }
 }

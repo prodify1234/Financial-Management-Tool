@@ -8,28 +8,28 @@
         <div class="transaction-view-body__header-card__details">
           <div class="transaction-attribute flex-24">
             <span class="transaction-attribute__label">Beneficiary name</span>
-            <span class="transaction-attribute__value">{{statement?.account?.beneficiary_name }}</span>
+            <span class="transaction-attribute__value" #tooltip="matTooltip" [matTooltip]="hasMatToolTip(statement?.account?.beneficiary_name )" matTooltipHideDelay="100" >{{statement?.account?.beneficiary_name  | textTrim : 20}}</span>
           </div>
           <div class="transaction-attribute flex-24">
             <span class="transaction-attribute__label">File Name</span>
-            <span class="transaction-attribute__value text-ellipses">{{ statement?.file_name}}</span>
+            <span class="transaction-attribute__value text-ellipses" [matTooltip]="hasMatToolTip(statement?.file_name )" >{{ statement?.file_name | textTrim : 20 }}</span>
           </div>
           <div class="transaction-attribute">
             <span class="transaction-attribute__label">Account Type</span>
-            <span class="transaction-attribute__value">{{statement?.account?.account_type}}</span>
+            <span class="transaction-attribute__value" [matTooltip]="hasMatToolTip(statement?.account?.account_type )" >{{statement?.account?.account_type | textTrim : 20}}</span>
           </div>
           <div class="transaction-attribute">
             <span class="transaction-attribute__label">Account Number</span>
-            <span class="transaction-attribute__value">{{statement?.account?.account_number}}</span>
+            <span class="transaction-attribute__value" [matTooltip]="hasMatToolTip(statement?.account?.account_number )"  >{{statement?.account?.account_number | textTrim : 20}}</span>
           </div>
           <div class="transaction-attribute flex-24">
             <span class="transaction-attribute__label">Provider</span>
-            <span class="transaction-attribute__value">{{statement?.account?.provider}}</span>
+            <span class="transaction-attribute__value" [matTooltip]="hasMatToolTip(statement?.account?.provider )">{{statement?.account?.provider | textTrim : 20}}</span>
           </div>
          
           <div class="transaction-attribute flex-24" >
             <span class="transaction-attribute__label">Trans Count</span>
-            <span class="transaction-attribute__value">{{statement?.transaction_count}}</span>
+            <span class="transaction-attribute__value">{{statement?.transaction_count | textTrim : 20}}</span>
           </div>
           <div class="transaction-attribute">
             <span class="transaction-attribute__label">Status</span>
@@ -55,11 +55,10 @@
         <div class="fill-space">
         </div>
         <div class="transaction-view-statements__toogle">
-          <mat-button-toggle-group name="view" aria-label="Transaction view" [value]="viewType()">
-            <mat-button-toggle type="button" value="table" #tooltip="matTooltip" matTooltip="Table view" matTooltipHideDelay="100" (click)="onToggle('table')"> <mat-icon class="primary">grid_on</mat-icon></mat-button-toggle>
-            <!-- <mat-button-toggle value="italic">Italic</mat-button-toggle> -->
-            <mat-button-toggle type="button" value="list" #tooltip="matTooltip" matTooltip="List view" matTooltipHideDelay="100" (click)="onToggle('list')"><mat-icon class="primary">table_rows</mat-icon></mat-button-toggle>
-          </mat-button-toggle-group>
+         <div class="btn-group">
+          <button type="button" class="btn-group--action"  [class.active]="viewType() === 'table'" (click)="onToggle('table')"><mat-icon class="primary" matTooltip="Table View">view_week</mat-icon></button>
+          <button type="button" class="btn-group--action" [class.active]="viewType() === 'list'" (click)="onToggle('list')"><mat-icon class="primary" matTooltip="List View">list_alt</mat-icon></button>
+         </div>
         </div>
       </div>
       @if(viewType() === 'list'){
@@ -67,29 +66,28 @@
           @for(transaction of transactionsList; track transaction.id; let i = $index) {
             <div class="transaction-view-statements__list-item">
               <div class="transaction-view-statements__list-item__details">
-                <div class="transaction-view-statements__list-item__details__icon">
+                <div class="transaction-view-statements__list-item__details__icon text-xs">
                   <mat-icon>event</mat-icon>
-                  <div>
+                  <div >
                    {{ transaction.transaction_date | date}}
                   </div>
                 </div>
                 <div class="transaction-view-statements__list-item__details__data">
-                  <div class="transaction-view-statements__list-item__details__data--description text-ellipses">{{transaction.description}}</div>
+                  <div class="transaction-view-statements__list-item__details__data--description text-sm" [matTooltip]="hasMatToolTip(transaction.description)">{{transaction.description | textTrim: 60}}</div>
                   <!-- <div class="transaction-view-statements__list-item__details__data--id">{{transaction.id}}</div> -->
                 </div>
-                <div class="transaction-view-statements__list-item__details__amount">
+                <div class="transaction-view-statements__list-item__details__amount text-xl">
                     <mat-icon>currency_rupee</mat-icon>
                   <div class="transaction-view-statements__list-item__details__amount--content">
-                      {{ transaction.debit}}
-                    <mat-icon class="danger">arrow_outward</mat-icon>
+                      {{ transaction.debit ? transaction.debit : transaction.credit }}
+                      <mat-icon [ngClass]="{'danger' : transaction.debit , 'success': transaction.credit}">{{transaction.debit ? 'arrow_outward' : 'south_west'}}</mat-icon>
                   </div>
                 </div>
-                <div class="fill-space"></div>
                 <div class="transaction-view-statements__list-item__details__balance">
-                  <div class="transaction-view-statements__list-item__details__balance--header">
+                  <div class="transaction-view-statements__list-item__details__balance--header text-sm">
                     Total Balance
                   </div>
-                  <div class="transaction-view-statements__list-item__details__balance--amount">
+                  <div class="transaction-view-statements__list-item__details__balance--amount text-2xl">
                     <mat-icon>currency_rupee</mat-icon>
                     {{transaction.amount}}
                   </div>
@@ -156,30 +154,18 @@
           
             <!-- Weight Column -->
             <ng-container matColumnDef="debit">
-              <th mat-header-cell *matHeaderCellDef> Debit </th>
+              <th mat-header-cell *matHeaderCellDef> Amount (Debit/Credit) </th>
               <td mat-cell *matCellDef="let element"> 
                 <div class="transaction-amount">
                   <mat-icon>currency_rupee</mat-icon>
-                  {{element.debit}} 
-                  <!-- <mat-icon class="danger">arrow_outward</mat-icon> -->
+                  {{element.debit ? element.debit : element.credit}} 
+                  <mat-icon [ngClass]="{'danger' : element.debit , 'success': element.credit}">{{element.debit ? 'arrow_outward' : 'south_west'}}</mat-icon>
                 </div>
               </td>
             </ng-container>
-          
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="credit">
-              <th mat-header-cell *matHeaderCellDef> Credit </th>
-              <td mat-cell *matCellDef="let element"> 
-                <div class="transaction-amount">
-                  <mat-icon>currency_rupee</mat-icon>
-                  {{element.debit}} 
-                  <!-- <mat-icon class="danger">arrow_outward</mat-icon> -->
-                </div>
-               </td>
-            </ng-container>
   
             <ng-container matColumnDef="amount">
-              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <th mat-header-cell *matHeaderCellDef> Balance </th>
               <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
             </ng-container>
           

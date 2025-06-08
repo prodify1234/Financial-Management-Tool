@@ -3,6 +3,7 @@
 @use "../src/app/sass/dialog";
 @use "../src/app/sass/material-overrides";
 @use "../src/app/sass/flex";
+@use "../src/app/sass/typography";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 
@@ -94,8 +95,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .hidden {
   display: none;
-}
-
-.text-ellipses {
-  text-overflow: ellipsis;
 }

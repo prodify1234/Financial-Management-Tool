@@ -22,8 +22,8 @@
 .mat-mdc-menu-item {
   --mat-menu-item-label-text-color : #{$primary-color};
   --mat-menu-item-icon-color: #{$primary-color};
-  --mat-menu-item-focus-state-layer-color: #{$primary-color-light};
-  --mat-menu-item-hover-state-layer-color: #{$primary-color-light};
+  --mat-menu-item-focus-state-layer-color: #{$primary-color-lighter};
+  --mat-menu-item-hover-state-layer-color: #{$primary-color-lighter};
 }
 
 
