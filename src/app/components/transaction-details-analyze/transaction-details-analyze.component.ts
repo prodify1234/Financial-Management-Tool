@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-transaction-details-analyze',
@@ -32,6 +33,7 @@ import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.componen
     MatPaginatorModule,
     TableShimmerComponent,
     BreadcrumpsComponent,
+    MatIconModule
   ],
   templateUrl: './transaction-details-analyze.component.html',
   styleUrl: './transaction-details-analyze.component.scss',
@@ -41,10 +43,10 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     'date',
     'account_Provider',
     'amount',
+    'description',
     'classification',
     'sub_Classification',
     'confidence_Score',
-    'credit',
     'debit',
     'manually_Overridden',
   ];
@@ -103,6 +105,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
           date: new Date(item.transaction_date).toLocaleDateString('en-GB'),
           account_Provider: item.account_provider,
           amount: item.amount,
+          description: item.description,
           classification: item.classification,
           sub_Classification: item.sub_classification,
           confidence_Score: item.confidence_score,
