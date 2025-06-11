@@ -1,9 +1,27 @@
 @use "../sass/variables" as *;
 
 
+
+
+.mat-form-field-appearance-fill {
+  .mdc-text-field--filled {
+    background : unset;
+    background-color: unset !important;
+    --mat-sys-hover-state-layer-opacity : 0;
+    padding: 0 4px !important;
+    .mat-mdc-floating-label {
+      margin-top: 8px;
+    }
+    .mdc-floating-label--float-above{
+      margin-top: 0 !important;
+    }
+  }
+}
 .mat-drawer {
   --mat-sidenav-container-width: 240px;
   --mat-sidenav-container-background-color : #{$background-color};
+   border-top-right-radius: 0 !important;
+   border-bottom-right-radius: 0 !important;
 }
 
 .mat-mdc-table {

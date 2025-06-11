@@ -24,9 +24,62 @@
     }
   }
 
+  &-cards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    &-card {
+      flex: 1 1 20%;
+      min-width: 20%;
+      border-radius: 4px;
+      height : 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      gap: 24px;
+      padding: 8px 16px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      border-left: 4px solid;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+
+
+      &__label {
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      &__count {
+        font-weight: 800;
+        font-size: 30px;
+      }
+
+      &--info {
+        color: var.$darker-grey;
+        border-color: var.$darker-grey;
+      }
+      &--default {
+        color: var.$primary-color-light;
+        border-color: var.$primary-color-light;
+      }
+      &--success {
+        color: var.$success-color;
+        border-color: var.$success-color;
+      }
+      &--warning {
+        color: var.$warning-color;
+        border-color: var.$warning-color;
+      }
+    }
+
+  }
+
   &-body{
     width: 100%;
-    padding-top: 28px;
+    // padding-top: 28px;
 
     .action-header{
       text-align: center;

@@ -13,6 +13,9 @@ import { MatButtonToggleGroup, MatButtonToggleModule } from '@angular/material/b
 import { MatTableModule } from '@angular/material/table';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 import { TextTrimPipe } from '../../pipes/text-trim.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { TransactionAddDialogComponent } from '../transaction-add-dialog/transaction-add-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-transaction-details-view',
@@ -28,7 +31,9 @@ import { TextTrimPipe } from '../../pipes/text-trim.pipe';
     MatButtonToggleGroup,
     MatTableModule,
     TableShimmerComponent,
-    TextTrimPipe
+    TextTrimPipe,
+    MatButtonModule,
+    MatMenuModule
 
   ],
   templateUrl: './transaction-details-view.component.html',
@@ -44,7 +49,7 @@ export class TransactionDetailsViewComponent {
   rowsOnPage = signal<number>(10);
   totalTransactions = signal<number>(0);
   viewType = signal<string>('table')
-  displayedColumns: string[] = ['transaction_date', 'description', 'debit' , 'amount'];
+  displayedColumns: string[] = ['transaction_date', 'description', 'debit' , 'amount' , 'action'];
   loader = signal<boolean>(false);
 
   /** Dependencies */
@@ -53,6 +58,7 @@ export class TransactionDetailsViewComponent {
   private snackbar = inject(SnackbarService);
   private transactionService = inject(TransactionDetailsService);
   private sharedService = inject(SharedService);
+  private matDialog = inject(MatDialog);
 
   constructor() {
     console.log(this.route.pathFromRoot);
@@ -110,6 +116,7 @@ export class TransactionDetailsViewComponent {
       .subscribe({
         next: (response: any) => {
           this.statement = response.data;
+          console.log(this.statement);
         },
         error: (error: any) => {
           this.snackbar.error(
@@ -138,7 +145,21 @@ export class TransactionDetailsViewComponent {
     this.viewType.update(()=>value);
   }
 
+  onTransaction(){
+    const data = this.matDialog.open(TransactionAddDialogComponent, {
+      width: '600px',
+      minWidth: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'add',
+        accountId : this.statement.account.id,
+        statementId: this.statement.id
+      },
+    });
+  }
+
   hasMatToolTip(value:string , maxLength:number = 20): string | null {
-    return value.length > maxLength ? value : null;
+    return value && value.length > maxLength ? value : null;
   }
 }

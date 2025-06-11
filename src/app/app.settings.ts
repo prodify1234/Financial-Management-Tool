@@ -107,6 +107,9 @@ export let API = {
   },
   viewTransactionAnalaysis:()=>{
     return API_URL + `transactions-analysis/search`;
+  },
+  addTransaction: () => {
+    return API_URL + `transactions`;
   }
 
 };

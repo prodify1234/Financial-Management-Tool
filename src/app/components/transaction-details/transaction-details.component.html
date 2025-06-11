@@ -1,11 +1,45 @@
 <div class="transaction-details">
   <div class="transaction-details-header">
     <div class="transaction-details-header__title">
-      <h2>Transaction-details</h2>
+      <h2>Transaction Details</h2>
     </div>
     <div class="fill-space"></div>
     <div class="transaction-details-header__actions">
       <button mat-flat-button class="transaction-details-header__button" (click)="onUploadStatement()"><mat-icon>add</mat-icon>Upload Statement</button>
+    </div>
+  </div>
+  <div class="transaction-details-cards">
+    <div class="transaction-details-cards-card transaction-details-cards-card--info">
+      <div class="transaction-details-cards-card__label">
+        NotStarted
+      </div>
+      <div class="transaction-details-cards-card__count">
+        33
+      </div>
+    </div>
+    <div class="transaction-details-cards-card transaction-details-cards-card--default">
+      <div class="transaction-details-cards-card__label">
+       InProgress
+      </div>
+      <div class="transaction-details-cards-card__count">
+        33
+      </div>
+    </div>
+    <div class="transaction-details-cards-card transaction-details-cards-card--warning">
+      <div class="transaction-details-cards-card__label">
+       Partially Completed
+      </div>
+      <div class="transaction-details-cards-card__count">
+        33
+      </div>
+    </div>
+    <div class="transaction-details-cards-card transaction-details-cards-card--success">
+      <div class="transaction-details-cards-card__label">
+        Completed
+      </div>
+      <div class="transaction-details-cards-card__count">
+        33
+      </div>
     </div>
   </div>
 
@@ -34,14 +68,15 @@
           <td mat-cell *matCellDef="let element"> {{element.BeneficiaryName}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="UploadStatus">
+        <!-- <ng-container matColumnDef="UploadStatus">
           <th mat-header-cell *matHeaderCellDef> Upload Status </th>
           <td mat-cell *matCellDef="let element"> <div class="badge" [ngClass]="{'badge-success' : element.UploadStatus === 'COMPLETED'}">{{element.UploadStatus}} </div> </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="AnalysisStatus">
           <th mat-header-cell *matHeaderCellDef> Analysis Status </th>
           <td mat-cell *matCellDef="let element"> <div class="badge" [ngClass]="{
+            'badge-info' : element.AnalysisStatus === 'NOT_STARTED',
             'badge-success' : element.AnalysisStatus === 'COMPLETED',
             'badge-warning' : element.AnalysisStatus === 'PARTIALLY_COMPLETED',
             'badge-danger' : element.AnalysisStatus === 'NO_TRANSACTIONS'}">{{element.AnalysisStatus}} </div> </td>

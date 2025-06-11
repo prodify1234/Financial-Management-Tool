@@ -5,9 +5,9 @@
     height: calc(100vh - 64px);
     
     &-sidenav {
-      padding: 24px 24px 24px 8px;
+      padding: 24px 16px 24px 8px;
       background-color: var.$background-color;
-
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
       &__items {
         display: flex;
         flex-direction: column;

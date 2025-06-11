@@ -69,6 +69,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-radius: 10px;
     padding: 10px;
 
+ 
+
+  &-info {
+    background-color: var.$darker-grey;
+  }
+
   &-success {
     background-color: var.$success-color;
   }
@@ -85,9 +91,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     &--10 {
       margin-top: 10px;
     }
+    &--16 {
+      margin-top: 16px;
+    }
     &--20 {
       margin-top: 20px;
     }
+
   }
 }
 

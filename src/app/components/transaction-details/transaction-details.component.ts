@@ -46,7 +46,7 @@ export class TransactionDetailsComponent implements OnInit {
     'AccountType',
     'Provider',
     'BeneficiaryName',
-    'UploadStatus',
+    // 'UploadStatus',
     'AnalysisStatus',
     'actions',
   ];
@@ -92,7 +92,7 @@ export class TransactionDetailsComponent implements OnInit {
           AccountType: item.account.account_type,
           Provider: item.account.provider,
           BeneficiaryName: item.account.beneficiary_name,
-          UploadStatus: item.upload_status,
+          // UploadStatus: item.upload_status,
           AnalysisStatus: item.overall_analysis_status,
           actions: '',
         }));

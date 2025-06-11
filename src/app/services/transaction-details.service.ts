@@ -49,4 +49,8 @@ export class TransactionDetailsService {
 
     return this.http.post(API.viewTransactionAnalaysis(), body, {params})
   }
+
+  addTransaction(body:any){
+    return this.http.post(API.addTransaction(), body)
+  }
 }
