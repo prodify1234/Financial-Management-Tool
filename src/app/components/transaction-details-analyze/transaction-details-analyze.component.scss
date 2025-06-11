@@ -1,28 +1,46 @@
-.container {
+@use "../../sass/variables" as var;
+
+.analysis {
   margin: 24px;
-}
+  &-breadcrumps {
+    margin: 24px 0px;
+  }
+  &-filters {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 24px 0px;
 
-.filters {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  padding: 24px 0px;
-}
+    &-slider-container {
+      display: flex;
+      flex-direction: column;
+      width: 200px;
+    }
+  }
 
-.slider-container {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-}
+  &-body {
+    margin: 24px 0px;
+    table {
+      width: 100%;
+    }
 
-table {
-  width: 100%;
-}
+    .chip {
+      background-color: var.$primary-color;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
 
-.chip {
-  background-color: #00cfe8;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
+    .transaction-amount {
+      display: flex;
+      align-items: center;
+      .mat-icon {
+        width: 16px;
+        height: 16px;
+        font-size: var.$font-size-md;
+      }
+    }
+
+  }
 }

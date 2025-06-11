@@ -91,11 +91,11 @@
               <mat-icon>visibility</mat-icon>
               <span>View</span>
               </button>
-              <button mat-menu-item type="button" (click)="onAnalyze(element)" [disabled]="element.AnalysisStatus == 'COMPLETED' || element.AnalysisStatus == 'NO_TRANSACTIONS'">
+              <button mat-menu-item type="button" (click)="onAnalyze(element)" [disabled]="element.AnalysisStatus == 'COMPLETED' || element.AnalysisStatus == 'NO_TRANSACTIONS' || element.AnalysisStatus == 'ANALYSIS_IN_PROGRESS'">
                 <mat-icon>analytics</mat-icon>
                 <span>Analyze</span>
               </button>
-              <button mat-menu-item type="button" (click)="viewAnalysis(element)" [disabled]="element.AnalysisStatus == 'NOT_STARTED' || element.AnalysisStatus == 'NO_TRANSACTIONS' || element.AnalysisStatus == 'PARTIALLY_COMPLETED'">
+              <button mat-menu-item type="button" (click)="viewAnalysis(element)" [disabled]="element.AnalysisStatus == 'NOT_STARTED' || element.AnalysisStatus == 'NO_TRANSACTIONS' || element.AnalysisStatus == 'PARTIALLY_COMPLETED' || element.AnalysisStatus == 'ANALYSIS_IN_PROGRESS'">
                 <mat-icon>analytics</mat-icon>
                 <span>View Analysis</span>
               </button>
