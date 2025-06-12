@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TransactionDetailsService } from '../../services/transaction-details.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../services/snackbar.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-transaction-add-dialog',
@@ -80,16 +81,21 @@ export class TransactionAddDialogComponent {
       const body = {
         account_id : this.data.accountId,
         statement_upload_id : this.data.statementId,
-        transaction_date : this.transactionForm.value.date,
+        transaction_date : this.transactionForm.value.date ? moment(this.transactionForm.value.date).format('YYYY-MM-DD') : '',
         description : this.transactionForm.value.description,
-        debit : this.transactionForm.value.transaction_type === '0' ? this.transactionForm.value.amount : 0,
+        transaction_type : this.transactionForm.value.transaction_type,
+        debit : this.transactionForm.value.transaction_type === 'Debit' ? this.transactionForm.value.amount : 0,
+        credit : this.transactionForm.value.transaction_type === 'Credit' ? this.transactionForm.value.amount : 0,
       }
-      this.transactionService.addTransaction(this.transactionForm.value).subscribe({
+      this.loader.update(() => true);
+      this.transactionService.addTransaction(body).subscribe({
         next : (response : any) => {
-          console.log(response)
+          this.dialogRef.close(response.data);
+          this.loader.update(() => false);
         },
         error : (error: any) => {
           this.snackbar.error(error?.error?.details || 'Something went wrong');
+          this.loader.update(() => false);
         }
       })
 

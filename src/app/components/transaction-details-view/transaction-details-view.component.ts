@@ -68,7 +68,6 @@ export class TransactionDetailsViewComponent {
       if (params['person_id'] && params['statement_id']) {
         this.personId = params['person_id'];
         this.statementId = params['statement_id'];
-        this.fetchTransactions();
         this.getStatementDetailsById(this.personId, this.statementId);
       }
     });
@@ -76,8 +75,8 @@ export class TransactionDetailsViewComponent {
 
   fetchTransactions() {
     const body = {
-      person_id_in: [this.personId],
-      account_id_in: null,
+
+      account_id_in: [this.statement.account.id],
       statement_upload_id_in: [this.statementId],
       transaction_date_from: null,
       transaction_date_to: null,
@@ -117,6 +116,7 @@ export class TransactionDetailsViewComponent {
         next: (response: any) => {
           this.statement = response.data;
           console.log(this.statement);
+          this.fetchTransactions();
         },
         error: (error: any) => {
           this.snackbar.error(
@@ -157,6 +157,19 @@ export class TransactionDetailsViewComponent {
         statementId: this.statement.id
       },
     });
+    data.afterClosed().subscribe((result: any) => {
+      if (result) {
+        console.log(result);
+        this.resetPagination();
+        this.fetchTransactions();
+      }
+    });
+  }
+
+  resetPagination() {
+    this.currentPage.update(() => 0);
+    this.previousPage.update(() => 0);
+    this.rowsOnPage.update(() => 10);
   }
 
   hasMatToolTip(value:string , maxLength:number = 20): string | null {

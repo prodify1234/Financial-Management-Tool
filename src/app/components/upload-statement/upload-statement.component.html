@@ -4,17 +4,25 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 
-  <div  mat-dialog-content>
-    <div class="upload-container" (click)="fileInput.click()">
-      <mat-icon>upload_file</mat-icon>
+  <div  mat-dialog-content [class.disabled]="loader()">
+    <div class="upload-container" *ngIf="!uploadStatementForm.get('uploadFile')?.value" (click)="fileInput.click()">
+      <mat-icon class="upload-container--icon">upload_file</mat-icon>
       <h4 class="margin-top--20">Choose a file or drag and drop it here.</h4>
       <div >xlsx & pdf upto 50MB only.</div>
-      <button mat-stroked-button>Browse Files</button>
+      <button mat-button class="browse-files">Browse Files <mat-icon>arrow_circle_up</mat-icon></button>
       <input class="hidden" type="file" (change)="onFileChange($event)" #fileInput >
     </div>
 
     <div *ngIf="uploadStatementForm.get('uploadFile')?.value as selectedFile" class="selected-file">
-      <p><strong>Selected File:</strong> {{ selectedFile.name }}</p>
+       <img [src]="'public/icons/file2.png'" width="100px" height="100px">
+        <div class="selected-file__content">
+          <div class="selected-file__content--name">
+            {{ selectedFile.name }}
+          </div>
+          <button mat-button class="selected-file__content--action" (click)="onCancelFile()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
     </div>
   </div>
 

@@ -16,6 +16,7 @@
 
   .mat-mdc-dialog-content {
     padding: 20px 16px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
   }
@@ -37,12 +38,58 @@
   gap:10px;
   border : 2px dotted grey;
   border-radius: 10px;
-  .mat-icon {
+  &--icon {
     width: 50px;
     height: 50px;
     font-size: 50px;
     animation: updown 5s infinite;
     
+  }
+}
+
+
+.selected-file {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 40px;
+  height: 100px;
+  &__content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    font-size: 16px;
+    background-color: var.$lighter-grey;
+    border-radius: 10px;
+    color: var.$warning-color;
+    font-weight: 700;
+    &--name {
+      overflow: hidden;
+    }
+    &--action {
+      color: var.$warning-color;
+    }
+    .mat-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 36px;
+    }
+  }
+  
+}
+
+.browse-files{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  .mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
   }
 }
 

@@ -127,6 +127,11 @@ export class UploadStatementComponent implements AfterViewInit {
   browseFiles(){
 
   }
+  
+  onCancelFile(){
+    this.uploadStatementForm.reset();
+
+  }
 
   ngAfterViewInit(): void {
 
