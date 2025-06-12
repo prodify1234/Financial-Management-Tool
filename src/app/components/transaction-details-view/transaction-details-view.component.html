@@ -59,7 +59,13 @@
           <span class="transaction-attribute__label">Status</span>
           <span
             class="transaction-attribute__value badge"
-            [ngClass]="{'badge-success': statement?.overall_analysis_status === 'COMPLETED' ,'badge-warning': statement?.overall_analysis_status === 'PARTIALLY_COMPLETED' ,'badge-info' : statement?.overall_analysis_status === 'NOT_STARTED' }"
+            [ngClass]="{
+              'badge-success':
+                statement?.overall_analysis_status === 'COMPLETED',
+              'badge-warning':
+                statement?.overall_analysis_status === 'PARTIALLY_COMPLETED',
+              'badge-info': statement?.overall_analysis_status === 'NOT_STARTED'
+            }"
             >{{ statement?.overall_analysis_status }}</span
           >
         </div>
@@ -136,6 +142,20 @@
                 {{ transaction.transaction_date | date }}
               </div>
             </div>
+            <div
+              class="transaction-view-statements__list-item__details__icon text-xs"
+            >
+              @if(transaction.is_manual){
+              <mat-icon class="info" #matTooltip [matTooltip]="'Manual'"
+                >arrow_circle_up</mat-icon
+              >
+              }@else {
+              <mat-icon class="warning" #matTooltip [matTooltip]="'Automated'"
+                >history</mat-icon
+              >
+              }
+            </div>
+
             <div class="transaction-view-statements__list-item__details__data">
               <div
                 class="transaction-view-statements__list-item__details__data--description text-sm"
@@ -180,7 +200,7 @@
               </div>
             </div>
             <!-- <div> -->
-            <button
+            <!-- <button
               mat-button
               type="button"
               #matTooltip
@@ -191,7 +211,7 @@
                 class="transaction-view-statements__list-item__details__edit primary"
                 >edit</mat-icon
               >
-            </button>
+            </button> -->
             <!-- </div> -->
           </div>
         </div>
@@ -229,7 +249,7 @@
               </div>
             </div> -->
       </div>
-      } }@else{ @if(loader()){
+      } } @else{ @if(loader()){
       <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
       }@else {
       <table mat-table [dataSource]="transactionsList" class="mat-elevation-z8">
@@ -241,6 +261,21 @@
           <th mat-header-cell *matHeaderCellDef>Transaction Date</th>
           <td mat-cell *matCellDef="let element">
             {{ element.transaction_date | date }}
+          </td>
+        </ng-container>
+        <!-- Account Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">
+            @if(element.is_manual){
+            <mat-icon class="info" #matTooltip [matTooltip]="'Manual'"
+              >arrow_circle_up</mat-icon
+            >
+            }@else {
+            <mat-icon class="warning" #matTooltip [matTooltip]="'Automated'"
+              >history</mat-icon
+            >
+            }
           </td>
         </ng-container>
 
@@ -277,7 +312,7 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button
+            <!-- <button
               mat-button
               type="button"
               #matTooltip
@@ -288,7 +323,7 @@
                 class="transaction-view-statements__list-item__details__edit primary"
                 >edit</mat-icon
               >
-            </button>
+            </button> -->
           </td>
         </ng-container>
 

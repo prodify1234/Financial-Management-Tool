@@ -16,6 +16,7 @@ import { LoginService } from '../../services/login.service'
 import { SnackbarService } from '../../services/snackbar.service';
 import { SharedService } from '../../services/shared.service';
 import { AuthService } from '../../services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule,
     MatProgressBar,
     MatSnackBarModule,
+    MatIconModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

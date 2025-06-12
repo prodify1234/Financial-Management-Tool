@@ -49,7 +49,7 @@ export class TransactionDetailsViewComponent {
   rowsOnPage = signal<number>(10);
   totalTransactions = signal<number>(0);
   viewType = signal<string>('table')
-  displayedColumns: string[] = ['transaction_date', 'description', 'debit' , 'amount' , 'action'];
+  displayedColumns: string[] = ['transaction_date','type', 'description' ,'debit' , 'amount' , ]; // action has to be pushed
   loader = signal<boolean>(false);
 
   /** Dependencies */
