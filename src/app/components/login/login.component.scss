@@ -11,6 +11,7 @@
     flex: 1 2 70%;
     min-width: 600px;
     min-height: 100vh;
+    animation: loginImage 1s linear;
    
   }
 
@@ -73,13 +74,13 @@
 }
 @keyframes loginImage {
   0% {
-    transform: opacity(0);
+    opacity: 0;
   }
   50% {
-    transform: opacity(1);
+    opacity: 0.5;
   }
   100%{
-    transform: opacity(0);
+    opacity: 1;
   }
   
 }
