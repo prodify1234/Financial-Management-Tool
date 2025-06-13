@@ -1,35 +1,27 @@
-<div class="analysis">
-  <div class="analysis-breadcrumps">
-    <app-breadcrumps></app-breadcrumps>
-  </div>
-  <h2>Transaction Analysis</h2>
-  <p>Showing analysis for statement ID: {{statementId}}</p>
-
-  <!-- <div class="analysis-filters">
-    <mat-form-field appearance="outline">
-      <mat-label>Classification</mat-label>
-      <mat-select [(ngModel)]="selectedClassification">
-        <mat-option value="all">All</mat-option>
-        <mat-option value="income">Income</mat-option>
-        <mat-option value="expenditure">Expenditure</mat-option>
-        <mat-option value="cash">Cash Withdrawal</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div class="analysis-slider-container">
-      <label>Min Confidence</label>
-      <input type="range" min="0" max="100" step="1" [(ngModel)]="minConfidence">
-      <span>{{ minConfidence / 100 | number: '1.2-2' }}</span>
+<app-breadcrumps></app-breadcrumps>
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <div class="analysis-header">
+      <div class="analysis-header-heading">
+        <h2>Transaction Analysis</h2>
+      </div>
+      <div class="analysis-header-filter">
+        <p>Statement ID: {{ statementId }}</p>
+        <button class="analysis-header-filter-button" (click)="toggleFilters()">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </div>
     </div>
 
-    <button mat-flat-button color="primary">Apply</button>
-  </div> -->
-
-  <div class="analysis-body">
-   @if(loader()){
+    <div class="analysis-body">
+      @if(loader()){
       <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
-    }@else{
-      <table mat-table [dataSource]="transactionSource" class="mat-elevation-z2">
+      }@else{
+      <table
+        mat-table
+        [dataSource]="transactionSource"
+        class="mat-elevation-z2"
+      >
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef>Transaction Date</th>
           <td mat-cell *matCellDef="let element">{{ element.date }}</td>
@@ -37,12 +29,30 @@
 
         <ng-container matColumnDef="account_Provider">
           <th mat-header-cell *matHeaderCellDef>Provider</th>
-          <td mat-cell *matCellDef="let element">{{ element.account_Provider }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.account_Provider }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let element">{{ element.amount | currency }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.amount | currency }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="debit">
+          <th mat-header-cell *matHeaderCellDef>Amount(Debit/Credit)</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="transaction-amount">
+              <mat-icon>currency_rupee</mat-icon>
+              {{ element.debit ? element.debit : element.credit }}
+              <mat-icon
+                [ngClass]="{ danger: element.debit, success: element.credit }"
+                >{{ element.debit ? "arrow_outward" : "south_west" }}</mat-icon
+              >
+            </div>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
@@ -52,12 +62,16 @@
 
         <ng-container matColumnDef="classification">
           <th mat-header-cell *matHeaderCellDef>Classification</th>
-          <td mat-cell *matCellDef="let element">{{ element.classification }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.classification }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="sub_Classification">
           <th mat-header-cell *matHeaderCellDef>Sub-classification</th>
-          <td mat-cell *matCellDef="let element">{{ element.sub_Classification }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.sub_Classification }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="confidence_Score">
@@ -67,30 +81,21 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="debit">
-          <th mat-header-cell *matHeaderCellDef>Amount(Debit/Credit)</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="transaction-amount">
-              <mat-icon>currency_rupee</mat-icon>
-              {{element.debit?element.debit:element.credit}}
-              <mat-icon [ngClass]="{'danger' : element.debit, 'success': element.credit}">{{element.debit ? 'arrow_outward' : 'south_west'}}</mat-icon>
-            </div>
-          </td>
-        </ng-container>
-
         <ng-container matColumnDef="manually_Overridden">
           <th mat-header-cell *matHeaderCellDef>Manually Overridden</th>
           <td mat-cell *matCellDef="let element">
-            <span class="chip">{{element.manually_Overridden ? 'YES' : 'NO'}}</span>
+            <span class="chip">{{
+              element.manually_Overridden ? "YES" : "NO"
+            }}</span>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="transactionColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: transactionColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: transactionColumns"></tr>
       </table>
-    }
+      }
 
-    <mat-paginator
+      <mat-paginator
         [length]="totalTransactions()"
         [pageSize]="rowsOnPage()"
         [pageIndex]="currentPage()"
@@ -99,5 +104,85 @@
         aria-label="Select page"
       >
       </mat-paginator>
-  </div>
-</div>
+    </div>
+  </mat-sidenav-content>
+
+  <mat-sidenav #filterSidenav mode="side" [(opened)]="showFilters" position="end" class="analysis-filters-sidenav">
+    <form class="analysis-filters-form" [formGroup]="filterForm">
+      <div class="analysis-filters-form-group">
+        <mat-form-field>
+          <mat-label>Transaction From</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFrom"
+            formControlName="transactionFrom"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerFrom"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Transaction To</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerTo"
+            formControlName="transactionTo"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerTo"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="analysis-filters-form-group">
+        <mat-form-field>
+          <mat-label>Amount From</mat-label>
+          <input matInput type="number" formControlName="amountFrom" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Amount To</mat-label>
+          <input matInput type="number" formControlName="amountTo" />
+        </mat-form-field>
+      </div>
+
+      <div class="analysis-filters-form-group">
+        <mat-form-field>
+          <mat-label>Classifications</mat-label>
+          <input matInput formControlName="classificationIn" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Sub Classifications</mat-label>
+          <input matInput formControlName="subClassificationIn" />
+        </mat-form-field>
+      </div>
+
+      <div class="analysis-filters-form-group">
+        <mat-form-field>
+          <mat-label>Confidence Score</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="confidenceFrom"
+            min="0.00"
+            max="1.00"
+            step="0.01"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Account Provider</mat-label>
+          <input matInput formControlName="accountProvider" />
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button (click)="onFilter()">Apply</button>
+    </form>
+  </mat-sidenav>
+</mat-sidenav-container>

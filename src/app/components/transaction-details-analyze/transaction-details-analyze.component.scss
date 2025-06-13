@@ -1,46 +1,73 @@
 @use "../../sass/variables" as var;
 
-.analysis {
-  margin: 24px;
-  &-breadcrumps {
-    margin: 24px 0px;
-  }
-  &-filters {
+.transaction-analysis {
+  &__header {
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
     align-items: center;
-    padding: 24px 0px;
+  }
 
-    &-slider-container {
+  &__heading {
+    h2 {
+      font-size: 1.5rem;
+      color: var.$primary-color;
+    }
+  }
+
+  &__filter-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__body {
+    padding: 1rem;
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__chip {
+    background-color: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  &__paginator {
+    margin-top: 1rem;
+  }
+
+  &__sidenav {
+    width: 300px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &-group {
       display: flex;
       flex-direction: column;
-      width: 200px;
+      gap: 1rem;
     }
-  }
-
-  &-body {
-    margin: 24px 0px;
-    table {
-      width: 100%;
-    }
-
-    .chip {
-      background-color: var.$primary-color;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-    }
-
-    .transaction-amount {
-      display: flex;
-      align-items: center;
-      .mat-icon {
-        width: 16px;
-        height: 16px;
-        font-size: var.$font-size-md;
-      }
-    }
-
   }
 }
+
+.transaction-amount {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &--debit {
+    color: red;
+  }
+
+  &--credit {
+    color: green;
+  }
+}
+

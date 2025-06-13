@@ -37,14 +37,12 @@ export class TransactionDetailsService {
     return this.http.post(API.getTransactionsByStatementId(accountId, statementId), {});
   }
 
-  viewTransactionAnalysis(currentPage:any, rowsOnPage:any, personId:any, statementId:any){
+  viewTransactionAnalysis(currentPage:any, rowsOnPage:any, body:any){
+    console.log('Request body: ', body);
+
     const params = {
       page: currentPage,
       page_size: rowsOnPage
-    }
-    const body = {
-      person_id_in : [personId],
-      statement_upload_id_in : [statementId]
     }
 
     return this.http.post(API.viewTransactionAnalaysis(), body, {params})

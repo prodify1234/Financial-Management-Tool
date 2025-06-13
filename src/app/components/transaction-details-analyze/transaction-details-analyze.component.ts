@@ -8,7 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.component';
 import { MatIconModule } from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-transaction-details-analyze',
@@ -33,21 +37,40 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     TableShimmerComponent,
     BreadcrumpsComponent,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatSidenavModule
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './transaction-details-analyze.component.html',
   styleUrl: './transaction-details-analyze.component.scss',
 })
 export class TransactionDetailsAnalyzeComponent implements OnInit {
+  constructor(){
+    this.filterForm = new FormGroup({
+      transactionFrom: new FormControl<string | null>(null),
+      transactionTo: new FormControl<string | null>(null),
+      amountFrom: new FormControl<number | null>(null),
+      amountTo: new FormControl<number | null>(null),
+      classificationIn: new FormControl<string[] | null>(null),
+      subClassificationIn: new FormControl<string[] | null>(null),
+      confidenceFrom: new FormControl<number | null>(null),
+      confidenceTo: new FormControl<number | null>(null),
+      manuallyOverridden: new FormControl<boolean | null>(null),
+      accountProvider: new FormControl<string | null>(null),
+      analyzedBy: new FormControl<string | null>(null)
+    });
+  }
   transactionColumns: string[] = [
     'date',
     'account_Provider',
     'amount',
+    'debit',
     'description',
     'classification',
     'sub_Classification',
     'confidence_Score',
-    'debit',
     'manually_Overridden',
   ];
   loader = signal<boolean>(false);
@@ -65,9 +88,9 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
   allTransactions: any[] = [];
   transactionSource: any[] = [];
 
-  get Confidence(): number {
-    return this.minConfidence / 100;
-  }
+  filterForm!: FormGroup;
+
+  showFilters = false;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -83,18 +106,41 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     this.loader.update(() => true);
     this.route.queryParams.subscribe((params: any) => {
       (this.personId = params['person_id']),
-        (this.statementId = params['statement_upload_id']);
+      (this.statementId = params['statement_upload_id']);
 
       console.log('Person ID: ', this.personId);
       console.log('Statement ID: ', this.statementId);
     });
 
+    const getArrayValue = (value: string | string[] | null): string[] | null => {
+      if (typeof value === 'string') {
+        const arr = value.split(',').map(v => v.trim()).filter(v => v !== '');
+        return arr.length ? arr : null;
+      }
+      return value;
+    };
+
+    const body = {
+      person_id_in : [this.personId],
+      statement_upload_id_in : [this.statementId],
+      transaction_date_from : this.filterForm.get('transactionFrom')?.value,
+      transaction_date_to : this.filterForm.get('transactionTo')?.value,
+      amount_from : this.filterForm.get('amountFrom')?.value,
+      amount_to : this.filterForm.get('amountTo')?.value,
+      classifications_in : getArrayValue(this.filterForm.get('classificationIn')?.value),
+      sub_classification_in : getArrayValue(this.filterForm.get('subClassificationIn')?.value),
+      confidence_score_from : this.filterForm.get('confidenceFrom')?.value,
+      confidence_score_to : this.filterForm.get('confidenceTo')?.value,
+      manually_overridden : this.filterForm.get('manuallyOverridden')?.value,
+      account_provider : this.filterForm.get('accountProvider')?.value,
+      analyzed_by : this.filterForm.get('analyzedBy')?.value
+    }
+
     this.transactionService
       .viewTransactionAnalysis(
         this.currentPage() + 1,
         this.rowsOnPage(),
-        this.personId,
-        this.statementId
+        body
       )
       .subscribe((response: any) => {
         console.log('View Transaction Analysis Response: ', response);
@@ -105,12 +151,12 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
           date: new Date(item.transaction_date).toLocaleDateString('en-GB'),
           account_Provider: item.account_provider,
           amount: item.amount,
+          credit: item.credit,
+          debit: item.debit,
           description: item.description,
           classification: item.classification,
           sub_Classification: item.sub_classification,
           confidence_Score: item.confidence_score,
-          credit: item.credit,
-          debit: item.debit,
           manually_Overridden: item.manually_overridden,
         }));
         this.loader.update(() => false);
@@ -123,5 +169,14 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     this.rowsOnPage.update(() => event.pageSize);
     this.previousPage.update(() => event.previousPageIndex);
     this.viewTransactionAnalysis();
+  }
+
+  onFilter(){
+    console.log('Filter Form: ', this.filterForm.value);
+    this.viewTransactionAnalysis();
+  }
+
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
   }
 }
