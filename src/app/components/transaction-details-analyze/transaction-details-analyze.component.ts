@@ -20,6 +20,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialogActions } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-transaction-details-analyze',
@@ -40,7 +41,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogActions
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './transaction-details-analyze.component.html',
@@ -173,6 +175,11 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
 
   onFilter(){
     console.log('Filter Form: ', this.filterForm.value);
+    this.viewTransactionAnalysis();
+  }
+
+  onClear(){
+    this.filterForm.reset();
     this.viewTransactionAnalysis();
   }
 

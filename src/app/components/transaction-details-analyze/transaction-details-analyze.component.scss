@@ -1,31 +1,55 @@
 @use "../../sass/variables" as var;
 
-.transaction-analysis {
+.transaction-analyze {
   &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0px 30px;
+    margin-top: 10px;
   }
 
-  &__heading {
+  &__header-title {
     h2 {
       font-size: 1.5rem;
       color: var.$primary-color;
+      margin-bottom: 20px;
     }
   }
 
-  &__filter-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  &__header-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    p {
+      font-weight: 600;
+    }
+  }
+
+  &__header-filter-btn {
+    // background-color: var.$primary-color;
+    // padding: 5px;
+    // color: white;
+    // border: none;
+    // border-radius: 5px;
+    // cursor: pointer;
   }
 
   &__body {
     padding: 1rem;
   }
 
-  &__table {
-    width: 100%;
+  &__amount {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &--debit {
+      color: red;
+    }
+
+    &--credit {
+      color: green;
+    }
   }
 
   &__chip {
@@ -34,17 +58,16 @@
     border-radius: 4px;
   }
 
-  &__paginator {
-    margin-top: 1rem;
-  }
-
-  &__sidenav {
+  &__filters-sidenav {
     width: 300px;
     padding: 1rem;
-    background-color: #f9f9f9;
+    height: fit-content;
+    margin-top: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background: #FAF9FD;
   }
 
-  &__filters {
+  &__filters-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -54,20 +77,12 @@
       flex-direction: column;
       gap: 1rem;
     }
-  }
-}
 
-.transaction-amount {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  &--debit {
-    color: red;
-  }
-
-  &--credit {
-    color: green;
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+    }
   }
 }
 

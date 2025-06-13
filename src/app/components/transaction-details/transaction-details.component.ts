@@ -88,7 +88,7 @@ export class TransactionDetailsComponent implements OnInit {
         this.allTransactions = response.data.items;
         this.transactionSource = this.allTransactions.map((item: any) => ({
           id: item.id,
-          account_id: item.account.id,
+          account_id: item.account.account_id,
           FileName: item.file_name,
           AccountType: item.account.account_type,
           Provider: item.account.provider,
@@ -135,6 +135,7 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   onAnalyze(element: any) {
+    console.log('Transaction Source: ', this.transactionSource)
     console.log('Analyze Element: ', element);
     console.log('account ID: ', element.account_id);
     console.log('statement ID: ', element.id);
@@ -144,6 +145,7 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   viewAnalysis(element: any) {
+    console.log('Transaction Source: ', this.transactionSource);
     console.log('View Analysis Element: ', element);
     console.log('account ID: ', element.account_id);
     console.log('statement ID: ', element.id);

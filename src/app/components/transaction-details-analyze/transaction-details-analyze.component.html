@@ -1,19 +1,18 @@
 <app-breadcrumps></app-breadcrumps>
-<mat-sidenav-container>
-  <mat-sidenav-content>
-    <div class="analysis-header">
-      <div class="analysis-header-heading">
+<div class="transaction-analyze__header">
+      <div class="transaction-analyze__header-title">
         <h2>Transaction Analysis</h2>
       </div>
-      <div class="analysis-header-filter">
+      <div class="transaction-analyze__header-filter">
         <p>Statement ID: {{ statementId }}</p>
-        <button class="analysis-header-filter-button" (click)="toggleFilters()">
+        <button mat-mini-fab class="transaction-analyze__header-filter-btn" (click)="toggleFilters()">
           <mat-icon>filter_list</mat-icon>
         </button>
       </div>
     </div>
-
-    <div class="analysis-body">
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <div class="transaction-analyze__body">
       @if(loader()){
       <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
       }@else{
@@ -44,7 +43,7 @@
         <ng-container matColumnDef="debit">
           <th mat-header-cell *matHeaderCellDef>Amount(Debit/Credit)</th>
           <td mat-cell *matCellDef="let element">
-            <div class="transaction-amount">
+            <div class="transaction-analyze__amount">
               <mat-icon>currency_rupee</mat-icon>
               {{ element.debit ? element.debit : element.credit }}
               <mat-icon
@@ -84,7 +83,7 @@
         <ng-container matColumnDef="manually_Overridden">
           <th mat-header-cell *matHeaderCellDef>Manually Overridden</th>
           <td mat-cell *matCellDef="let element">
-            <span class="chip">{{
+            <span class="transaction-analyze__chip">{{
               element.manually_Overridden ? "YES" : "NO"
             }}</span>
           </td>
@@ -107,9 +106,10 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav #filterSidenav mode="side" [(opened)]="showFilters" position="end" class="analysis-filters-sidenav">
-    <form class="analysis-filters-form" [formGroup]="filterForm">
-      <div class="analysis-filters-form-group">
+  <mat-sidenav #filterSidenav mode="side" [(opened)]="showFilters" position="start" class="transaction-analyze__filters-sidenav">
+    <h2>Filters</h2>
+    <form class="transaction-analyze__filters-form" [formGroup]="filterForm">
+      <div class="transaction-analyze__filters-form-group">
         <mat-form-field>
           <mat-label>Transaction From</mat-label>
           <input
@@ -139,7 +139,7 @@
         </mat-form-field>
       </div>
 
-      <div class="analysis-filters-form-group">
+      <div class="transaction-analyze__filters-form-group">
         <mat-form-field>
           <mat-label>Amount From</mat-label>
           <input matInput type="number" formControlName="amountFrom" />
@@ -151,7 +151,7 @@
         </mat-form-field>
       </div>
 
-      <div class="analysis-filters-form-group">
+      <div class="transaction-analyze__filters-form-group">
         <mat-form-field>
           <mat-label>Classifications</mat-label>
           <input matInput formControlName="classificationIn" />
@@ -163,7 +163,7 @@
         </mat-form-field>
       </div>
 
-      <div class="analysis-filters-form-group">
+      <div class="transaction-analyze__filters-form-group">
         <mat-form-field>
           <mat-label>Confidence Score</mat-label>
           <input
@@ -182,7 +182,10 @@
         </mat-form-field>
       </div>
 
-      <button mat-flat-button (click)="onFilter()">Apply</button>
+      <mat-dialog-actions class="transaction-analyze__filters-form-actions">
+        <button mat-button (click)="onClear()">Clear</button>
+        <button mat-flat-button (click)="onFilter()">Apply</button>
+      </mat-dialog-actions>
     </form>
   </mat-sidenav>
 </mat-sidenav-container>
