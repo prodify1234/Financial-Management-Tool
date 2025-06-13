@@ -56,6 +56,7 @@ export class TransactionDetailsComponent implements OnInit {
   previousPage = signal<number | undefined>(0);
   rowsOnPage = signal<number>(10);
   totalTransactions = signal<number>(0);
+  overallSummary: any = {};
 
   transactionSource: any[] = [];
   allTransactions: any[] = [];
@@ -75,7 +76,7 @@ export class TransactionDetailsComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private transactionDetailsService: TransactionDetailsService
-  ) {}
+  ) { }
 
   loadTransactionDetails() {
     this.loader.update(() => true);
@@ -96,6 +97,7 @@ export class TransactionDetailsComponent implements OnInit {
           AnalysisStatus: item.overall_analysis_status,
           actions: '',
         }));
+        this.overallSummary = { ...response.data.overall_analysis_state_summary };
         this.loader.update(() => false);
       });
   }
@@ -127,12 +129,12 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
 
-  onView(element: any ){
+  onView(element: any) {
     console.log('View Element: ', element);
-    this.router.navigate(['view'], { queryParams : { person_id : this.auth.personId , statement_id: element.id} , relativeTo: this.route });
+    this.router.navigate(['view'], { queryParams: { person_id: this.auth.personId, statement_id: element.id }, relativeTo: this.route });
   }
 
-  onAnalyze(element:any) {
+  onAnalyze(element: any) {
     console.log('Analyze Element: ', element);
     console.log('account ID: ', element.account_id);
     console.log('statement ID: ', element.id);
@@ -141,19 +143,19 @@ export class TransactionDetailsComponent implements OnInit {
     this.getTransactionsByStatementId(element.account_id, element.id);
   }
 
-  viewAnalysis(element:any) {
+  viewAnalysis(element: any) {
     console.log('View Analysis Element: ', element);
     console.log('account ID: ', element.account_id);
     console.log('statement ID: ', element.id);
 
     const person_id = sessionStorage.getItem('personId');
-    const statement_upload_id= element.id;
+    const statement_upload_id = element.id;
 
-    this.router.navigate(['analysis'], {queryParams: {person_id: person_id, statement_upload_id: statement_upload_id}, relativeTo: this.route});
+    this.router.navigate(['analysis'], { queryParams: { person_id: person_id, statement_upload_id: statement_upload_id }, relativeTo: this.route });
   }
 
-  getTransactionsByStatementId(accountId : any, statementId: any){
-    this.transactionService.getTransactionsByStatementId(accountId, statementId).subscribe((response:any)=>{
+  getTransactionsByStatementId(accountId: any, statementId: any) {
+    this.transactionService.getTransactionsByStatementId(accountId, statementId).subscribe((response: any) => {
       console.log('Transactions By statement ID Response: ', response)
       this.snackbar.open(response.data.message, 'Close', 3000);
       this.loadTransactionDetails();

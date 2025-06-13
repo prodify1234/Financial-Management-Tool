@@ -51,6 +51,13 @@ export class TransactionDetailsService {
   }
 
   addTransaction(body:any){
-    return this.http.post(API.addTransaction(), body)
+    return this.http.post(API.addTransaction(), body);
   }
+
+  updateTransaction( body: any ,transactionId: string){ 
+    return this.http.put(API.updateTransaction(transactionId), body)
+  }
+  deleteTransaction(transactionId: string){
+    return this.http.delete(API.deleteTransaction(transactionId));
+  } 
 }

@@ -1,5 +1,5 @@
 <div class="dialog-container">
-  <h1 mat-dialog-title>Add Transaction</h1>
+  <h1 mat-dialog-title>{{ data.type === 'edit' ? 'Edit' : 'Add'}} Transaction</h1>
   @if(loader()){
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
@@ -42,7 +42,7 @@
             mat-flat-button
             type="button"
             class="btn-add"
-            (click)="onAdd()"
+            (click)="onAction('add')"
             [disabled]="!transactionForm.valid || loader()"
           >
             ADD
@@ -52,6 +52,7 @@
             mat-flat-button
             type="button"
             class="btn-add"
+            (click)="onAction('update')"
             [disabled]="!transactionForm.valid || loader()"
           >
             Update

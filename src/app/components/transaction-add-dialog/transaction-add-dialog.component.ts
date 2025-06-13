@@ -68,13 +68,21 @@ export class TransactionAddDialogComponent {
       amount: new FormControl('', [Validators.required, Validators.min(0)]),
       // credit: new FormControl('', []),
     });
+    if(this.data?.element) {
+      this.transactionForm.patchValue({
+        date: this.data.element.transaction_date ? new Date(this.data.element.transaction_date) : '',
+        description: this.data.element.description,
+        transaction_type: this.data.element.debit ? 'Debit' : 'Credit',
+        amount: this.data.element.debit ? this.data.element.debit : this.data.element.credit,
+      });
+    }
   }
 
   onCancel() {
     this.dialogRef.close('');
   }
 
-  onAdd(){
+  onAction(type : 'add' | 'update'){
     if(this.transactionForm.invalid){
       return ;
     } else {
@@ -88,17 +96,42 @@ export class TransactionAddDialogComponent {
         credit : this.transactionForm.value.transaction_type === 'Credit' ? this.transactionForm.value.amount : 0,
       }
       this.loader.update(() => true);
-      this.transactionService.addTransaction(body).subscribe({
-        next : (response : any) => {
-          this.dialogRef.close(response.data);
-          this.loader.update(() => false);
-        },
-        error : (error: any) => {
-          this.snackbar.error(error?.error?.details || 'Something went wrong');
-          this.loader.update(() => false);
-        }
-      })
+      if(type === 'add') {
+        this.addTransaction(body);
+      }else { 
+        this.updateTransaction(body)
+      }
+     
 
     }
   }
+  addTransaction(body:any ){
+    this.transactionService.addTransaction(body).subscribe({
+      next : (response : any) => {
+        this.dialogRef.close(response.data);
+        this.snackbar.success(response.message || 'Transaction added successfully');
+        this.loader.update(() => false);
+      },
+      error : (error: any) => {
+        this.snackbar.error(error?.error?.details || 'Something went wrong');
+        this.loader.update(() => false);
+      }
+    })
+  }
+  updateTransaction(body: any){
+    this.transactionService.updateTransaction(body, this.data?.element?.id).subscribe({
+      next : (response : any) => {
+        this.dialogRef.close(response.data);
+        this.snackbar.success(response.message || 'Transaction updated successfully');
+        this.loader.update(() => false);
+      },
+      error : (error: any) => {
+        this.snackbar.error(error?.error?.details || 'Something went wrong');
+        this.loader.update(() => false);
+      }
+    })
+
+  }
 }
+
+

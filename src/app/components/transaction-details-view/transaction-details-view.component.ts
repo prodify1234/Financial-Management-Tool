@@ -4,7 +4,7 @@ import { TransactionDetailsService } from '../../services/transaction-details.se
 import { SnackbarService } from '../../services/snackbar.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.component';
 import { SharedService } from '../../services/shared.service';
@@ -33,7 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
     TableShimmerComponent,
     TextTrimPipe,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
 
   ],
   templateUrl: './transaction-details-view.component.html',
@@ -49,7 +49,7 @@ export class TransactionDetailsViewComponent {
   rowsOnPage = signal<number>(10);
   totalTransactions = signal<number>(0);
   viewType = signal<string>('table')
-  displayedColumns: string[] = ['transaction_date','type', 'description' ,'debit' , 'amount' , ]; // action has to be pushed
+  displayedColumns: string[] = ['transaction_date','type', 'description' ,'debit' , 'amount' , 'action']; // action has to be pushed
   loader = signal<boolean>(false);
 
   /** Dependencies */
@@ -164,6 +164,40 @@ export class TransactionDetailsViewComponent {
         this.fetchTransactions();
       }
     });
+  }
+  onEditTransaction(element:any){
+    const data = this.matDialog.open(TransactionAddDialogComponent, {
+      width: '600px',
+      minWidth: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'edit',
+        accountId : this.statement.account.id,
+        statementId: this.statement.id,
+        element
+      },
+    });
+    data.afterClosed().subscribe((result: any) => {
+      if (result) {
+        console.log(result);
+        this.resetPagination();
+        this.fetchTransactions();
+      }
+    });
+  }
+
+  onDelete(transactionId: string) {
+    this.transactionService.deleteTransaction(transactionId).subscribe({
+      next: (response: any) => {
+        this.snackbar.success(response.message || 'Transaction deleted successfully');
+        this.resetPagination();
+        this.fetchTransactions();
+      },
+      error: (error: any) => {
+        this.snackbar.error(error?.error?.details || 'Something went wrong');
+      },
+    }) 
   }
 
   resetPagination() {

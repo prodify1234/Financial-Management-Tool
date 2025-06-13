@@ -110,6 +110,12 @@ export let API = {
   },
   addTransaction: () => {
     return API_URL + `transactions`;
+  },
+  updateTransaction: (transactionId: string) => {
+    return API_URL + `transactions/${transactionId}`;
+  },
+  deleteTransaction: (transactionId: string) => {
+    return API_URL + `transactions/${transactionId}`;
   }
 
 };
