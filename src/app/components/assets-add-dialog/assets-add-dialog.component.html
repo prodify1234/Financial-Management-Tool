@@ -1,34 +1,82 @@
 <div class="dialog-container">
   <h1 mat-dialog-title>Add Assets</h1>
   <div mat-dialog-content>
-    <form>
-      <mat-form-field appearance="outline">
-        <mat-label>Asset Name</mat-label>
-        <input matInput placeholder="Asset Name">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Asset Type</mat-label>
-        <mat-select>
-          <mat-option value="one">Real Estate</mat-option>
-          <mat-option value="two">Vehicle</mat-option>
-          <mat-option value="three">Investments</mat-option>
-          <mat-option value="four">Cash</mat-option>
-          <mat-option value="other">Other</mat-option>
+    <form [formGroup]="selectedType === 'assets' ? assetItemsForm : liabilitiesItemsForm">
+      <mat-form-field>
+        <mat-label>Select</mat-label>
+        <mat-select [(value)]="selectedType">
+          <mat-option value="assets">Assets</mat-option>
+          <mat-option value="liabilities">Liabilities</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Asset value</mat-label>
-        <input type="number" matInput placeholder="Asset Value">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Asset Details</mat-label>
-        <textarea matInput placeholder="Asset Details"></textarea>
-      </mat-form-field>
+
+      <div class="assets-container" *ngIf="selectedType === 'assets'">
+        <mat-form-field>
+          <mat-label>Asset Type</mat-label>
+          <mat-select formControlName="assetType">
+            <mat-option *ngFor="let item of assets" [value]="item">{{item.display_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Current Value</mat-label>
+          <input matInput formControlName="currentValue">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Purchase Value</mat-label>
+          <input matInput formControlName="purchaseValue">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Expected ROI(%)</mat-label>
+          <input matInput formControlName="expectedRoi">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="purchaseDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <div class="liabilities-container" *ngIf="selectedType === 'liabilities'">
+        <mat-form-field>
+          <mat-label>Liabilities Type</mat-label>
+          <mat-select formControlName="liabilityType">
+            <mat-option *ngFor="let item of liabilities" [value]="item">{{item.display_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Outstanding Value</mat-label>
+          <input matInput formControlName="outstandingValue">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Principal Amount</mat-label>
+          <input matInput formControlName="principalAmount">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Tenure</mat-label>
+          <input matInput formControlName="tenure">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Interest Rate</mat-label>
+          <input matInput formControlName="interestRate">
+        </mat-form-field>
+      </div>
+
     </form>
 
   </div>
   <div mat-dialog-actions>
       <button type="button" (click)="onCancel()" mat-button>Cancel</button>
-      <button type="button" mat-flat-button>ADD</button>
+      <button type="button" mat-flat-button (click)="onAdd()">ADD</button>
   </div>
 </div>

@@ -29,6 +29,7 @@
     align-items: center;
     gap: 20px;
     width: 100%;
+
     &-card {
       flex: 1 1 20%;
       min-width: 20%;
@@ -154,3 +155,10 @@
 //   display: flex;
 //   gap: 10px;
 // }
+
+.active {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left-width: 6px;
+}

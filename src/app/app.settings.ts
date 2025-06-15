@@ -116,6 +116,37 @@ export let API = {
   },
   deleteTransaction: (transactionId: string) => {
     return API_URL + `transactions/${transactionId}`;
-  }
+  },
+
+  //financial items APIs.
+  getFinancialItems:()=>{
+    return API_URL + `financial-items/search`
+  },
+
+  getAssets:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets`
+  },
+
+  getLiabilities: ()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/liabilities`
+  },
+
+  getGenericCategories: ()=>{
+    const clientId = sessionStorage.getItem('clientId');
+    return API_URL + `clients/${clientId}/generic-category/search`
+  },
+
+  createFinancialItem:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets`
+  },
+
+  createLiabilityItem:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/liabilities`
+  },
+
 
 };
