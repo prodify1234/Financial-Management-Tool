@@ -14,26 +14,36 @@
 
 
 
-:root , * {
+:root,
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
+  @include mat.theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: -1,
+    ));
+}
 
-html, body { height: 100vh; background-color: var.$secondary-color; overflow-y: hidden; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100vh;
+  background-color: var.$secondary-color;
+  overflow-y: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .disabled {
   opacity: 0.5;
@@ -45,8 +55,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: var.$primary-color;
   color: var.$background-color !important;
   border-radius: 20px;
+
   .mat-icon {
-    color : var.$background-color
+    color: var.$background-color
   }
 }
 
@@ -58,18 +69,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .badge {
   background-color: var.$primary-color;
   color: var.$background-color;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-transform: uppercase;
-    width: fit-content !important;
-    height: 25px !important;
-    font-weight: 900;
-    font-size: 10px !important;
-    border-radius: 10px;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  width: fit-content !important;
+  height: 25px !important;
+  font-weight: 900;
+  font-size: 10px !important;
+  border-radius: 10px;
+  padding: 10px;
 
- 
+
 
   &-info {
     background-color: var.$darker-grey;
@@ -78,9 +89,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   &-success {
     background-color: var.$success-color;
   }
+
   &-warning {
     background-color: var.$warning-color;
   }
+
   &-danger {
     background-color: var.$danger-color;
   }
@@ -91,9 +104,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     &--10 {
       margin-top: 10px;
     }
+
     &--16 {
       margin-top: 16px;
     }
+
     &--20 {
       margin-top: 20px;
     }
