@@ -9,8 +9,12 @@ export class FinancialItemsService {
 
   constructor(private http: HttpClient) { }
 
-  getFinancialItems(body:any){
-    return this.http.post(API.getFinancialItems(), body)
+  getFinancialItems(currentPage:any, rowsOnPage:any, body:any){
+    const params = {
+      page: currentPage,
+      page_size: rowsOnPage
+    };
+    return this.http.post(API.getFinancialItems(), body, {params})
   }
 
   getAssets() {

@@ -54,11 +54,11 @@
 
           <mat-card-content class="financial-items-content__body__card__content">
             <div class="financial-items-content__body__card__content__outstanding">
-              <h3>Purchase Value</h3>
+              <h3>{{selectedCategory == 'all' ? 'Purchase Value' : selectedCategory === 'assets' ? 'Purchase Value' : 'Principal Amount'}}</h3>
               <p>{{selectedCategory === 'all' ? item.purchase_value : selectedCategory === 'assets' ? item.purchase_value : item.principal_amount}}</p>
             </div>
             <div class="financial-items-content__body__card__content__emi">
-              <h3>Item Type</h3>
+              <h3>{{selectedCategory === 'all' ? 'Item Type' : selectedCategory === 'assets' ? 'Current Value' : 'Tenure'}}</h3>
               <p>{{selectedCategory === 'all' ? item.item_type : selectedCategory === 'assets' ? item.current_value : item.tenure}}</p>
             </div>
           </mat-card-content>
@@ -70,6 +70,9 @@
         No items to display.
       </div>
     </div>
-  </div>
 
+    <mat-paginator [length]="totalItems()" [pageSize]="rowsOnPage()" [pageIndex]="currentPage()"
+      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPage($event)" aria-label="Select page" *ngIf="selectedCategory === 'all'">
+    </mat-paginator>
+  </div>
 </div>

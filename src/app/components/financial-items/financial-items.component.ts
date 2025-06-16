@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FinancialItemsService } from '../../services/financial-items.service';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-financial-items',
@@ -23,7 +24,8 @@ import { FinancialItemsService } from '../../services/financial-items.service';
     MatMenuModule,
     AssetsAddDialogComponent,
     MatCardModule,
-    CommonModule
+    CommonModule,
+    MatPaginatorModule
   ],
   templateUrl: './financial-items.component.html',
   styleUrl: './financial-items.component.scss',
@@ -171,6 +173,11 @@ export class FinancialItemsComponent implements OnInit{
   // },
   // ]
 
+  currentPage = signal<number>(0);
+  previousPage = signal<number | undefined>(0);
+  rowsOnPage = signal<number>(10);
+  totalItems = signal<number>(0);
+
   financialItems: any[] =[];
 
   selectedCategory: string = 'all';
@@ -185,18 +192,25 @@ export class FinancialItemsComponent implements OnInit{
 
   onSelectCategory(category: string) {
     console.log('selected Category: ', category)
-  this.selectedCategory = category;
-  this.isLoading = true;
-  this.financialItems = [];
+
+    if (this.selectedCategory !== category && category === 'all') {
+      this.currentPage.set(0);
+      this.rowsOnPage.set(10);
+    }
+    this.selectedCategory = category;
+    this.isLoading = true;
+    this.financialItems = [];
 
   const body = {
     person_id_in : [sessionStorage.getItem('personId')],
   };
 
   if (category === 'all') {
-    this.financialItemsService.getFinancialItems(body).subscribe((response: any) => {
-      console.log('All Financial Items: ', response)
+    this.financialItemsService.getFinancialItems(this.currentPage() + 1, this.rowsOnPage(), body).subscribe((response: any) => {
+      console.log('All Financial Items: ', response);
+      this.totalItems.update(() => response?.data?.total);
       this.financialItems = response.data.items;
+      console.log('All financialItems :', this.financialItems)
       this.isLoading = false;
     });
   } else if (category === 'assets') {
@@ -227,5 +241,13 @@ export class FinancialItemsComponent implements OnInit{
     data.afterClosed().subscribe((result:any)=>{
       this.onSelectCategory(this.selectedCategory);
     })
+  }
+
+  onPage(event: PageEvent) {
+    console.log(event);
+    this.currentPage.update(() => event.pageIndex);
+    this.rowsOnPage.update(() => event.pageSize);
+    this.previousPage.update(() => event.previousPageIndex);
+    this.onSelectCategory(this.selectedCategory);
   }
 }
