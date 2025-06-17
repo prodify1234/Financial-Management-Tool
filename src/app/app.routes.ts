@@ -18,26 +18,29 @@ import { TransactionDetailsViewComponent } from './components/transaction-detail
 import { TransactionDetailsAnalyzeComponent } from './components/transaction-details-analyze/transaction-details-analyze.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'login' , component: LoginComponent},
-  {path:'register', component: RegisterComponent},
-  {path: 'header', component: HeaderComponent},
-  {path: 'home', component: HomeComponent ,canActivate:[authGuard],canActivateChild:[authGuard],
-    children:[
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'family-details', component: FamilyDetailsComponent},
-      {path: 'accounts', component: AccountsComponent},
-      {path: 'packages' , component: PackagesComponent},
-      {path: 'financial-items' , component: FinancialItemsComponent },
-      {path: 'transaction-details' , children : [
-        { path : "" , component: TransactionDetailsComponent },
-        { path : "view",component: TransactionDetailsViewComponent },
-        { path : "analysis", component: TransactionDetailsAnalyzeComponent}
-      ]},
-      {path: 'categories', component: CategoriesComponent},
-      {path: 'networth', component: NetworthComponent},
-      {path: 'cashflows', component: CashflowsComponent},
-      {path: 'networth-trends', component: NetworthTrendsComponent}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'header', component: HeaderComponent },
+  {
+    path: 'home', component: HomeComponent, canActivate: [authGuard], canActivateChild: [authGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'family-details', component: FamilyDetailsComponent },
+      { path: 'accounts', component: AccountsComponent },
+      { path: 'packages', component: PackagesComponent },
+      { path: 'financial-items', component: FinancialItemsComponent },
+      {
+        path: 'transaction-details', children: [
+          { path: "", component: TransactionDetailsComponent },
+          { path: "view", component: TransactionDetailsViewComponent },
+          { path: "analysis", component: TransactionDetailsAnalyzeComponent }
+        ]
+      },
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'networth', component: NetworthComponent },
+      { path: 'cashflows', component: CashflowsComponent },
+      // {path: 'networth-trends', component: NetworthTrendsComponent}
 
     ]
   },

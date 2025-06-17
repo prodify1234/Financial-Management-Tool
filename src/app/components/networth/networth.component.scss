@@ -24,15 +24,7 @@
       padding: 8px 16px;
       gap: 4px;
 
-      &--filters {
-        display: flex;
-        flex-direction: row;
 
-        .mat-form-field {
-          width: 30px;
-
-        }
-      }
 
 
     }
@@ -47,19 +39,21 @@
       &--expense {
         flex: 1 1 50%;
         width: 50%;
-        padding: 16px 8px;
+        height: 100% !important;
+        padding: 8px 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
       }
 
       &--category {
         flex: 1 1 50%;
         width: 50%;
-        height: 400px;
-        padding: 16px 8px;
+        height: 100%;
+        padding: 8px 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
-
         gap: 8px;
 
         &__header {
@@ -82,6 +76,21 @@
     height: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  .chart-header {
+    color: var.$darker-grey;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+
+  .chart-filters {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    border-bottom: 1px solid var.$border-color;
+    align-items: center;
   }
 
 

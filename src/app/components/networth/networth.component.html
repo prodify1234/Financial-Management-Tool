@@ -1,24 +1,23 @@
 <div class="networth">
   <div class="networth-header">
     <div class="networth-header__title">
-      <h2>Networth</h2>
+      <h2>Networth Trends</h2>
     </div>
   </div>
   <div class="networth-body">
     <div class="networth-body__line-chart">
-      <div class="networth-body__line-chart--filters">
-        <h4>Networth over time</h4>
+      <div class="chart-filters">
+        <div class="chart-header">Networth over time</div>
+        <!-- <h4>Networth over time</h4> -->
         <div class="fill-space"></div>
-        <mat-form-field>
-          <mat-label>Time Period</mat-label>
-          <mat-select>
+        <!-- <mat-form-field appearance="outline">
+          <mat-select value="1">
             <mat-option value="1">Last 1 Month</mat-option>
             <mat-option value="3">Last 3 Months</mat-option>
             <mat-option value="6">Last 6 Months</mat-option>
             <mat-option value="12">Last 12 Months</mat-option>
           </mat-select>
-        </mat-form-field>
-
+        </mat-form-field> -->
       </div>
       <div class="canvas-chart">
         <canvas #lineChart></canvas>
@@ -27,15 +26,19 @@
     </div>
     <div class="networth-body__bar-charts">
       <div class="networth-body__bar-charts--expense">
-        <h4>Income vs Expenses</h4>
-        <div class="fill-space"></div>
-        <div class="canvas-chart">
-          <canvas #expenseBarChart></canvas>
+        <div class="chart-filters">
+          <div class="chart-header">Income vs Expenses</div>
+          <div class="fill-space"></div>
+        </div>
+        <div>
+          <div class="canvas-chart">
+            <canvas #expenseBarChart></canvas>
+          </div>
         </div>
       </div>
       <div class="networth-body__bar-charts--category">
-        <div class="networth-body__bar-charts--category__header">
-          <h4>Spending By Category</h4>
+        <div class="chart-filters">
+          <div class="chart-header">Spending By Category</div>
           <div class="fill-space"></div>
         </div>
         <div class="networth-body__bar-charts--category__body">
