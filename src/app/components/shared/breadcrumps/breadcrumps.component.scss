@@ -1,19 +1,21 @@
 @use "../../../sass/variables" as var;
 
 
-.bread-crump{
+.bread-crump {
   display: flex;
   justify-content: start;
   align-items: center;
+  font-size: 14px;
 
   .mat-icon {
     color: var.$primary-color;
   }
+
   &__list {
     list-style: none;
     display: flex;
     flex-direction: row;
-    gap:4px;
+    gap: 4px;
 
     &-item {
       display: flex;
