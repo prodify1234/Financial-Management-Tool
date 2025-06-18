@@ -7,6 +7,9 @@ import { API } from '../app.settings';
 })
 export class FinancialItemsService {
 
+  selectedHead : string = '';
+  selectedClassification : string = '';
+
   constructor(private http: HttpClient) { }
 
   getFinancialItems(currentPage:any, rowsOnPage:any, body:any){
@@ -37,5 +40,22 @@ export class FinancialItemsService {
   createLiabilityItem(body:any) {
     console.log('New Liability item body: ', body)
     return this.http.post(API.createLiabilityItem(), body)
+  }
+
+  //new
+
+  getItemHeads(body: any){
+    console.log('Body: ', body);
+    return this.http.post(API.getItemHeads(), body)
+  }
+
+  getItemHeadDetails(body:any){
+    console.log('Item Head Details Body: ', body);
+    return this.http.post(API.getItemHeadDetails(), body)
+  }
+
+  getClassificationItems(body:any) {
+    console.log('Classification Items body: ', body);
+    return this.http.post(API.getClassificationItems(), body)
   }
 }

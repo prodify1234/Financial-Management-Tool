@@ -148,5 +148,17 @@ export let API = {
     return API_URL + `persons/${personId}/liabilities`
   },
 
+  //new
+  getItemHeads:()=>{
+    return API_URL + `class-based-analysis/heads/summary`;
+  },
+
+  getItemHeadDetails:()=>{
+    return API_URL + `class-based-analysis/head/details`;
+  },
+
+  getClassificationItems:()=>{
+    return API_URL + `class-based-analysis/items`;
+  }
 
 };
