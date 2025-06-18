@@ -31,12 +31,12 @@
   width: 100%;
   display: block;
   overflow-x: auto;
-  padding: 12px 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .mat-mdc-table {
   width: 100%;
+  padding: 4px 8px;
 
   .mat-mdc-header-row {
     color: $primary-color;
