@@ -1,0 +1,44 @@
+<div class="financial-items-head-details">
+  <div class="financial-items-head-details-content" >
+    <button *ngIf="viewLevel > 1" mat-flat-button (click)="onBack()">Back</button>
+    <div class="financial-items-head-details-content__body">
+      <mat-card class="financial-items-head-details-content__body__card" *ngFor="let item of itemDetails">
+        <mat-card-content>
+          <div class="financial-items-head-details-content__body__card__header">
+            <div class="financial-items-head-details-content__body__card__header__title">
+              <h3 *ngIf="viewLevel === 1">{{item.head}}</h3>
+              <h3 *ngIf="viewLevel === 2">{{item.main_classification}}</h3>
+              <h3 *ngIf="viewLevel === 3">{{item.display_name}}</h3>
+            </div>
+            <div class="financial-items-head-details-content__body__card__header__icon">
+              <mat-icon color="primary">bar_chart</mat-icon>
+            </div>
+          </div>
+
+          <div class="financial-items-head-details-content__body__card__value">
+
+            <ng-container *ngIf="viewLevel === 1 || viewLevel === 2">
+              Total Purchase Value: ₹{{ item.total_purchase_value }}
+            </ng-container>
+
+            <ng-container *ngIf="viewLevel === 3">
+              Purchase Value: ₹{{item.purchase_value}}
+            </ng-container>
+
+            <ng-container *ngIf="item.item_type[0] === 'FINANCIAL_OBLIGATION'">
+              Total Outstanding Value: ₹{{item.total_outstanding_value}}
+            </ng-container>
+          </div>
+
+          <div class="financial-items-head-details-content__body__card__items" *ngIf="viewLevel === 1 || viewLevel === 2">
+            Items: {{item.item_count}}
+          </div>
+
+          <div class="financial-items-head-details-content__body__card__footer" (click)="onClick(item)">
+            <p>View Details</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

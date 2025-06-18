@@ -1,78 +1,36 @@
 <div class="financial-items">
   <div class="financial-items-header">
-    <div class="financial-items-header__title">
-      <h2>Financial Items </h2>
-    </div>
+    <app-financial-items-header></app-financial-items-header>
   </div>
 
-  <div class="financial-items-cards">
-    <div class="financial-items-cards-card financial-items-cards-card--info"
-    [class.active]="selectedCategory === 'all'"
-    (click)="onSelectCategory('all')">
-      <div class="financial-items-cards-card__label">
-        All Items
-      </div>
-    </div>
-    <div class="financial-items-cards-card financial-items-cards-card--default"
-    [class.active]="selectedCategory === 'assets'"
-    (click)="onSelectCategory('assets')">
-      <div class="financial-items-cards-card__label">
-        Assets
-      </div>
-    </div>
-    <div class="financial-items-cards-card financial-items-cards-card--warning"
-    [class.active]="selectedCategory === 'liabilities'"
-    (click)="onSelectCategory('liabilities')">
-      <div class="financial-items-cards-card__label">
-        Liabilities
-      </div>
-    </div>
-  </div>
-
-  <div class="financial-items-add-btn">
-    <button mat-flat-button (click)="onAddAsset()">
-      <mat-icon>add</mat-icon>
-      Add Item
-    </button>
-  </div>
-
-  <div class="financial-items-content">
+  <!-- <div class="financial-items-content">
     <div class="financial-items-content__body">
-      <ng-container *ngIf="!isLoading && financialItems.length > 0">
-        <mat-card class="financial-items-content__body__card" appearance="outlined" *ngFor="let item of financialItems">
-          <mat-card-header class="financial-items-content__body__card__header">
-            <mat-card-title-group class="financial-items-content__body__card__header__group">
-              <div class="financial-items-content__body__card__header__group__title">
-                <mat-card-title>{{selectedCategory === 'all' ?
-                item.category_name : selectedCategory === 'assets' ?
-                item.asset_type : item.liability_type}}</mat-card-title>
-
-                <mat-card-subtitle>{{selectedCategory === 'all' ? item.category_head : selectedCategory ==='assets' ? item.created_at : item.created_at}}</mat-card-subtitle>
-              </div>
-            </mat-card-title-group>
-          </mat-card-header>
-
-          <mat-card-content class="financial-items-content__body__card__content">
-            <div class="financial-items-content__body__card__content__outstanding">
-              <h3>{{selectedCategory == 'all' ? 'Purchase Value' : selectedCategory === 'assets' ? 'Purchase Value' : 'Principal Amount'}}</h3>
-              <p>{{selectedCategory === 'all' ? item.purchase_value : selectedCategory === 'assets' ? item.purchase_value : item.principal_amount}}</p>
+      <mat-card class="financial-items-content__body__card" *ngFor="let card of items">
+        <mat-card-content>
+          <div class="financial-items-content__body__card__header">
+            <div class="financial-items-content__body__card__header__title">
+              <h3>{{ card[0] }}</h3>
             </div>
-            <div class="financial-items-content__body__card__content__emi">
-              <h3>{{selectedCategory === 'all' ? 'Item Type' : selectedCategory === 'assets' ? 'Current Value' : 'Tenure'}}</h3>
-              <p>{{selectedCategory === 'all' ? item.item_type : selectedCategory === 'assets' ? item.current_value : item.tenure}}</p>
+            <div class="financial-items-content__body__card__header__icon">
+              <mat-icon color="primary">bar_chart</mat-icon>
             </div>
-          </mat-card-content>
-        </mat-card>
-      </ng-container>
+          </div>
 
-      <div *ngIf="isLoading" class="loading-placeholder">Loading...</div>
-      <div *ngIf="!isLoading && financialItems?.length === 0" class="no-data">
-        No items to display.
-      </div>
+          <div class="financial-items-content__body__card__value">
+            Total Purchase Value: ₹{{ card[1].total_purchase_value | number:'1.0-0' }}
+          </div>
+
+          <div class="financial-items-content__body__card__items">
+            Items: 10
+          </div>
+
+          <div class="financial-items-content__body__card__footer">
+            <p (click)="getItemHeadDetails(card)">View Details</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
+  </div> -->
 
-    <mat-paginator [length]="totalItems()" [pageSize]="rowsOnPage()" [pageIndex]="currentPage()"
-      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPage($event)" aria-label="Select page" *ngIf="selectedCategory === 'all'">
-    </mat-paginator>
-  </div>
+  <router-outlet></router-outlet>
 </div>
