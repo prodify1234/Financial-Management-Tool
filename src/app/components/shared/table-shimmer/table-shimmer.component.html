@@ -1,23 +1,24 @@
-
-<table class="table-width">
-  <tr>
-    @for(column of [].constructor(columns) ; track `k${column}`) {
-        <td>
-          <div class="shimmer-header"></div>
-        </td>
-    }
-  </tr>
-  <tbody>
-    @for(row of [].constructor(rows) ;track row;let index = $index) {
+<div class="table-wrapper">
+  <table class="table-width">
+    <tr>
+      @for(column of [].constructor(columns) ; track `k${column}`) {
+      <td>
+        <div class="shimmer-header"></div>
+      </td>
+      }
+    </tr>
+    <tbody>
+      @for(row of [].constructor(rows) ;track row;let index = $index) {
       <tr>
         @for(column of [].constructor(columns) ; track `c${column}`) {
-            <td>
-              <div class="shimmer-line"></div>
-            </td>
+        <td>
+          <div class="shimmer-line"></div>
+        </td>
         }
       </tr>
-     
-    }
-   
-  </tbody>
-</table>
+
+      }
+
+    </tbody>
+  </table>
+</div>
