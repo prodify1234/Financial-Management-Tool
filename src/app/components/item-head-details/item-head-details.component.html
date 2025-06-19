@@ -1,6 +1,9 @@
 <div class="financial-items-head-details">
-  <div class="financial-items-head-details-content" >
-    <button *ngIf="viewLevel > 1" mat-flat-button (click)="onBack()">Back</button>
+  <button *ngIf="viewLevel > 1" mat-flat-button (click)="onBack()">Back</button>
+  <div class="financial-items-head-details-content">
+    <div class="financial-items-head-details-content__spinner" *ngIf="loader()">
+      <mat-spinner></mat-spinner>
+    </div>
     <div class="financial-items-head-details-content__body">
       <mat-card class="financial-items-head-details-content__body__card" *ngFor="let item of itemDetails">
         <mat-card-content>
@@ -32,6 +35,10 @@
 
           <div class="financial-items-head-details-content__body__card__items" *ngIf="viewLevel === 1 || viewLevel === 2">
             Items: {{item.item_count}}
+          </div>
+
+          <div class="financial-items-head-details-content__body__card__items" *ngIf="viewLevel === 3">
+            Depreciating: {{item.is_depreciating === false? 'No' : 'Yes'}}
           </div>
 
           <div class="financial-items-head-details-content__body__card__footer" (click)="onClick(item)">

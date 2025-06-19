@@ -18,6 +18,11 @@
     display: flex;
     flex-wrap: wrap;
     padding: 24px;
+
+    &__spinner {
+      width: 90vw;
+      margin-left: 50%;
+    }
     &__body {
       width: 100%;
       display: flex;

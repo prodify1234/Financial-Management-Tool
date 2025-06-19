@@ -17,6 +17,7 @@ import { NetworthTrendsComponent } from './components/networth-trends/networth-t
 import { TransactionDetailsViewComponent } from './components/transaction-details-view/transaction-details-view.component';
 import { TransactionDetailsAnalyzeComponent } from './components/transaction-details-analyze/transaction-details-analyze.component';
 import { ItemHeadDetailsComponent } from './components/item-head-details/item-head-details.component';
+import { ItemDetailsComponent } from './components/item-details/item-details.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -31,7 +32,8 @@ export const routes: Routes = [
       {path: 'packages' , component: PackagesComponent},
       {path: 'financial-items' , component: FinancialItemsComponent, children: [
         { path: '', redirectTo: 'item-details', pathMatch: 'full' },
-        {path: "item-details", component: ItemHeadDetailsComponent}
+        {path: "item-details", component: ItemHeadDetailsComponent},
+        {path: "items", component: ItemDetailsComponent},
       ] },
       {path: 'transaction-details' , children : [
         { path : "" , component: TransactionDetailsComponent },
