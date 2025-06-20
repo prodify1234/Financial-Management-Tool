@@ -18,6 +18,7 @@ import { TransactionDetailsViewComponent } from './components/transaction-detail
 import { TransactionDetailsAnalyzeComponent } from './components/transaction-details-analyze/transaction-details-analyze.component';
 import { ItemHeadDetailsComponent } from './components/item-head-details/item-head-details.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
+import { ItemDetailsComponent } from './components/item-details/item-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,7 +35,8 @@ export const routes: Routes = [
       {
         path: 'financial-items', component: FinancialItemsComponent, children: [
           { path: '', redirectTo: 'item-details', pathMatch: 'full' },
-          { path: "item-details", component: ItemHeadDetailsComponent }
+          { path: "item-details", component: ItemHeadDetailsComponent },
+          { path: "items", component: ItemDetailsComponent}
         ]
       },
       {
