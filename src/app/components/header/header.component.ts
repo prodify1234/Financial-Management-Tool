@@ -10,30 +10,30 @@ import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-header',
-  imports: [ MatIconModule, MatButtonModule ,MatSidenavModule,MatMenuModule, RouterModule ],
+  imports: [MatIconModule, MatButtonModule, MatSidenavModule, MatMenuModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit,OnChanges{
+export class HeaderComponent implements OnInit, OnChanges {
 
-  person:any = {}
-  @Input() rootWidth : number = 0;
+  person: any = {}
+  @Input() rootWidth: number = 0;
   snackbar = inject(SnackbarService)
   sidenavService = inject(SidenavService);
-  router= inject(Router);
+  router = inject(Router);
   loginService = inject(LoginService);
 
-  constructor(){
+  constructor() {
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if(this.rootWidth < 1024){
+    if (this.rootWidth < 1024) {
       this.sidenavService.openSideNav.next(false);
-    } 
-  
+    }
+
   }
 
   ngOnInit(): void {
@@ -42,24 +42,28 @@ export class HeaderComponent implements OnInit,OnChanges{
     this.getPersonName();
   }
 
-  getPersonName(){
+  getPersonName() {
     this.loginService.getClientById().subscribe({
-      next : (response:any)=>{
-         this.person = response.data.person;
+      next: (response: any) => {
+        this.person = response.data.person;
       },
-      error :(error)=>{
-          this.snackbar.error(error.error.details || 'Failed to fetch person details');
+      error: (error) => {
+        this.snackbar.error(error.error.details || 'Failed to fetch person details');
       }
     })
   }
 
-  toggleSideNav(){
+  toggleSideNav() {
     this.sidenavService.openSideNav.next(!this.sidenavService.openSideNav.getValue());
   }
 
-  onLogout(){
+  onLogout() {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('clientId')
     this.router.navigate(['/login'])
+  }
+
+  onProfileUpdate() {
+    this.router.navigate(['home', 'profile-update'])
   }
 }

@@ -17,33 +17,38 @@ import { NetworthTrendsComponent } from './components/networth-trends/networth-t
 import { TransactionDetailsViewComponent } from './components/transaction-details-view/transaction-details-view.component';
 import { TransactionDetailsAnalyzeComponent } from './components/transaction-details-analyze/transaction-details-analyze.component';
 import { ItemHeadDetailsComponent } from './components/item-head-details/item-head-details.component';
-import { ItemDetailsComponent } from './components/item-details/item-details.component';
+import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'login' , component: LoginComponent},
-  {path:'register', component: RegisterComponent},
-  {path: 'header', component: HeaderComponent},
-  {path: 'home', component: HomeComponent ,canActivate:[authGuard],canActivateChild:[authGuard],
-    children:[
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'family-details', component: FamilyDetailsComponent},
-      {path: 'accounts', component: AccountsComponent},
-      {path: 'packages' , component: PackagesComponent},
-      {path: 'financial-items' , component: FinancialItemsComponent, children: [
-        { path: '', redirectTo: 'item-details', pathMatch: 'full' },
-        {path: "item-details", component: ItemHeadDetailsComponent},
-        {path: "items", component: ItemDetailsComponent},
-      ] },
-      {path: 'transaction-details' , children : [
-        { path : "" , component: TransactionDetailsComponent },
-        { path : "view",component: TransactionDetailsViewComponent },
-        { path : "analysis", component: TransactionDetailsAnalyzeComponent}
-      ]},
-      {path: 'categories', component: CategoriesComponent},
-      {path: 'networth', component: NetworthComponent},
-      {path: 'cashflows', component: CashflowsComponent},
-      {path: 'networth-trends', component: NetworthTrendsComponent}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'header', component: HeaderComponent },
+  {
+    path: 'home', component: HomeComponent, canActivate: [authGuard], canActivateChild: [authGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'family-details', component: FamilyDetailsComponent },
+      { path: 'accounts', component: AccountsComponent },
+      { path: 'packages', component: PackagesComponent },
+      {
+        path: 'financial-items', component: FinancialItemsComponent, children: [
+          { path: '', redirectTo: 'item-details', pathMatch: 'full' },
+          { path: "item-details", component: ItemHeadDetailsComponent }
+        ]
+      },
+      {
+        path: 'transaction-details', children: [
+          { path: "", component: TransactionDetailsComponent },
+          { path: "view", component: TransactionDetailsViewComponent },
+          { path: "analysis", component: TransactionDetailsAnalyzeComponent }
+        ]
+      },
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'networth', component: NetworthComponent },
+      { path: 'cashflows', component: CashflowsComponent },
+      { path: 'networth-trends', component: NetworthTrendsComponent },
+      { path: 'profile-update', component: ProfileUpdateComponent }
     ]
   },
 ];

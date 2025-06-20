@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { Subscription } from 'rxjs';
 
 export interface PeriodicElement {
   id: string,
@@ -40,7 +41,7 @@ export interface PeriodicElement {
   templateUrl: './transaction-details.component.html',
   styleUrl: './transaction-details.component.scss',
 })
-export class TransactionDetailsComponent implements OnInit {
+export class TransactionDetailsComponent implements OnInit, OnDestroy {
   transactionColumns: string[] = [
     'FileName',
     'AccountType',
@@ -68,6 +69,10 @@ export class TransactionDetailsComponent implements OnInit {
   private snackbar = inject(SnackbarService)
   private transactionService = inject(TransactionDetailsService);
 
+
+  /**Subscriptions */
+  transactionsSub !: Subscription
+
   ngOnInit(): void {
     this.loadTransactionDetails();
     console.log(this.route.pathFromRoot)
@@ -80,26 +85,36 @@ export class TransactionDetailsComponent implements OnInit {
 
   loadTransactionDetails() {
     this.loader.update(() => true);
-    this.transactionDetailsService
+    this.transactionsSub = this.transactionDetailsService
       .loadDetails(this.currentPage() + 1, this.rowsOnPage())
-      .subscribe((response: any) => {
-        console.log('Transaction Details Response: ', response);
-        this.totalTransactions.update(() => response?.data?.total);
-        this.allTransactions = response.data.items;
-        this.transactionSource = this.allTransactions.map((item: any) => ({
-          id: item.id,
-          account_id: item.account.account_id,
-          FileName: item.file_name,
-          AccountType: item.account.account_type,
-          Provider: item.account.provider,
-          BeneficiaryName: item.account.beneficiary_name,
-          // UploadStatus: item.upload_status,
-          AnalysisStatus: item.overall_analysis_status,
-          actions: '',
-        }));
-        this.overallSummary = { ...response.data.overall_analysis_state_summary };
-        this.loader.update(() => false);
-      });
+      .subscribe({
+        next: (response: any) => {
+          console.log('Transaction Details Response: ', response);
+          this.totalTransactions.update(() => response?.data?.total);
+          this.allTransactions = response.data.items;
+          this.transactionSource = this.allTransactions.map((item: any) => ({
+            id: item.id,
+            account_id: item.account.account_id,
+            FileName: item.file_name,
+            AccountType: item.account.account_type,
+            Provider: item.account.provider,
+            BeneficiaryName: item.account.beneficiary_name,
+            // UploadStatus: item.upload_status,
+            AnalysisStatus: item.overall_analysis_status,
+            actions: '',
+          }));
+          this.overallSummary = { ...response.data.overall_analysis_state_summary };
+          this.loader.update(() => false);
+        },
+        error: (error) => {
+          console.log(error)
+          this.loader.update(() => false)
+          //  this.snackbar.error(error.details)
+        }
+
+
+      }
+      );
   }
 
   onUploadStatement() {
@@ -162,5 +177,13 @@ export class TransactionDetailsComponent implements OnInit {
       this.snackbar.open(response.data.message, 'Close', 3000);
       this.loadTransactionDetails();
     })
+  }
+
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.transactionsSub.unsubscribe()
+
   }
 }
