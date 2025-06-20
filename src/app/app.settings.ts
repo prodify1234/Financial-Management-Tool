@@ -158,7 +158,11 @@ export let API = {
   },
 
   getClassificationItems:()=>{
-    return API_URL + `class-based-analysis/items`;
+    return API_URL + `class-based-analysis/items/cumulative`;
+  },
+
+  getItemDetails:()=>{
+    return API_URL + `class-based-analysis/items/details`;
   }
 
 };

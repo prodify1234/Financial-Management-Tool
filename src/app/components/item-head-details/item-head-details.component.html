@@ -20,12 +20,8 @@
 
           <div class="financial-items-head-details-content__body__card__value">
 
-            <ng-container *ngIf="viewLevel === 1 || viewLevel === 2">
+            <ng-container>
               Total Purchase Value: ₹{{ item.total_purchase_value }}
-            </ng-container>
-
-            <ng-container *ngIf="viewLevel === 3">
-              Purchase Value: ₹{{item.purchase_value}}
             </ng-container>
 
             <ng-container *ngIf="item.item_type[0] === 'FINANCIAL_OBLIGATION'">
@@ -33,12 +29,8 @@
             </ng-container>
           </div>
 
-          <div class="financial-items-head-details-content__body__card__items" *ngIf="viewLevel === 1 || viewLevel === 2">
+          <div class="financial-items-head-details-content__body__card__items">
             Items: {{item.item_count}}
-          </div>
-
-          <div class="financial-items-head-details-content__body__card__items" *ngIf="viewLevel === 3">
-            Depreciating: {{item.is_depreciating === false? 'No' : 'Yes'}}
           </div>
 
           <div class="financial-items-head-details-content__body__card__footer" (click)="onClick(item)">

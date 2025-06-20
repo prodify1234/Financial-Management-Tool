@@ -58,4 +58,9 @@ export class FinancialItemsService {
     console.log('Classification Items body: ', body);
     return this.http.post(API.getClassificationItems(), body)
   }
+
+  getItemDetails(body:any){
+    console.log('4th level body: ', body);
+    return this.http.post(API.getItemDetails(), body)
+  }
 }

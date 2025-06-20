@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BreadcrumpsComponent } from '../shared/breadcrumps/breadcrumps.component';
 
 @Component({
   selector: 'app-item-head-details',
@@ -19,7 +20,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     CommonModule,
     HeaderComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    BreadcrumpsComponent
   ],
   templateUrl: './item-head-details.component.html',
   styleUrl: './item-head-details.component.scss'
@@ -103,7 +105,7 @@ export class ItemHeadDetailsComponent implements OnInit{
     this.itemDetails = [];
     this.financialItemsService.getClassificationItems(body).subscribe((response:any)=>{
       console.log('Classification Items: ', response);
-      this.itemDetails = response.data.main_classifications[0].items;
+      this.itemDetails = response.data.main_classifications;
 
       console.log('Item Details: ', this.itemDetails)
       this.loader.update(() => false);
@@ -117,12 +119,12 @@ export class ItemHeadDetailsComponent implements OnInit{
     console.log('Level: ', this.viewLevel);
     console.log('Item: ', item)
 
-    const currentParams = this.route.snapshot.queryParams
+    const currentParams : any = { ...this.route.snapshot.queryParams, display_name: item.display_name };
 
     if (this.viewLevel === 3) {
       this.router.navigate(['../items'], {
         relativeTo: this.route,
-        queryParams : currentParams,
+        queryParams : currentParams
       });
       return;
     }
