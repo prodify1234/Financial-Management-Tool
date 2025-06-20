@@ -1,0 +1,156 @@
+<div class="profile">
+  <!-- <h3 class="profile-header">Profile</h3> -->
+  <div class="profile-content">
+    <div class="profile-content-details">
+      <div class="profile-content-details__cover">
+        <!-- Hello -->
+        <img [src]="'public/profile-cover1.jpg'">
+      </div>
+      <img class="profile-image" [src]="'public/profile.jpg'">
+      <div class="profile-content-details__labels">
+        <div class="profile-content-details__labels--name">{{ person.first_name + " " + person.last_name}}</div>
+        <div class="profile-content-details__labels--info">
+          <div class="detail-card">
+            <mat-icon class="primary">call</mat-icon>
+            <span>{{person.phone_number}}</span>
+          </div>
+          <div class="detail-card">
+            <mat-icon class="success">mail</mat-icon>
+            <span>{{person.email}}</span>
+          </div>
+          <div class="detail-card">
+            <mat-icon class="warning">location_on</mat-icon>
+            <span>{{person.address}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-tabs">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Personal Details">
+        <div class="profile-tabs__personal-details">
+          <div class="profile-tabs__personal-details--header">
+            Personal Details
+          </div>
+          <div class="profile-tabs__personal-details--body">
+            <div class="profile-tabs__personal-details--body__block border-1">
+              <div class="label-item">
+                <div class="label-item__header">first name</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.first_name}}</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">last name</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.last_name}}</div>
+              </div>
+
+              <div class="label-item">
+                <div class="label-item__header">display name</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.first_name + " " + person.last_name}}</div>
+              </div>
+
+              <div class="label-item">
+                <div class="label-item__header">Phone</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.phone_number}}</div>
+              </div>
+
+
+            </div>
+            <div class="profile-tabs__personal-details--body__block">
+              <div class="label-item">
+                <div class="label-item__header">Email</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.email}}</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">AADHAR</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.aadhaar_number}}</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">PAN</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.pan_number}}</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">Address</div>
+                <div>:</div>
+                <div class="label-item__content">{{person.address}}</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+      <mat-tab label="Income Details">
+        <div class="profile-tabs__personal-details">
+          <div class="profile-tabs__personal-details--header">
+            <div> Income Details</div>
+            <div class="fill-space"></div>
+            <button class="btn-action" matTooltip="Add Income Details"><mat-icon>add</mat-icon> </button>
+
+          </div>
+          <div class="profile-tabs__personal-details--body">
+            <div class="profile-tabs__personal-details--body__block border-1">
+              <div class="label-item">
+                <div class="label-item__header">first name</div>
+                <div>:</div>
+                <div class="label-item__content">Venkata Durga Jnanesh</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">last name</div>
+                <div>:</div>
+                <div class="label-item__content">Varahagiri</div>
+              </div>
+
+              <div class="label-item">
+                <div class="label-item__header">display name</div>
+                <div>:</div>
+                <div class="label-item__content">Venkata Durga Jnanesh Varahagiri</div>
+              </div>
+
+              <div class="label-item">
+                <div class="label-item__header">Phone</div>
+                <div>:</div>
+                <div class="label-item__content">+91 8309752441</div>
+              </div>
+
+
+            </div>
+            <div class="profile-tabs__personal-details--body__block">
+              <div class="label-item">
+                <div class="label-item__header">Email</div>
+                <div>:</div>
+                <div class="label-item__content">jnaneshvenki019gmail.com</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">AADHAR</div>
+                <div>:</div>
+                <div class="label-item__content">7023 3705 2755</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">PAN</div>
+                <div>:</div>
+                <div class="label-item__content">BVRPV1516P</div>
+              </div>
+              <div class="label-item">
+                <div class="label-item__header">Address</div>
+                <div>:</div>
+                <div class="label-item__content">10-5-2/1, Ramnagar, Visakhapatnam, India - 530002, Visakhapatnam,
+                  Andhra Pradesh, India</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+      <!-- <mat-tab label="Third">Content 3</mat-tab> -->
+    </mat-tab-group>
+  </div>
+</div>

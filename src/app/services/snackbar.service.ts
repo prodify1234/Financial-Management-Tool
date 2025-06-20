@@ -7,13 +7,13 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 export class SnackbarService {
   private defaultDuration = 3000; // Set default duration in milliseconds
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) { }
 
   open(message: string, action: string = 'Close', duration?: number) {
     const config: MatSnackBarConfig = {
       duration: duration ?? this.defaultDuration,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
     };
     this.snackBar.open(message, action, config);
   }

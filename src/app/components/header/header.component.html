@@ -12,13 +12,16 @@
     <!-- <button mat-button class="header__button">Upload</button>
     <button mat-button class="header__button">Settings</button> -->
     <button mat-button [matMenuTriggerFor]="menu" type="button">
-      <mat-icon class="header-actions__avatar">account_circle</mat-icon>
-      <span class="header-actions__username">{{( this.person?.first_name && this.person.last_name ) ? this.person.first_name + " " + this.person.last_name : 'N/A'}}</span>
+
+      <img class="header-actions__avatar" src="public/profile.jpg">
+
+      <div class="header-actions__username">{{( this.person?.first_name && this.person.last_name ) ?
+        this.person.first_name : 'N/A'}}</div>
       <mat-menu #menu="matMenu">
         <button mat-menu-item type="button" (click)="onLogout()">Logout <mat-icon>logout</mat-icon></button>
+        <button mat-menu-item type="button" (click)="onProfileUpdate()">Profile
+          <mat-icon>account_circle</mat-icon></button>
       </mat-menu>
     </button>
   </div>
 </header>
-
-
