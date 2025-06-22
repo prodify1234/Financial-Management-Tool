@@ -1,1 +1,62 @@
 <button mat-flat-button (click)="onBack()">Back</button>
+<div class="item-details">
+  @if(loader()){
+  <app-table-shimmer [rows]="10" [columns]="5"></app-table-shimmer>
+  } @else {
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="accountSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="sub_classification">
+        <th mat-header-cell *matHeaderCellDef>Classification</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.sub_classification ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="purchase_value">
+        <th mat-header-cell *matHeaderCellDef>Purchase Value</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.purchase_value ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="current_value">
+        <th mat-header-cell *matHeaderCellDef>Current Value</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.current_value ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="item_type">
+        <th mat-header-cell *matHeaderCellDef>Item Type</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.item_type ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="is_depreciating">
+        <th mat-header-cell *matHeaderCellDef>Depreciating</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.is_depreciating ? "YES" : "NO" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="interest_rate">
+        <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.interest_rate ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expected_roi">
+        <th mat-header-cell *matHeaderCellDef>Expected ROI</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.expected_roi ?? "N/A" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="tableDataColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableDataColumns"></tr>
+    </table>
+  </div>
+}
+</div>
