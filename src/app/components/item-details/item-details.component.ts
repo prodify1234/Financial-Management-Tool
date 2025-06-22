@@ -31,13 +31,14 @@ export class ItemDetailsComponent implements OnInit {
   loader  = signal<boolean>(false)
 
   tableDataColumns:string[]=[
-    'sub_classification',
-    'purchase_value',
-    'current_value',
+    'display_name',
     'item_type',
+    'start_date',
     'is_depreciating',
     'interest_rate',
-    'expected_roi'
+    'expected_roi',
+    'purchase_value',
+    'current_value',
   ];
 
   ngOnInit(): void {
@@ -66,13 +67,14 @@ export class ItemDetailsComponent implements OnInit {
       console.log('4th Level Response: ', response);
       this.allItems = response.data.display_name_groups[0].items;
       this.accountSource = this.allItems.map((item:any)=>({
-        sub_classification : item.sub_classification,
-        purchase_value : item.purchase_value,
-        current_value : item.current_value,
+        display_name : item.display_name,
         item_type : item.item_type,
+        start_date : new Date(item.start_date).toLocaleDateString('en-GB'),
         is_depreciating : item.is_depreciating,
         interest_rate : item.interest_rate,
-        expected_roi : item.expected_roi
+        expected_roi : item.expected_roi,
+        purchase_value : item.purchase_value,
+        current_value : item.current_value,
       }))
       this.loader.update(()=>false);
     })
