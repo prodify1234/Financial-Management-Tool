@@ -2,7 +2,41 @@
   <div class="dashboard-header">
     <h2>Dashboard</h2>
   </div>
+
   <div class="dashboard-body">
-    
+    <div class="dashboard-body-container">
+      <div class="dashboard-body-container-analysis">
+        <h3>Bank-wise Transaction Analysis</h3>
+      </div>
+      <div class="dashboard-body-container-content">
+        <div class="dashboard-body-container-content-container" *ngFor="let card of cardData">
+          <div class="dashboard-body-container-content-container-card" >
+            <div class="dashboard-body-container-content-container-card-head">
+              <img [src]="card.bank_logo_url" alt="bank-logo" [style.height.px]="50" [style.width.px]="50">
+              <h3>{{card.provider}}</h3>
+            </div>
+
+            <div class="dashboard-body-container-content-container-card-content">
+              <p>Total Transactions</p>
+              <b><p>{{card.totalTransactions}}</p></b>
+            </div>
+
+            <div class="dashboard-body-container-content-container-card-content">
+              <p>Total Inflow</p>
+              <p class="dashboard-body-container-content-container-card-content-inflow">₹{{card.inflow}}</p>
+            </div>
+
+            <div class="dashboard-body-container-content-container-card-content">
+              <p>Total Outflow</p>
+              <p class="dashboard-body-container-content-container-card-content-outflow">₹{{card.outflow}}</p>
+            </div>
+
+            <div>
+              <p>{{card.percentage_of_transactions}}% of total transactions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

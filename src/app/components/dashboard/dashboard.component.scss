@@ -22,12 +22,63 @@
     }
 
   }
-  &-body { 
+  &-body {
+    width: 100%;
+    height: 100%;
+    &-container{
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      padding: 10px;
+      border-radius: 5px;
+      &-analysis {
+        margin-bottom: 10px;
+        width: 100%;
+        border-bottom: 1px solid lightgray;
+        padding-bottom: 10px;
+      }
+    &-content {
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      white-space: nowrap;
+
+      &-container {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        padding: 10px;
+        border-radius: 5px;
+        &-card {
+          width: 400px;
+          line-height: 30px;
+          &-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+          &-content {
+            display: flex;
+            justify-content: space-between;
+
+            &-inflow {
+              color: var.$success-color;
+              font-weight: 500;
+            }
+
+            &-outflow {
+              color: var.$danger-color;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+    }
+    }
     img {
       width: 100%;
       height: calc(70% - 40px);
       display: cover;
-      
+
     }
   }
 }

@@ -163,6 +163,12 @@ export let API = {
 
   getItemDetails:()=>{
     return API_URL + `class-based-analysis/items/details`;
-  }
+  },
 
+
+  //dashboard APIs
+  getCashFlow:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/cashflow`
+  },
 };
