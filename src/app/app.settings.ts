@@ -171,4 +171,16 @@ export let API = {
     const personId = sessionStorage.getItem('personId');
     return API_URL + `persons/${personId}/cashflow`
   },
+
+  getTopSpendingCategories:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/top-spending-categories`
+  },
+
+  getRecurringTransactions:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/recurring-transactions`
+  },
+
+
 };

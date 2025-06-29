@@ -8,11 +8,12 @@ import { SidenavService } from '../../services/sidenav.service';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import Chart from 'chart.js/auto';
 import { DashboardService } from '../../services/dashboard.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatIconModule, MatListModule, MatButtonModule, HeaderComponent, CommonModule ,MatSidenavModule],
+  imports: [MatIconModule, MatListModule, MatButtonModule, HeaderComponent, CommonModule ,MatSidenavModule, MatProgressSpinnerModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -79,6 +80,9 @@ export class DashboardComponent implements OnInit {
   // ];
 
   cardData:any[]=[];
+  spendingData:any[]=[];
+  recurringData:any[]=[];
+  loader:boolean=false;
 
   constructor(public sidenavService: SidenavService, private dashboardService:DashboardService){}
 
@@ -88,15 +92,46 @@ export class DashboardComponent implements OnInit {
     //Add 'implements OnInit' to the class.
 
     this.getCashFlow();
+    this.getTopSpendingCategories();
+    this.getRecurringTransactions();
   }
 
   getCashFlow(){
+    this.loader = true
     this.dashboardService.getCashFlow().subscribe((response:any)=>{
       console.log('Cashflow Response: ', response)
 
-      this.cardData = Array.isArray(response.data) ? response.data : [response.data]
+      this.cardData = response.data.banks;
 
-      console.log('Card Data: ', this.cardData)
+      console.log('Card Data: ', this.cardData);
+
+      this.loader = false;
+    })
+  }
+
+  getTopSpendingCategories(){
+    this.loader = true
+    this.dashboardService.getTopSpendingCategories().subscribe((response:any)=>{
+      console.log('Spending Categories: ', response)
+
+      this.spendingData = response.data.categories;
+
+      console.log('Spending Data: ', this.spendingData);
+
+      this.loader = false;
+    })
+  }
+
+  getRecurringTransactions(){
+    this.loader = true
+    this.dashboardService.getRecurringTransactions().subscribe((response:any)=>{
+      console.log('Recurring Transactions: ', response);
+
+      this.recurringData = response.data.recurring_transactions;
+
+      console.log('Recurring Data: ', this.recurringData);
+
+      this.loader = false;
     })
   }
 
