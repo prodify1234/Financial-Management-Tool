@@ -118,6 +118,21 @@ export let API = {
     return API_URL + `transactions/${transactionId}`;
   },
 
+  getMainClassifications: ()=>{
+    const clientId = sessionStorage.getItem('clientId');
+    return API_URL + `clients/${clientId}/generic-category/search`
+  },
+
+  getSubClassifications: (mainClassification:any)=>{
+    const clientId = sessionStorage.getItem('clientId');
+    return API_URL + `clients/${clientId}/categories/${mainClassification}/sub-classifications`
+  },
+
+  updateAnalysis:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/transactions-analysis`
+  },
+
   //financial items APIs.
   getFinancialItems:()=>{
     return API_URL + `financial-items/search`

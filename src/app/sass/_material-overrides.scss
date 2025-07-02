@@ -83,6 +83,10 @@
 //   --mat-outlined-button-icon-spacing : 0;
 // }
 
+.mat-mdc-menu-item[disabled]::after{
+  cursor: not-allowed;
+}
+
 //tabs
 .mdc-tab {
   min-width: 240px !important;

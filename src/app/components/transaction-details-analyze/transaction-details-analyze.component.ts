@@ -21,6 +21,9 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogActions } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { TransactionAnalyzeUpdateDialogComponent } from '../transaction-analyze-update-dialog/transaction-analyze-update-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-transaction-details-analyze',
@@ -42,13 +45,18 @@ import { MatDialogActions } from '@angular/material/dialog';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatSidenavModule,
-    MatDialogActions
+    MatDialogActions,
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './transaction-details-analyze.component.html',
   styleUrl: './transaction-details-analyze.component.scss',
 })
 export class TransactionDetailsAnalyzeComponent implements OnInit {
+
+  private matDialog = inject(MatDialog);
+  private transactionAnalysis = inject(TransactionDetailsService);
   constructor(){
     this.filterForm = new FormGroup({
       transactionFrom: new FormControl<string | null>(null),
@@ -74,6 +82,8 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
     'sub_Classification',
     'confidence_Score',
     'manually_Overridden',
+    'actions'
+
   ];
   loader = signal<boolean>(false);
 
@@ -160,6 +170,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
           sub_Classification: item.sub_classification,
           confidence_Score: item.confidence_score,
           manually_Overridden: item.manually_overridden,
+          transaction_id: item.transaction_id,
         }));
         this.loader.update(() => false);
       });
@@ -181,6 +192,20 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
   onClear(){
     this.filterForm.reset();
     this.viewTransactionAnalysis();
+  }
+
+  onUpdate(element:any){
+    console.log('Selected element: ', element)
+    this.transactionAnalysis.transaction_id = element.transaction_id
+    const dialogRef = this.matDialog.open(TransactionAnalyzeUpdateDialogComponent, {
+      width: '600px',
+      minWidth: '600px',
+      height: 'auto',
+      disableClose: true,
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.viewTransactionAnalysis();
+    })
   }
 
   toggleFilters() {
