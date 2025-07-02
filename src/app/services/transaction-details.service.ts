@@ -16,7 +16,7 @@ export class TransactionDetailsService {
       page: currentPage,
       page_size: rowsOnPage
     };
-    return this.http.get(API.getTransactionDetails(this.personId), {params})
+    return this.http.get(API.getTransactionDetails(this.auth.personId), {params})
   }
 
 

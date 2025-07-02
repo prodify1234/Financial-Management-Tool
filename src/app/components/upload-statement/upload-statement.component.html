@@ -15,10 +15,22 @@
 
     <div *ngIf="uploadStatementForm.get('uploadFile')?.value as selectedFile" class="selected-file">
        <img [src]="'public/icons/file2.png'" width="100px" height="100px">
-        <div class="selected-file__content">
+        <div [formGroup]="uploadStatementForm" class="selected-file__content">
+          <mat-form-field>
+            <mat-label>Person</mat-label>
+            <mat-select  formControlName="person"> 
+              <mat-option [value]="this.auth.personId">Self</mat-option>
+              @if(personsList.length){
+                @for(person of personsList; track person.id) {
+                  <mat-option [value]="person.id">{{person.first_name}}</mat-option>
+                }
+              }
+            </mat-select>
+          </mat-form-field>
           <div class="selected-file__content--name">
             {{ selectedFile.name }}
           </div>
+         
           <button mat-button class="selected-file__content--action" (click)="onCancelFile()">
             <mat-icon>close</mat-icon>
           </button>
@@ -28,6 +40,6 @@
 
   <div mat-dialog-actions align="end">
     <button mat-button type="button" (click)="onCancel()">Cancel</button>
-    <button mat-flat-button type="button" class="btn-add" (click)="onUpload()" [disabled]="!uploadStatementForm.get('uploadFile')?.value || isUploading">Upload</button>
+    <button mat-flat-button type="button" class="btn-add" (click)="onUpload()" [disabled]="!uploadStatementForm.get('uploadFile')?.value || isUploading || uploadStatementForm.invalid">Upload</button>
   </div>
 </div>

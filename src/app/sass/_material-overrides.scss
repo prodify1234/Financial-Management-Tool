@@ -1,7 +1,9 @@
 @use "../sass/variables" as *;
 
 
-
+.mat-mdc-select {
+  --mat-select-arrow-transform: translateY(-2px) !important
+}
 
 .mat-form-field-appearance-fill {
   .mdc-text-field--filled {
