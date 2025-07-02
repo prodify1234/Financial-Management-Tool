@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Subscription } from 'rxjs';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FamilyDetailsService } from '../../services/family-details.service';
 
 export interface PeriodicElement {
   id: string,
@@ -36,6 +38,7 @@ export interface PeriodicElement {
     MatDialogModule,
     TableShimmerComponent,
     MatPaginatorModule,
+    MultiSelectModule,
     DatePipe
   ],
   templateUrl: './transaction-details.component.html',
@@ -51,6 +54,15 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     'AnalysisStatus',
     'actions',
   ];
+ cities : any[] = [
+    {name: 'New York', code: 'NY'},
+    {name: 'Rome', code: 'RM'},
+    {name: 'London', code: 'LDN'},
+    {name: 'Istanbul', code: 'IST'},
+    {name: 'Paris', code: 'PRS'}
+];
+ selectedCities =[]
+ persons:any[] = []
   loader = signal<boolean>(false);
 
   currentPage = signal<number>(0);
@@ -75,13 +87,27 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadTransactionDetails();
+    this.getPersonsList();
     console.log(this.route.pathFromRoot)
   }
 
   constructor(
     private matDialog: MatDialog,
-    private transactionDetailsService: TransactionDetailsService
+    private transactionDetailsService: TransactionDetailsService,
+    private familyDetail : FamilyDetailsService
   ) { }
+
+
+  getPersonsList(){
+    this.persons=[]
+    this.familyDetail.getAllFamilyMemberDetails().subscribe({
+      next : (response : any)=>{
+       this.persons = response.data.map((person:any) => {
+        return person.person
+       })
+      }
+    })
+  }
 
   loadTransactionDetails() {
     this.loader.update(() => true);

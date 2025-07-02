@@ -22,6 +22,11 @@
       line-height: 0.8px;
       color: var.$primary-color;
     }
+
+    &__actions {
+      display: flex;
+      gap:4px;
+    }
   }
 
   &-cards {
@@ -90,3 +95,6 @@
     }
   }
 }
+
+
+

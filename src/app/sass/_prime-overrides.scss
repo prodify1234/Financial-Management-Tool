@@ -1,0 +1,40 @@
+@use "../sass/variables" as var;
+
+:root {
+  color-scheme: light !important;
+}
+
+.p-multiselect {
+  --p-multiselect-background : #{var.$lighter-grey};
+  --p-multiselect-overlay-background : #{var.$light-grey-1};
+  --p-inputtext-background : #{var.$lighter-grey};
+  --p-inputtext-color : #{var.$grey};
+  --p-inputtext-border-color : #{var.$light-grey-1};
+  --p-inputtext-focus-border-color : #{var.$primary-color-light};
+  --p-multiselect-border-color : #{var.$light-grey};
+  --p-multiselect-hover-border-color : #{var.$light-grey};
+  --p-multiselect-focus-border-color : #{var.$primary-color};
+  --p-multiselect-overlay-border-color : #{var.$light-grey};
+  --p-multiselect-option-focus-background :#{var.$light-grey};
+  --p-multiselect-option-selected-focus-background : #{var.$light-grey};
+  --p-multiselect-option-selected-background : none;
+  --p-multiselect-color : #{var.$primary-color};
+  --p-multiselect-overlay-color : #{var.$grey};
+  --p-multiselect-option-color : #{var.$grey};
+  --p-multiselect-option-focus-color : #{var.$grey};
+  --p-multiselect-option-selected-color : #{var.$grey};
+  --p-multiselect-option-selected-focus-color : #{var.$grey};
+  --p-checkbox-checked-background : #{ var.$primary-color};
+  --p-checkbox-hover-border-color : #{ var.$primary-color};
+  --p-checkbox-border-color : #{ var.$darker-grey};
+  --p-checkbox-checked-border-color : #{var.$darker-grey};
+  --p-checkbox-checked-focus-border-color : #{var.$darker-grey};
+  --p-checkbox-icon-checked-color : #{var.$background-color};
+  --p-checkbox-icon-checked-hover-color : #{var.$background-color};
+  --p-checkbox-background : #{var.$lighter-grey};
+  --p-checkbox-checked-hover-background : #{var.$primary-color};
+  --p-checkbox-checked-focus-border-color : #{var.$primary-color};
+  --p-checkbox-checked-hover-border-color : #{var.$primary-color-light};
+
+  // background-color: transparent;
+}

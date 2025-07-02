@@ -10,6 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FileUploadService } from '../../services/file-upload.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { FamilyDetailsService } from '../../services/family-details.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-upload-statement',
@@ -25,6 +29,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSnackBarModule,
     MatIconModule,
     CommonModule,
+    MatSelectModule,
+    MatOptionModule,
     MatProgressBarModule
   ],
   standalone: true,
@@ -41,13 +47,32 @@ export class UploadStatementComponent implements AfterViewInit {
   previousPage = signal<number | undefined>(0);
   rowsOnPage = signal<number>(10);
   totalCategories = signal<number>(0);
+  personsList: any[] = [];
 
-  constructor(private snackbar: MatSnackBar, private fileUploadService: FileUploadService){}
+  constructor(private snackbar: MatSnackBar, private fileUploadService: FileUploadService, private familyDetails : FamilyDetailsService , public auth : AuthService){}
 
   ngOnInit():void{
     this.uploadStatementForm = new FormGroup({
       uploadFile: new FormControl('' , [Validators.required]),
+      person : new FormControl('',[Validators.required])
     });
+    this.getFamilyDetails();
+  }
+
+
+  getFamilyDetails(){
+    this.personsList = []
+    this.familyDetails.getAllFamilyMemberDetails().subscribe({
+      next :(response:any)=> {
+        if(response && response.data.length) {
+          this.personsList = response.data.map((data:any) => {
+            return data.person
+          })
+        }
+        console.log(this.personsList)
+      }
+    })
+
   }
 
   isUploading : boolean = false;
@@ -61,7 +86,7 @@ export class UploadStatementComponent implements AfterViewInit {
     const data : File = this.uploadStatementForm.value.uploadFile;
 
     const body = {
-      'person_id': sessionStorage.getItem('personId'),
+      'person_id': this.uploadStatementForm.get('person')?.value,
       'file_name': data.name,
       'file_type': data.type
     }
