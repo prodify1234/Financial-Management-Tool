@@ -1,0 +1,33 @@
+<div class="dialog-container">
+  <h1 mat-dialog-title>Update Details</h1>
+
+  @if(loader()){
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+  <div mat-dialog-content>
+    <form [formGroup]="updateAnalysisDetails">
+      <mat-form-field>
+        <mat-label>Main Classifications</mat-label>
+        <mat-select formControlName="main_classifications" (selectionChange)="onClassificationChange()" [disabled]="!mainClassificationsLoaded">
+          <mat-option *ngFor="let item of mainClassifications" [value]="item.main_classification">
+            {{item.main_classification}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Sub Classifications</mat-label>
+        <mat-select formControlName="sub_classifications" [disabled]="!updateAnalysisDetails.get('main_classifications')?.value || subClassifications.length === 0">
+          <mat-option *ngFor="let item of subClassifications" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button (click)="onUpdate()" [disabled]="!updateAnalysisDetails.valid">Update</button>
+  </div>
+</div>

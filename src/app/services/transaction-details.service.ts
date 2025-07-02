@@ -10,6 +10,7 @@ export class TransactionDetailsService {
 
   constructor(private http: HttpClient , private auth: AuthService) { }
   personId = sessionStorage.getItem('personId') as string;
+  transaction_id :any;
 
   loadDetails(currentPage: any, rowsOnPage: any){
     const params = {
@@ -52,10 +53,22 @@ export class TransactionDetailsService {
     return this.http.post(API.addTransaction(), body);
   }
 
-  updateTransaction( body: any ,transactionId: string){ 
+  updateTransaction( body: any ,transactionId: string){
     return this.http.put(API.updateTransaction(transactionId), body)
   }
   deleteTransaction(transactionId: string){
     return this.http.delete(API.deleteTransaction(transactionId));
-  } 
+  }
+
+  getMainClassifications(){
+    return this.http.post(API.getMainClassifications(), {})
+  }
+
+  getSubClassifications(mainClassification:any){
+    return this.http.get(API.getSubClassifications(mainClassification))
+  }
+
+  updateAnalysis(body:any){
+    return this.http.put(API.updateAnalysis(), body)
+  }
 }
