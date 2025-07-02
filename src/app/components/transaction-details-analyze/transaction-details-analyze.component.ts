@@ -203,8 +203,10 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
       height: 'auto',
       disableClose: true,
     })
-    dialogRef.afterClosed().subscribe(result => {
-      this.viewTransactionAnalysis();
+    dialogRef.afterClosed().subscribe((result:any | '') => {
+      if(result){
+        this.viewTransactionAnalysis();
+      }
     })
   }
 
