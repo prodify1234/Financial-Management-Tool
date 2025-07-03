@@ -120,7 +120,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
       (this.personId = params['person_id']),
       (this.statementId = params['statement_upload_id']);
 
-      console.log('Person ID: ', this.personId);
+      console.log('Person ID: ', this.personId)
       console.log('Statement ID: ', this.statementId);
     });
 
