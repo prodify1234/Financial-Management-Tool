@@ -75,8 +75,8 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
   transactionColumns: string[] = [
     'date',
     'account_Provider',
-    'amount',
     'debit',
+    'amount',
     'description',
     'classification',
     'sub_Classification',
