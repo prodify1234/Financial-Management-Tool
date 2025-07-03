@@ -93,7 +93,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
   totalTransactions = signal<number>(0);
 
   selectedClassification = 'all';
-  minConfidence = 0;
+  minConfidence = 0
   personId: string = '';
   statementId: string = '';
 
