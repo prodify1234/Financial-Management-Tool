@@ -100,7 +100,7 @@ export class TransactionDetailsAnalyzeComponent implements OnInit {
   allTransactions: any[] = [];
   transactionSource: any[] = [];
 
-  filterForm!: FormGroup;
+  filterForm!: FormGroup
 
   showFilters = false;
 
