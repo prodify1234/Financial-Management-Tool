@@ -19,6 +19,9 @@ import { TransactionDetailsAnalyzeComponent } from './components/transaction-det
 import { ItemHeadDetailsComponent } from './components/item-head-details/item-head-details.component';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { IncomeDeclerationComponent } from './components/income-decleration/income-decleration.component';
+import { AssetDeclerationComponent } from './components/asset-decleration/asset-decleration.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -46,11 +49,18 @@ export const routes: Routes = [
           { path: "analysis", component: TransactionDetailsAnalyzeComponent }
         ]
       },
-      { path: 'categories', component: CategoriesComponent },
       { path: 'networth', component: NetworthComponent },
       { path: 'cashflows', component: CashflowsComponent },
       { path: 'networth-trends', component: NetworthTrendsComponent },
-      { path: 'profile-update', component: ProfileUpdateComponent }
+      { path: 'profile-update', component: ProfileUpdateComponent },
+      {
+        path: 'settings', component: SettingsComponent, children: [
+          { path: '', redirectTo: 'categories', pathMatch: 'full' },
+          { path: 'categories', component: CategoriesComponent },
+          { path: 'income-decleration', component: IncomeDeclerationComponent},
+          { path: 'asset-decleration', component: AssetDeclerationComponent}
+        ]
+      }
     ]
   },
 ];

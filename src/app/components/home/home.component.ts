@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   HostListener,
+  inject,
   Inject,
   Output,
   signal,
@@ -14,10 +15,11 @@ import { SidenavService } from '../../services/sidenav.service';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [MatSidenavModule, HeaderComponent, RouterModule, MatIconModule],
+  imports: [MatSidenavModule, HeaderComponent, RouterModule, MatIconModule, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -25,10 +27,10 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild('drawer') sidenav!: MatDrawer;
   toggleSideNav = signal<boolean>(false);
   rootWidth: number = 0;
+  sidenavService = inject(SidenavService);
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private sidenavService: SidenavService
   ) {
     console.log(this.document.documentElement.clientWidth);
   }
@@ -45,7 +47,7 @@ export class HomeComponent implements AfterViewInit {
         this.sidenav.close();
         this.toggleSideNav.update(() => false);
        }
-      
+
     });
   }
 

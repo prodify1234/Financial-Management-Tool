@@ -197,5 +197,10 @@ export let API = {
     return API_URL + `persons/${personId}/recurring-transactions`
   },
 
+  //asset decleration APIs
+  getAllAssets:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets`
+  }
 
 };

@@ -6,4 +6,5 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SidenavService {
   openSideNav: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isSettingsPage:boolean=false;
 }

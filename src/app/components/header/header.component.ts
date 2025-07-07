@@ -7,10 +7,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [MatIconModule, MatButtonModule, MatSidenavModule, MatMenuModule, RouterModule],
+  imports: [MatIconModule, MatButtonModule, MatSidenavModule, MatMenuModule, RouterModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -40,6 +41,12 @@ export class HeaderComponent implements OnInit, OnChanges {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.getPersonName();
+
+    this.sidenavService.isSettingsPage = this.router.url.includes('/home/settings');
+
+    this.router.events.subscribe(() => {
+      this.sidenavService.isSettingsPage = this.router.url.includes('/home/settings')
+    })
   }
 
   getPersonName() {
@@ -65,5 +72,13 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   onProfileUpdate() {
     this.router.navigate(['home', 'profile-update'])
+  }
+
+  goToSettings() {
+    this.router.navigate(['home', 'settings', 'categories']);
+  }
+
+  goToHome() {
+    this.router.navigate(['home', 'dashboard']);
   }
 }
