@@ -201,6 +201,29 @@ export let API = {
   getAllAssets:()=>{
     const personId = sessionStorage.getItem('personId');
     return API_URL + `persons/${personId}/assets`
+  },
+
+  getAssetTypes:()=>{
+    return API_URL + `asset-classes`
+  },
+
+  addAsset:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets`
+  },
+
+  deleteAsset:(assetId:any)=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets/${assetId}`
+  },
+
+  getCategoryTypes:(assetType:any)=>{
+    return API_URL + `categories/by-main-classification/${assetType}`
+  },
+
+  updateAsset:(assetId:any)=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/assets/${assetId}`
   }
 
 };

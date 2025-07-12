@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TableShimmerComponent } from '../shared/table-shimmer/table-shimmer.component';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { AssetCreateDialogComponent } from '../asset-create-dialog/asset-create-dialog.component';
 
 @Component({
   selector: 'app-asset-decleration',
@@ -28,7 +30,8 @@ export class AssetDeclerationComponent implements OnInit {
     'actions'
   ];
   loader = signal<boolean>(false);
-  private assetDeclerationService = inject(AssetDeclerationService)
+  private assetDeclerationService = inject(AssetDeclerationService);
+  private dialogref = inject(MatDialog)
 
   ngOnInit(): void {
     this.getAllAssets();
@@ -43,16 +46,51 @@ export class AssetDeclerationComponent implements OnInit {
     })
   }
 
-  addCategory() {
+  addAsset() {
+    const dialogRef = this.dialogref.open(AssetCreateDialogComponent, {
+      width: '600px',
+      minWidth: '600px',
+      // height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'add'
+      }
+    })
 
+    dialogRef.afterClosed().subscribe((result:any)=>{
+      if(result){
+        this.getAllAssets();
+      }
+    })
   }
 
   onEdit(element:any){
+    console.log('Edit element: ', element);
+    const dialogRef = this.dialogref.open(AssetCreateDialogComponent, {
+      width: '600px',
+      minWidth : '600px',
+      height: 'auto',
+      disableClose : true,
+      data: {
+        type: 'edit',
+        data:  element
+      }
+    })
 
+    dialogRef.afterClosed().subscribe((result:any)=>{
+      if(result){
+        this.getAllAssets();
+      }
+    })
   }
 
   onDelete(element:any){
-
+    console.log('Element: ', element);
+    const assetId = element.id;
+    this.assetDeclerationService.deleteAsset(assetId).subscribe((response:any)=>{
+      console.log('Delete Response: ', response);
+      this.getAllAssets();
+    })
   }
 
 
