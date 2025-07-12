@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -12,6 +12,7 @@ import { OnInit } from '@angular/core';
 import { AssetDeclerationService } from '../../services/asset-decleration.service';
 import { CommonModule } from '@angular/common';
 import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @Component({
@@ -27,7 +28,8 @@ import { MatInput, MatInputModule } from '@angular/material/input';
     MatSelectModule,
     CommonModule,
     MatInputModule,
-    MatInput
+    MatInput,
+    MatProgressBarModule
   ],
   templateUrl: './asset-create-dialog.component.html',
   styleUrl: './asset-create-dialog.component.scss'
@@ -41,6 +43,7 @@ export class AssetCreateDialogComponent implements OnInit {
   isUnitRupee : boolean = false;
   readonly dialogRef = inject(MatDialogRef<AssetCreateDialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
+  loader = signal<boolean>(false);
 
   ngOnInit(): void {
     this.getAssetTypes();
@@ -61,9 +64,10 @@ export class AssetCreateDialogComponent implements OnInit {
     else if(this.data && this.data.type === 'edit'){
       console.log('Data: ', this.data)
       this.assetCreationForm = new FormGroup({
-        asset_type : new FormControl({value : this.data?.data?.asset_type, disabled:false}),
-        category_type : new FormControl({value : this.data?.data?.category_type, disabled:false}),
-        units : new FormControl({value : this.data?.data?.units, disabled:false}),
+        asset_id : new FormControl({value: this.data?.data?.id, disabled:false}),
+        asset_type : new FormControl({value : this.data?.data?.asset_type, disabled:true}),
+        category_type : new FormControl({value : this.data?.data?.category_type, disabled:true}),
+        units : new FormControl({value : this.data?.data?.units, disabled:true}),
         quantity : new FormControl({value : this.data?.data?.quantity, disabled:false}),
         purchase_value : new FormControl({value : this.data?.data?.purchase_value, disabled:false}),
         current_value : new FormControl({value : this.data?.data?.current_value, disabled:false}),
@@ -101,6 +105,7 @@ export class AssetCreateDialogComponent implements OnInit {
   }
 
   onAddAsset(){
+    this.loader.update(()=>true);
     console.log('Selected Asset type: ', this.assetCreationForm.value)
     const selectedAsset = this.assetCreationForm.get('asset_type')?.value;
     const selectedCategory = this.assetCreationForm.get('category_type')?.value;
@@ -129,11 +134,35 @@ export class AssetCreateDialogComponent implements OnInit {
     this.assetService.addAsset(body).subscribe((response:any)=>{
       console.log('Add Assets: ', response);
 
+      this.loader.update(()=>false);
       this.dialogRef.close(response);
     })
   }
 
   onUpdateAsset(){
+    this.loader.update(()=>true);
     console.log('Selected Asset type for update: ', this.assetCreationForm.value);
+
+    const selectedAsset = this.assetCreationForm.get('asset_type')?.value;
+    const selectedCategory = this.assetCreationForm.get('category_type')?.value;
+
+    const body = {
+      asset_type : selectedAsset.asset_type,
+      category_id : selectedCategory.id,
+      description : this.assetCreationForm.get('description')?.value,
+      purchase_date : this.assetCreationForm.get('purchase_date')?.value,
+      purchase_value : this.assetCreationForm.get('purchase_value')?.value,
+      current_value : this.assetCreationForm.get('current_value')?.value,
+      expected_roi: this.assetCreationForm.get('expected_ROI')?.value,
+    }
+
+    const assetId = this.assetCreationForm.get('asset_id')?.value;
+
+    this.assetService.updateAsset(assetId, body).subscribe((response:any)=>{
+      console.log('response: ', response);
+
+      this.loader.update(()=>false);
+      this.dialogRef.close(response);
+    })
   }
 }

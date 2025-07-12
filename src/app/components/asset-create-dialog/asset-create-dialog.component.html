@@ -1,23 +1,26 @@
 <div class="dialog-container">
   <h2 mat-dialog-title>Create Asset</h2>
+  @if(loader()){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 
   <div mat-dialog-content>
     <form [formGroup]="assetCreationForm">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Select Asset Type</mat-label>
         <mat-select formControlName="asset_type" (selectionChange)="selectCategoryTypes($event)">
           <mat-option *ngFor="let item of assetTypes" [value]="item">{{item.asset_type}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Select Category Type</mat-label>
         <mat-select formControlName="category_type">
           <mat-option *ngFor="let item of categoryTypes" [value]="item">{{item.display_name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Units</mat-label>
         <mat-select formControlName="units">
           <mat-option [value]="'grams'">grams</mat-option>
@@ -27,32 +30,32 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Quantity</mat-label>
         <input matInput type="number" formControlName="quantity">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Purchase Value</mat-label>
         <input matInput type="number" formControlName="purchase_value">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Current Value</mat-label>
         <input matInput type="number" formControlName="current_value">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Purchase Date</mat-label>
         <input matInput type="date" formControlName="purchase_date">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Expected ROI</mat-label>
         <input matInput type="number" formControlName="expected_ROI">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
         <input matInput type="text" formControlName="description">
       </mat-form-field>
