@@ -44,6 +44,7 @@ export class AssetCreateDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<AssetCreateDialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   loader = signal<boolean>(false);
+  asset_type :any;
 
   ngOnInit(): void {
     this.getAssetTypes();
@@ -63,10 +64,25 @@ export class AssetCreateDialogComponent implements OnInit {
     }
     else if(this.data && this.data.type === 'edit'){
       console.log('Data: ', this.data)
+      const asset_type = this.data.data.asset_type;
+
+      this.assetService.getAssetTypes().subscribe((response:any)=>{
+        this.assetTypes = response.data;
+
+        const matchedAsset = this.assetTypes.find((asset:any)=>
+          asset.asset_type === this.data?.data?.asset_type)
+
+        if(matchedAsset){
+          this.assetCreationForm.patchValue({
+            asset_type: matchedAsset
+          })
+        }
+      })
+
       this.assetCreationForm = new FormGroup({
         asset_id : new FormControl({value: this.data?.data?.id, disabled:false}),
-        asset_type : new FormControl({value : this.data?.data?.asset_type, disabled:true}),
-        category_type : new FormControl({value : this.data?.data?.category_type, disabled:true}),
+        asset_type : new FormControl({value : null, disabled:true}),
+        category_type : new FormControl({value : null, disabled:true}),
         units : new FormControl({value : this.data?.data?.units, disabled:true}),
         quantity : new FormControl({value : this.data?.data?.quantity, disabled:false}),
         purchase_value : new FormControl({value : this.data?.data?.purchase_value, disabled:false}),
@@ -75,8 +91,21 @@ export class AssetCreateDialogComponent implements OnInit {
         expected_ROI : new FormControl({value : this.data?.data?.expected_roi, disabled:false}),
         description : new FormControl({value : this.data?.data?.description, disabled:false}),
       })
-    }
 
+      this.assetService.getCategoryTypes(asset_type).subscribe((categories: any) => {
+        this.categoryTypes = categories.data;
+
+        const matchedCategory = this.categoryTypes.find((cat: any) =>
+          cat.display_name === this.data.data.category_type);
+
+        if (matchedCategory) {
+          console.log('Matched category: ', matchedCategory)
+          this.assetCreationForm.patchValue({
+            category_type: matchedCategory
+          });
+        }
+      });
+    }
   }
 
   constructor() {}
@@ -91,9 +120,12 @@ export class AssetCreateDialogComponent implements OnInit {
 
   selectCategoryTypes(event:any){
     console.log('Event: ', event);
-    const asset_type = event.value.asset_type;
+    console.log('asset_id: ', this.assetCreationForm.get('asset_id')?.value)
 
-    this.assetService.getCategoryTypes(asset_type).subscribe((response:any)=>{
+    this.asset_type = event.value.asset_type;
+
+
+    this.assetService.getCategoryTypes(this.asset_type).subscribe((response:any)=>{
       console.log('Category Types: ', response);
 
       this.categoryTypes = response.data;

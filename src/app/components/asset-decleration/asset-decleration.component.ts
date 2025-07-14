@@ -26,7 +26,6 @@ export class AssetDeclerationComponent implements OnInit {
     'purchase_value',
     'purchase_date',
     'unit_type',
-    'source',
     'actions'
   ];
   loader = signal<boolean>(false);

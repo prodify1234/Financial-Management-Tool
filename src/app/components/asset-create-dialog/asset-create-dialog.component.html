@@ -65,9 +65,9 @@
   <div mat-dialog-actions>
     <button mat-button (click)="onCancel()">Cancel</button>
     @if(data.type === 'add'){
-      <button mat-flat-button (click)="onAddAsset()">Add</button>
+      <button mat-flat-button (click)="onAddAsset()" [disabled]="loader()">Add</button>
     }@else if(data.type === 'edit') {
-      <button mat-flat-button (click)="onUpdateAsset()">Update</button>
+      <button mat-flat-button (click)="onUpdateAsset()" [disabled]="loader()">Update</button>
     }
   </div>
 </div>
