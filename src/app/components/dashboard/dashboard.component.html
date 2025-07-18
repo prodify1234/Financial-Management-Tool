@@ -1,131 +1,269 @@
 <div class="dashboard">
-  <div class="dashboard-header">
-    <h2>Dashboard</h2>
-  </div>
-
-  @if(loader){
-  <div *ngIf="loader" class="dashboard-spinner">
-    <mat-spinner></mat-spinner>
-  </div>
-  }@else {
-  <div class="dashboard-body">
-    <div class="dashboard-body-container">
-      <div class="dashboard-body-container-analysis">
-        <h3>Bank-wise Transaction Analysis</h3>
+  <div class="bank">
+    <div class="bank-header">
+      <div class="bank-header__header">
+        <div class="category-icon">
+          <mat-icon>account_balance</mat-icon>
+        </div>
+        <h3 >Bank-wise Transaction Analysis</h3>
       </div>
-      <div class="dashboard-body-container-content">
-        <div
-          class="dashboard-body-container-content-container"
-          *ngFor="let card of cardData"
-        >
-          <div class="dashboard-body-container-content-container-card">
-            <div class="dashboard-body-container-content-container-card-head">
-              <img
-                [src]="card.bank_logo_url"
-                alt="bank-logo"
-                [style.height.px]="50"
-                [style.width.px]="50"
-              />
-              <h3>{{ card.provider }}</h3>
+      <div class="fill-space"></div>
+      <div class="bank-header-actions">
+        <button mat-icon-button color="primary" (click)="prev()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="next()">
+          <mat-icon>keyboard_arrow_right </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="bank-dashboard" #dashboard__bank>
+      <div class="bank-dashboard-track" [style.transform]="getTranslateX()">
+        @for(card of cardData; track $index;let i = $index ){
+        <div class="dashboard__bank--card">
+          <div class="dashboard__bank--card__header">
+            <img
+              [src]="card.bank_logo_url"
+              width="48px"
+              height="48px"
+              alt="Bank Icon"
+              class="bank-icon"
+            />
+            <h3 class="dashboard__bank--card__header__title">
+              {{ card.provider | textTrim : 8 }}
+            </h3>
+            <div class="fill-space"></div>
+            <div class="dashboard__bank--card__header__transaction">
+              {{ card.transaction_count }} Transactions
             </div>
+          </div>
+          <div class="dashboard__bank--card__body">
+            <div class="dashboard__bank--card__body--transaction">
+              <div class="dashboard__bank--card__body--transaction__content">
+                <div class="bank-amount-icon bank-amount-icon--success">
+                  <mat-icon>arrow_upward_alt</mat-icon>
+                </div>
+                <div class="bank-amount__header">Inflow</div>
+                <div class="fill-space"></div>
+                <div class="bank-amount__value success">${{ card.inflow }}</div>
+              </div>
+              <mat-progress-bar
+                class="mdc-linear-progress--success"
+                mode="determinate"
+                [value]="getPercent('inflow', card)"
+              ></mat-progress-bar>
+            </div>
+            <div class="dashboard__bank--card__body--transaction">
+              <div class="dashboard__bank--card__body--transaction__content">
+                <div class="bank-amount-icon bank-amount-icon--danger">
+                  <mat-icon>arrow_downward_alt</mat-icon>
+                </div>
+                <div class="bank-amount__header">Outflow</div>
+                <div class="fill-space"></div>
+                <div class="bank-amount__value danger">${{ card.outflow }}</div>
+              </div>
+              <mat-progress-bar
+                class="mdc-linear-progress--danger"
+                mode="determinate"
+                [value]="getPercent('outflow', card)"
+              ></mat-progress-bar>
+            </div>
+            <div class="fill-space"></div>
+            <div class="dashboard__bank--card__body--net">
+              <div class="dashboard__bank--card__body--net__header">
+                Net Amount
+              </div>
+              <div class="fill-space"></div>
+              <div class="dashboard__bank--card__body--net__value">
+                ${{ card.inflow - card.outflow | number : "1.2-2" }}
+              </div>
+            </div>
+          </div>
+        </div>
 
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-categories">
+    <div class="dashboard-categories__header">
+      <div class="category-icon">
+        <mat-icon>show_chart</mat-icon>
+      </div>
+      <h3>Top Spending Categories</h3>
+    </div>
+    <div class="dashboard-categories__content">
+      <div class="dashboard-categories__content--item">
+        <div class="dashboard-categories__content--item__content">
+          <div class="dashboard-categories__content--item__content-index">
+            <h3>01</h3>
+          </div>
+          <div class="dashboard-categories__content--item__content-title">
+            <h3>Food Category</h3>
             <div
-              class="dashboard-body-container-content-container-card-content"
+              class="dashboard__bank--card__header__transaction"
+              [ngStyle]="{ width: 'fit-content' }"
             >
-              <p>Total Transactions</p>
-              <b
-                ><p>{{ card.transaction_count }}</p></b
-              >
+              {{ "01" }} Transactions
             </div>
-
+          </div>
+          <div class="fill-space"></div>
+          <div class="dashboard-categories__content--item__content-value">
+            <h2>$5000</h2>
+          </div>
+        </div>
+        <div class="dashboard-categories__content--item__progress">
+          <div class="dashboard-categories__content--item__progress-header">
+            <h5>Spending Impact</h5>
+            <div class="fill-space"></div>
+            <div><h5>25.00%</h5></div>
+          </div>
+          <div class="dashboard-categories__content--item__progress-progress">
+            <mat-progress-bar
+              class="mdc-linear-progress--category"
+              mode="determinate"
+              [value]="50"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-categories__content--item">
+        <div class="dashboard-categories__content--item__content">
+          <div class="dashboard-categories__content--item__content-index">
+            <h3>01</h3>
+          </div>
+          <div class="dashboard-categories__content--item__content-title">
+            <h3>Food Category</h3>
             <div
-              class="dashboard-body-container-content-container-card-content"
+              class="dashboard__bank--card__header__transaction"
+              [ngStyle]="{ width: 'fit-content' }"
             >
-              <p>Total Inflow</p>
-              <p
-                class="dashboard-body-container-content-container-card-content-inflow"
-              >
-                ₹{{ card.inflow }}
-              </p>
+              {{ "01" }} Transactions
             </div>
-
+          </div>
+          <div class="fill-space"></div>
+          <div class="dashboard-categories__content--item__content-value">
+            <h2>$5000</h2>
+          </div>
+        </div>
+        <div class="dashboard-categories__content--item__progress">
+          <div class="dashboard-categories__content--item__progress-header">
+            <h5>Spending Impact</h5>
+            <div class="fill-space"></div>
+            <div><h5>25.00%</h5></div>
+          </div>
+          <div class="dashboard-categories__content--item__progress-progress">
+            <mat-progress-bar
+              class="mdc-linear-progress--category"
+              mode="determinate"
+              [value]="50"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-categories__content--item">
+        <div class="dashboard-categories__content--item__content">
+          <div class="dashboard-categories__content--item__content-index">
+            <h3>01</h3>
+          </div>
+          <div class="dashboard-categories__content--item__content-title">
+            <h3>Food Category</h3>
             <div
-              class="dashboard-body-container-content-container-card-content"
+              class="dashboard__bank--card__header__transaction"
+              [ngStyle]="{ width: 'fit-content' }"
             >
-              <p>Total Outflow</p>
-              <p
-                class="dashboard-body-container-content-container-card-content-outflow"
-              >
-                ₹{{ card.outflow }}
-              </p>
+              {{ "01" }} Transactions
             </div>
-
-            <div>
-              <p>
-                {{ card.percentage_of_transactions }}% of total transactions
-              </p>
+          </div>
+          <div class="fill-space"></div>
+          <div class="dashboard-categories__content--item__content-value">
+            <h2>$5000</h2>
+          </div>
+        </div>
+        <div class="dashboard-categories__content--item__progress">
+          <div class="dashboard-categories__content--item__progress-header">
+            <h5>Spending Impact</h5>
+            <div class="fill-space"></div>
+            <div><h5>25.00%</h5></div>
+          </div>
+          <div class="dashboard-categories__content--item__progress-progress">
+            <mat-progress-bar
+              class="mdc-linear-progress--category"
+              mode="determinate"
+              [value]="50"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-categories__content--item">
+        <div class="dashboard-categories__content--item__content">
+          <div class="dashboard-categories__content--item__content-index">
+            <h3>01</h3>
+          </div>
+          <div class="dashboard-categories__content--item__content-title">
+            <h3>Food Category</h3>
+            <div
+              class="dashboard__bank--card__header__transaction"
+              [ngStyle]="{ width: 'fit-content' }"
+            >
+              {{ "01" }} Transactions
             </div>
+          </div>
+          <div class="fill-space"></div>
+          <div class="dashboard-categories__content--item__content-value">
+            <h2>$5000</h2>
+          </div>
+        </div>
+        <div class="dashboard-categories__content--item__progress">
+          <div class="dashboard-categories__content--item__progress-header">
+            <h5>Spending Impact</h5>
+            <div class="fill-space"></div>
+            <div><h5>25.00%</h5></div>
+          </div>
+          <div class="dashboard-categories__content--item__progress-progress">
+            <mat-progress-bar
+              class="mdc-linear-progress--category"
+              mode="determinate"
+              [value]="50"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-categories__content--item">
+        <div class="dashboard-categories__content--item__content">
+          <div class="dashboard-categories__content--item__content-index">
+            <h3>01</h3>
+          </div>
+          <div class="dashboard-categories__content--item__content-title">
+            <h3>Food Category</h3>
+            <div
+              class="dashboard__bank--card__header__transaction"
+              [ngStyle]="{ width: 'fit-content' }"
+            >
+              {{ "01" }} Transactions
+            </div>
+          </div>
+          <div class="fill-space"></div>
+          <div class="dashboard-categories__content--item__content-value">
+            <h2>$5000</h2>
+          </div>
+        </div>
+        <div class="dashboard-categories__content--item__progress">
+          <div class="dashboard-categories__content--item__progress-header">
+            <h5>Spending Impact</h5>
+            <div class="fill-space"></div>
+            <div><h5>25.00%</h5></div>
+          </div>
+          <div class="dashboard-categories__content--item__progress-progress">
+            <mat-progress-bar
+              class="mdc-linear-progress--category"
+              mode="determinate"
+              [value]="50"
+            ></mat-progress-bar>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="dashboard-body-content">
-      <div class="dashboard-body-content-categories">
-        <div class="dashboard-body-content-categories-head">
-          <h3>Top Spending Categories</h3>
-        </div>
-
-        <div class="dashboard-body-content-categories-body">
-          <div
-            class="dashboard-body-content-categories-body-content"
-            *ngFor="let item of spendingData"
-          >
-            <div>
-              <h4>{{ item.display_name }}</h4>
-              <p>{{ item.transaction_count }} transactions</p>
-            </div>
-            <div>
-              <h4>₹{{ item.total_amount }}</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- <div class="dashboard-body-content-categories">
-        <div class="dashboard-body-content-categories-head">
-          <h3>Reccuring Transactions</h3>
-        </div>
-
-        <div class="dashboard-body-content-categories-body">
-          <div
-            class="dashboard-body-content-categories-body-content"
-            *ngFor="let item of recurringData"
-          >
-            <div class="dashboard-body-content-categories-body-content-items">
-              <div>
-                <img
-                  [src]="item.bank_logo_url"
-                  alt="bank_logo"
-                  [style.height.px]="50"
-                  [style.width.px]="50"
-                />
-              </div>
-              <div>
-                <h4>{{ item.category_name }}</h4>
-                <p>{{ item.account_provider }}</p>
-              </div>
-            </div>
-            <div>
-              <h4>₹{{ item.average_amount | number : "1.0-0" }}</h4>
-              <p>
-                Last: <b>{{ item.last_transaction_date }}</b>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    </div>
   </div>
-  }
 </div>

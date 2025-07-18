@@ -1,6 +1,10 @@
 @use "../sass/variables" as *;
 
 
+html {
+  
+}
+
 .mat-mdc-select {
   --mat-select-arrow-transform: translateY(-2px) !important
 }
@@ -128,6 +132,36 @@
   /* Horizontal centering */
   align-items: center;
   /* Vertical centering */
+}
+
+.mdc-linear-progress {
+ 
+
+  &--success {
+    --mdc-linear-progress-track-height : 8px;
+    --mdc-linear-progress-active-indicator-height : 8px;
+    --mdc-linear-progress-track-color : #{$success-color-100};
+    --mdc-linear-progress-active-indicator-color : #{$success-color}; 
+  }
+
+  &--danger{
+    --mdc-linear-progress-track-height : 8px;
+    --mdc-linear-progress-active-indicator-height : 8px;
+    --mdc-linear-progress-track-color : #{$danger-color-100};
+    --mdc-linear-progress-active-indicator-color : #{$danger-color-500}; 
+  }
+
+  &--category {
+    --mdc-linear-progress-track-height : 8px;
+    --mdc-linear-progress-active-indicator-height : 8px;
+    --mdc-linear-progress-track-color : #{$primary-color-lighter};
+    --mdc-linear-progress-active-indicator-color : #{$primary-color-500}; 
+  }
+  border-radius: 4px;
+}
+
+.mdc-linear-progress__bar-inner {
+  border-radius: 16px !important;
 }
 
 app-transaction-details-analyze {
