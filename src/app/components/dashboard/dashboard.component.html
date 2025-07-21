@@ -94,23 +94,24 @@
       <h3>Top Spending Categories</h3>
     </div>
     <div class="dashboard-categories__content">
+      @for(category of spendingData; track $index; let i = $index ){
       <div class="dashboard-categories__content--item">
         <div class="dashboard-categories__content--item__content">
           <div class="dashboard-categories__content--item__content-index">
-            <h3>01</h3>
+            <h3>{{i+1}}</h3>
           </div>
           <div class="dashboard-categories__content--item__content-title">
-            <h3>Food Category</h3>
+            <h3>{{category.display_name | textTrim}}</h3>
             <div
               class="dashboard__bank--card__header__transaction"
               [ngStyle]="{ width: 'fit-content' }"
             >
-              {{ "01" }} Transactions
+              {{ category.transaction_count }} Transactions
             </div>
           </div>
           <div class="fill-space"></div>
           <div class="dashboard-categories__content--item__content-value">
-            <h2>$5000</h2>
+            <h2>{{category.total_amount}}</h2>
           </div>
         </div>
         <div class="dashboard-categories__content--item__progress">
@@ -128,142 +129,7 @@
           </div>
         </div>
       </div>
-      <div class="dashboard-categories__content--item">
-        <div class="dashboard-categories__content--item__content">
-          <div class="dashboard-categories__content--item__content-index">
-            <h3>01</h3>
-          </div>
-          <div class="dashboard-categories__content--item__content-title">
-            <h3>Food Category</h3>
-            <div
-              class="dashboard__bank--card__header__transaction"
-              [ngStyle]="{ width: 'fit-content' }"
-            >
-              {{ "01" }} Transactions
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="dashboard-categories__content--item__content-value">
-            <h2>$5000</h2>
-          </div>
-        </div>
-        <div class="dashboard-categories__content--item__progress">
-          <div class="dashboard-categories__content--item__progress-header">
-            <h5>Spending Impact</h5>
-            <div class="fill-space"></div>
-            <div><h5>25.00%</h5></div>
-          </div>
-          <div class="dashboard-categories__content--item__progress-progress">
-            <mat-progress-bar
-              class="mdc-linear-progress--category"
-              mode="determinate"
-              [value]="50"
-            ></mat-progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="dashboard-categories__content--item">
-        <div class="dashboard-categories__content--item__content">
-          <div class="dashboard-categories__content--item__content-index">
-            <h3>01</h3>
-          </div>
-          <div class="dashboard-categories__content--item__content-title">
-            <h3>Food Category</h3>
-            <div
-              class="dashboard__bank--card__header__transaction"
-              [ngStyle]="{ width: 'fit-content' }"
-            >
-              {{ "01" }} Transactions
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="dashboard-categories__content--item__content-value">
-            <h2>$5000</h2>
-          </div>
-        </div>
-        <div class="dashboard-categories__content--item__progress">
-          <div class="dashboard-categories__content--item__progress-header">
-            <h5>Spending Impact</h5>
-            <div class="fill-space"></div>
-            <div><h5>25.00%</h5></div>
-          </div>
-          <div class="dashboard-categories__content--item__progress-progress">
-            <mat-progress-bar
-              class="mdc-linear-progress--category"
-              mode="determinate"
-              [value]="50"
-            ></mat-progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="dashboard-categories__content--item">
-        <div class="dashboard-categories__content--item__content">
-          <div class="dashboard-categories__content--item__content-index">
-            <h3>01</h3>
-          </div>
-          <div class="dashboard-categories__content--item__content-title">
-            <h3>Food Category</h3>
-            <div
-              class="dashboard__bank--card__header__transaction"
-              [ngStyle]="{ width: 'fit-content' }"
-            >
-              {{ "01" }} Transactions
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="dashboard-categories__content--item__content-value">
-            <h2>$5000</h2>
-          </div>
-        </div>
-        <div class="dashboard-categories__content--item__progress">
-          <div class="dashboard-categories__content--item__progress-header">
-            <h5>Spending Impact</h5>
-            <div class="fill-space"></div>
-            <div><h5>25.00%</h5></div>
-          </div>
-          <div class="dashboard-categories__content--item__progress-progress">
-            <mat-progress-bar
-              class="mdc-linear-progress--category"
-              mode="determinate"
-              [value]="50"
-            ></mat-progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="dashboard-categories__content--item">
-        <div class="dashboard-categories__content--item__content">
-          <div class="dashboard-categories__content--item__content-index">
-            <h3>01</h3>
-          </div>
-          <div class="dashboard-categories__content--item__content-title">
-            <h3>Food Category</h3>
-            <div
-              class="dashboard__bank--card__header__transaction"
-              [ngStyle]="{ width: 'fit-content' }"
-            >
-              {{ "01" }} Transactions
-            </div>
-          </div>
-          <div class="fill-space"></div>
-          <div class="dashboard-categories__content--item__content-value">
-            <h2>$5000</h2>
-          </div>
-        </div>
-        <div class="dashboard-categories__content--item__progress">
-          <div class="dashboard-categories__content--item__progress-header">
-            <h5>Spending Impact</h5>
-            <div class="fill-space"></div>
-            <div><h5>25.00%</h5></div>
-          </div>
-          <div class="dashboard-categories__content--item__progress-progress">
-            <mat-progress-bar
-              class="mdc-linear-progress--category"
-              mode="determinate"
-              [value]="50"
-            ></mat-progress-bar>
-          </div>
-        </div>
-      </div>
+    }
     </div>
   </div>
 </div>
