@@ -224,6 +224,32 @@ export let API = {
   updateAsset:(assetId:any)=>{
     const personId = sessionStorage.getItem('personId');
     return API_URL + `persons/${personId}/assets/${assetId}`
+  },
+
+  //income decleration APIs
+  getIncomes:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/income`
+  },
+
+  deleteIncome:(incomeId:any)=>{
+    const personId = sessionStorage.getItem('personId');
+    const id = incomeId;
+
+    return API_URL + `persons/${personId}/income/${id}`
+  },
+
+  getMainClassificationsByHead:()=>{
+    return API_URL + `categories/classifcations`
+  },
+
+  getSubClassificationsByHead:()=>{
+    return API_URL + `categories/sub-classifications`
+  },
+
+  createIncome:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/income`
   }
 
 };

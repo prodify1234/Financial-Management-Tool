@@ -1,0 +1,59 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Create Asset</h2>
+  @if(loader()){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  <div mat-dialog-content>
+    <form [formGroup]="incomeDeclerationForm">
+      <mat-form-field>
+        <mat-label>Source</mat-label>
+        <input matInput type="text" formControlName="source">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Income</mat-label>
+        <input type="number" matInput formControlName="income">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Has Asset</mat-label>
+        <mat-select formControlName="has_asset" (selectionChange)="onAssetChange()">
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Asset Type</mat-label>
+        <mat-select formControlName="asset_type" (selectionChange)="onAssetTypeChange($event.value)">
+          <mat-option [value]="item" *ngFor="let item of assetTypes">{{item.asset_type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Frequency</mat-label>
+        <input type="number" matInput formControlName="frequency">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Main Classification</mat-label>
+        <mat-select formControlName="main_classification" (selectionChange)="onMainClassificationSelection($event.value)">
+          <mat-option [value]="item" *ngFor="let item of mainClassifications">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Sub Classification</mat-label>
+        <mat-select formControlName="sub_classification">
+          <mat-option [value]="item" *ngFor="let item of subClassifications">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button (click)="onAddIncome()">Add</button>
+  </div>
+</div>
