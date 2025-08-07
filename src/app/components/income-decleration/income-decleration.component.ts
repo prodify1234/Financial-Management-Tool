@@ -26,7 +26,9 @@ export class IncomeDeclerationComponent implements OnInit {
     'income',
     'has_asset',
     'frequency',
-    'actions'
+    'main_classification',
+    'sub_classification',
+    'actions',
   ]
 
   ngOnInit(): void {
@@ -62,6 +64,26 @@ export class IncomeDeclerationComponent implements OnInit {
 
       this.loader.update(()=>false)
     })
+  }
+
+  onEdit(element:any){
+    console.log(element)
+    const data = this.dialogRef.open(AddIncomeDeclerationComponent,{
+      width: '600px',
+      minWidth: '600px',
+      //height: 'auto',
+      disableClose: true,
+      data: {
+        type: 'edit',
+        data:  element
+      }
+    });
+    data.afterClosed().subscribe((result: any | '') => {
+      if(result){
+        console.log(result);
+        this.getIncomes();
+      }
+    });
   }
 
   onDelete(element:any){

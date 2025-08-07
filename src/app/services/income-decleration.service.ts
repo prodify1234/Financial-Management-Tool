@@ -42,4 +42,8 @@ export class IncomeDeclerationService {
   createIncome(body:any){
     return this.http.post(API.createIncome(), [body]);
   }
+
+  updateIncome(body:any){
+    return this.http.put(API.updateIncome(), body);
+  }
 }

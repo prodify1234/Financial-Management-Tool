@@ -4,7 +4,7 @@ import { Component, signal, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -40,24 +40,84 @@ export class AddIncomeDeclerationComponent implements OnInit {
   assetId : any = '';
   categoryId : any = '';
   readonly dialogRef = inject(MatDialogRef<AddIncomeDeclerationComponent>);
+  readonly data = inject<any>(MAT_DIALOG_DATA);
 
   constructor(){
-    this.incomeDeclerationForm = new FormGroup({
-      source : new FormControl(),
-      income : new FormControl(),
-      has_asset : new FormControl(),
-      asset_type : new FormControl(),
-      frequency : new FormControl(),
-      main_classification : new FormControl(),
-      sub_classification : new FormControl()
-    })
+
   }
 
   ngOnInit(): void {
     this.getMainClassifications();
 
-    this.incomeDeclerationForm.get('asset_type')?.disable();
-    this.incomeDeclerationForm.get('sub_classification')?.disable();
+    console.log('data: ', this.data);
+
+    if(this.data && this.data.type === 'add'){
+      this.incomeDeclerationForm = new FormGroup({
+        source : new FormControl(),
+        income : new FormControl(),
+        has_asset : new FormControl(),
+        asset_type : new FormControl(),
+        frequency : new FormControl(),
+        main_classification : new FormControl(),
+        sub_classification : new FormControl()
+      })
+
+      this.incomeDeclerationForm.get('asset_type')?.disable();
+      this.incomeDeclerationForm.get('sub_classification')?.disable();
+    }
+    else{
+      console.log('Frequency type: ',this.data?.data?.frequency )
+      this.incomeService.getMainClassifications().subscribe((response:any)=>{
+        this.mainClassifications = response.data;
+
+        console.log('Main Classifications: ', this.mainClassifications);
+        console.log('data main classification: ', this.data?.data?.main_classification);
+
+        const matchedMainClassification = this.mainClassifications.find((mainClassification:any)=>
+          mainClassification === this.data?.data?.main_classification)
+        console.log(matchedMainClassification);
+
+        if(matchedMainClassification){
+          this.incomeDeclerationForm.patchValue({
+            main_classification: matchedMainClassification
+          })
+
+          this.incomeService.getSubClassifications(matchedMainClassification).subscribe((response:any)=>{
+            console.log('Response sub classifications: ', response);
+            this.subClassifications = response.data[0].sub_classifications;
+
+            const matchedSubClassification = this.subClassifications.find((subClassification:any)=>
+              subClassification === this.data?.data?.sub_classification
+            )
+
+            console.log(matchedSubClassification);
+
+            if(matchedSubClassification){
+              this.incomeDeclerationForm.patchValue({
+                sub_classification: matchedSubClassification
+              })
+            }
+          })
+        }
+      })
+
+      this.incomeDeclerationForm = new FormGroup({
+        source : new FormControl(this.data?.data?.source),
+        income : new FormControl(this.data?.data?.income),
+        has_asset : new FormControl(this.data?.data?.has_asset),
+        asset_type : new FormControl(this.data?.data?.asset_type),
+        frequency : new FormControl(this.data?.data?.frequency),
+        main_classification: new FormControl({value : null, disabled:true}),
+        sub_classification: new FormControl({value : null, disabled:true})
+      })
+
+      if(this.incomeDeclerationForm.get('has_asset')?.value === false){
+        this.incomeDeclerationForm.get('asset_type')?.disable();
+      }
+      else{
+        this.incomeDeclerationForm.get('asset_type')?.enable();
+      }
+    }
   }
 
   onAssetChange(){
@@ -108,6 +168,8 @@ export class AddIncomeDeclerationComponent implements OnInit {
   }
 
   onAddIncome(){
+    console.log('Main Classification: ', this.incomeDeclerationForm.get('main_classification')?.value);
+    console.log('Sub Classification: ', this.incomeDeclerationForm.get('sub_classification')?.value)
     const body = {
       source : this.incomeDeclerationForm.get('source')?.value,
       income : this.incomeDeclerationForm.get('income')?.value,
@@ -123,4 +185,28 @@ export class AddIncomeDeclerationComponent implements OnInit {
       this.dialogRef.close(response);
     })
   }
+
+  onUpdate(){
+    const body = {
+      updates: [
+        {
+          income_id: this.data?.data?.id,
+          source: this.incomeDeclerationForm.get('source')?.value,
+          income: this.incomeDeclerationForm.get('income')?.value,
+          category_id : this.data?.data?.category_id,
+          has_asset: this.incomeDeclerationForm.get('has_asset')?.value,
+          frequency: this.incomeDeclerationForm.get('frequency')?.value,
+          main_classification: this.incomeDeclerationForm.get('main_classification')?.value,
+          sub_classification: this.incomeDeclerationForm.get('sub_classification')?.value
+        }
+      ]
+    }
+
+    this.incomeService.updateIncome(body).subscribe((response:any)=>{
+      console.log('Update income response: ', response)
+
+      this.dialogRef.close(response);
+    })
+  }
+
 }

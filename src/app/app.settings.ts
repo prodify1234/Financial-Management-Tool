@@ -250,6 +250,11 @@ export let API = {
   createIncome:()=>{
     const personId = sessionStorage.getItem('personId');
     return API_URL + `persons/${personId}/income`
+  },
+
+  updateIncome:()=>{
+    const personId = sessionStorage.getItem('personId');
+    return API_URL + `persons/${personId}/income`
   }
 
 };
