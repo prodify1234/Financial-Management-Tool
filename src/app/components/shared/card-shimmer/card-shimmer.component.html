@@ -1,0 +1,11 @@
+<div class="shimmer-card" [ngStyle]="{ 'min-width': width, 'min-height': height }">
+  <div class="shimmer header"></div>
+  <!-- <div class="shimmer sub-header"></div> -->
+   <div class="body fill-space">
+    @for (item of [].constructor(noOfLines); track $index) {
+      <div class="shimmer body-statement"></div>
+    }
+
+   </div>
+  <div class="shimmer footer"></div>
+</div>

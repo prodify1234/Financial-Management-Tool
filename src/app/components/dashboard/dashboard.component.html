@@ -5,7 +5,7 @@
         <div class="category-icon">
           <mat-icon>account_balance</mat-icon>
         </div>
-        <h3 >Bank-wise Transaction Analysis</h3>
+        <h3>Bank-wise Transaction Analysis</h3>
       </div>
       <div class="fill-space"></div>
       <div class="bank-header-actions">
@@ -19,16 +19,12 @@
     </div>
     <div class="bank-dashboard" #dashboard__bank>
       <div class="bank-dashboard-track" [style.transform]="getTranslateX()">
-        @for(card of cardData; track $index;let i = $index ){
+        @if(bankLoader()){ @for (item of [].constructor(5); track $index) {
+        <app-card-shimmer [width]="'340px'" [height]="'240px'" [noOfLines]="3"></app-card-shimmer>
+        } }@else { @for(card of cardData; track $index;let i = $index ){
         <div class="dashboard__bank--card">
           <div class="dashboard__bank--card__header">
-            <img
-              [src]="card.bank_logo_url"
-              width="48px"
-              height="48px"
-              alt="Bank Icon"
-              class="bank-icon"
-            />
+            <img [src]="card.bank_logo_url" width="48px" height="48px" alt="Bank Icon" class="bank-icon" />
             <h3 class="dashboard__bank--card__header__title">
               {{ card.provider | textTrim : 8 }}
             </h3>
@@ -45,13 +41,13 @@
                 </div>
                 <div class="bank-amount__header">Inflow</div>
                 <div class="fill-space"></div>
-                <div class="bank-amount__value success">${{ card.inflow }}</div>
+                <div class="bank-amount__value success">
+                  <div class="currency">
+                    <mat-icon>currency_rupee</mat-icon>{{ card.inflow }}</div>
+                  </div>
               </div>
-              <mat-progress-bar
-                class="mdc-linear-progress--success"
-                mode="determinate"
-                [value]="getPercent('inflow', card)"
-              ></mat-progress-bar>
+              <mat-progress-bar class="mdc-linear-progress--success" mode="determinate"
+                [value]="getPercent('inflow', card)"></mat-progress-bar>
             </div>
             <div class="dashboard__bank--card__body--transaction">
               <div class="dashboard__bank--card__body--transaction__content">
@@ -60,13 +56,13 @@
                 </div>
                 <div class="bank-amount__header">Outflow</div>
                 <div class="fill-space"></div>
-                <div class="bank-amount__value danger">${{ card.outflow }}</div>
+                <div class="bank-amount__value danger">
+                  <div class="currency">
+                    <mat-icon>currency_rupee</mat-icon>{{ card.outflow }}</div>
+                  </div>
               </div>
-              <mat-progress-bar
-                class="mdc-linear-progress--danger"
-                mode="determinate"
-                [value]="getPercent('outflow', card)"
-              ></mat-progress-bar>
+              <mat-progress-bar class="mdc-linear-progress--danger" mode="determinate"
+                [value]="getPercent('outflow', card)"></mat-progress-bar>
             </div>
             <div class="fill-space"></div>
             <div class="dashboard__bank--card__body--net">
@@ -75,13 +71,15 @@
               </div>
               <div class="fill-space"></div>
               <div class="dashboard__bank--card__body--net__value">
-                ${{ card.inflow - card.outflow | number : "1.2-2" }}
+                <div class="currency">
+                  <mat-icon>currency_rupee</mat-icon>{{ card.inflow - card.outflow | number : "1.2-2" }}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        }
+        } }
       </div>
     </div>
   </div>
@@ -94,42 +92,48 @@
       <h3>Top Spending Categories</h3>
     </div>
     <div class="dashboard-categories__content">
-      @for(category of spendingData; track $index; let i = $index ){
-      <div class="dashboard-categories__content--item">
-        <div class="dashboard-categories__content--item__content">
-          <div class="dashboard-categories__content--item__content-index">
-            <h3>{{i+1}}</h3>
-          </div>
-          <div class="dashboard-categories__content--item__content-title">
-            <h3>{{category.display_name | textTrim}}</h3>
-            <div
-              class="dashboard__bank--card__header__transaction"
-              [ngStyle]="{ width: 'fit-content' }"
-            >
-              {{ category.transaction_count }} Transactions
+      @if(categoryLoader()){ 
+        @for (item of [].constructor(5); track $index) {
+            <app-card-shimmer [width]="'100%'" [height]="'80px'" [noOfLines]="0"></app-card-shimmer>
+      }
+      }@else {
+        @for(category of spendingData; track $index; let i = $index ){
+        <div class="dashboard-categories__content--item">
+          <div class="dashboard-categories__content--item__content">
+            <div class="dashboard-categories__content--item__content-index">
+              <h3>{{( i + 1) < 10 ? `0${i+1}` : i+1 }}</h3>
+            </div>
+            <div class="dashboard-categories__content--item__content-title">
+              <h3>{{ category.display_name | textTrim }}</h3>
+              <div class="dashboard__bank--card__header__transaction" [ngStyle]="{ width: 'fit-content' }">
+                {{ (category.transaction_count ) < 10 ? `0${category.transaction_count }` : category.transaction_count }} Transactions
+              </div>
+            </div>
+            <div class="fill-space"></div>
+            <div class="dashboard-categories__content--item__content-value">
+              <h2>
+                <div class="currency">
+                  <mat-icon>currency_rupee</mat-icon>{{ category.total_amount }}
+                </div>
+
+              </h2>
             </div>
           </div>
-          <div class="fill-space"></div>
-          <div class="dashboard-categories__content--item__content-value">
-            <h2>{{category.total_amount}}</h2>
+          <div class="dashboard-categories__content--item__progress">
+            <div class="dashboard-categories__content--item__progress-header">
+              <h5>Spending Impact</h5>
+              <div class="fill-space"></div>
+              <div>
+                <h5>25.00%</h5>
+              </div>
+            </div>
+            <div class="dashboard-categories__content--item__progress-progress">
+              <mat-progress-bar class="mdc-linear-progress--category" mode="determinate" [value]="50"></mat-progress-bar>
+            </div>
           </div>
         </div>
-        <div class="dashboard-categories__content--item__progress">
-          <div class="dashboard-categories__content--item__progress-header">
-            <h5>Spending Impact</h5>
-            <div class="fill-space"></div>
-            <div><h5>25.00%</h5></div>
-          </div>
-          <div class="dashboard-categories__content--item__progress-progress">
-            <mat-progress-bar
-              class="mdc-linear-progress--category"
-              mode="determinate"
-              [value]="50"
-            ></mat-progress-bar>
-          </div>
-        </div>
-      </div>
-    }
+        }
+      }
     </div>
   </div>
 </div>

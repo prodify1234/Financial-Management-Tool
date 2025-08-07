@@ -1,0 +1,60 @@
+@use '../../../../app/sass/variables' as *;
+.shimmer-card {
+  display: flex;
+  flex-direction: column;
+ 
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid $primary-color-100;
+  overflow: hidden;
+}
+
+.shimmer {
+  border-radius: 6px;
+  background: linear-gradient(
+    -90deg,
+    #e0e0e0 0%,
+    #f0f0f0 50%,
+    #e0e0e0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+.header {
+  height: 20px;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap:8px;
+  &-statement {
+    height: 24px;
+    width: 100%;
+  }
+}
+
+.body-statement {
+  
+}
+
+
+.footer {
+  height : 20px;
+  width: 100%;
+}
+
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

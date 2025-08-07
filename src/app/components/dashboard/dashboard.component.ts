@@ -21,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TextTrimPipe } from '../../pipes/text-trim.pipe';
 import { CarouselModule } from 'primeng/carousel';
+import { CardShimmerComponent } from '../shared/card-shimmer/card-shimmer.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +36,8 @@ import { CarouselModule } from 'primeng/carousel';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     TextTrimPipe,
-    CarouselModule
+    CarouselModule,
+    CardShimmerComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -47,7 +49,8 @@ export class DashboardComponent implements OnInit,AfterViewChecked{
   cardData: any[] = [];
   spendingData: any[] = [];
   recurringData: any[] = [];
-  loader: boolean = false;
+  bankLoader = signal(false);
+  categoryLoader = signal(false);
   currentIndex = 0;
   widthMeasured:boolean = false;
   dashboardWidth = 0;
@@ -110,7 +113,7 @@ export class DashboardComponent implements OnInit,AfterViewChecked{
   // }
 
   getCashFlow() {
-    this.loader = true;
+    this.bankLoader.update((() => true));
     this.dashboardService.getCashFlow().subscribe((response: any) => {
       console.log('Cashflow Response: ', response);
 
@@ -118,12 +121,12 @@ export class DashboardComponent implements OnInit,AfterViewChecked{
 
       console.log('Card Data: ', this.cardData);
 
-      this.loader = false;
+      this.bankLoader.update((() => false));
     });
   }
 
   getTopSpendingCategories() {
-    this.loader = true;
+    this.categoryLoader.update((() => true));
     this.dashboardService
       .getTopSpendingCategories()
       .subscribe((response: any) => {
@@ -133,24 +136,24 @@ export class DashboardComponent implements OnInit,AfterViewChecked{
 
         console.log('Spending Data: ', this.spendingData);
 
-        this.loader = false;
+        this.categoryLoader.update((() => false));
       });
   }
 
-  getRecurringTransactions() {
-    this.loader = true;
-    this.dashboardService
-      .getRecurringTransactions()
-      .subscribe((response: any) => {
-        console.log('Recurring Transactions: ', response);
+  // getRecurringTransactions() {
+  //   this.loader = true;
+  //   this.dashboardService
+  //     .getRecurringTransactions()
+  //     .subscribe((response: any) => {
+  //       console.log('Recurring Transactions: ', response);
 
-        this.recurringData = response.data.recurring_transactions;
+  //       this.recurringData = response.data.recurring_transactions;
 
-        console.log('Recurring Data: ', this.recurringData);
+  //       console.log('Recurring Data: ', this.recurringData);
 
-        this.loader = false;
-      });
-  }
+  //       this.loader = false;
+  //     });
+  // }
 
   getPercent(type: string, card: any): number {
     if (type === 'inflow') {

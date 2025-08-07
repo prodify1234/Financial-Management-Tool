@@ -157,7 +157,9 @@
             font-weight: 800;
           }
           &__value {
-            font-size: 20px;
+            font-size: 16px;
+            color: $darker-grey;
+            font-weight: 500;
           }
         }
       }
@@ -354,6 +356,12 @@
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+}
+
+.currency {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 
