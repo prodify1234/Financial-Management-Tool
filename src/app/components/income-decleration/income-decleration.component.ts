@@ -24,6 +24,7 @@ export class IncomeDeclerationComponent implements OnInit {
   incomeColumns : any[] = [
     'source',
     'income',
+    'category_type',
     'has_asset',
     'frequency',
     'main_classification',

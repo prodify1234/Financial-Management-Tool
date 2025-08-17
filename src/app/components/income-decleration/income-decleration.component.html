@@ -32,6 +32,13 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="category_type">
+          <th mat-header-cell *matHeaderCellDef>Category Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.category_type }}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="has_asset">
           <th mat-header-cell *matHeaderCellDef>Has Asset</th>
           <td mat-cell *matCellDef="let element">

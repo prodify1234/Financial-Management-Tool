@@ -33,7 +33,7 @@ export class AddIncomeDeclerationComponent implements OnInit {
   loader= signal<boolean>(false);
   incomeDeclerationForm!:FormGroup;
   incomeService =  inject(IncomeDeclerationService);
-  assetTypes:any[]=[];
+  categoryTypes:any[]=[];
   mainClassifications:any[]=[];
   subClassifications:any[]=[];
   selectedMainClassification:string='';
@@ -56,17 +56,16 @@ export class AddIncomeDeclerationComponent implements OnInit {
         source : new FormControl(),
         income : new FormControl(),
         has_asset : new FormControl(),
-        asset_type : new FormControl(),
+        category_type : new FormControl(),
         frequency : new FormControl(),
         main_classification : new FormControl(),
         sub_classification : new FormControl()
       })
 
-      this.incomeDeclerationForm.get('asset_type')?.disable();
+      this.incomeDeclerationForm.get('category_type')?.disable();
       this.incomeDeclerationForm.get('sub_classification')?.disable();
     }
     else{
-      console.log('Frequency type: ',this.data?.data?.frequency )
       this.incomeService.getMainClassifications().subscribe((response:any)=>{
         this.mainClassifications = response.data;
 
@@ -105,17 +104,32 @@ export class AddIncomeDeclerationComponent implements OnInit {
         source : new FormControl(this.data?.data?.source),
         income : new FormControl(this.data?.data?.income),
         has_asset : new FormControl(this.data?.data?.has_asset),
-        asset_type : new FormControl(this.data?.data?.asset_type),
+        category_type : new FormControl({value: null, disabled:true}),
         frequency : new FormControl(this.data?.data?.frequency),
         main_classification: new FormControl({value : null, disabled:true}),
         sub_classification: new FormControl({value : null, disabled:true})
       })
 
       if(this.incomeDeclerationForm.get('has_asset')?.value === false){
-        this.incomeDeclerationForm.get('asset_type')?.disable();
+        this.incomeDeclerationForm.get('has_asset')?.disable();
+        this.incomeDeclerationForm.get('category_type')?.disable();
       }
       else{
-        this.incomeDeclerationForm.get('asset_type')?.enable();
+        this.incomeService.getAllAssets().subscribe((response:any)=>{
+          console.log('All Asset Types: ', response);
+          this.categoryTypes = response.data;
+          this.incomeDeclerationForm.get('category_type')?.enable();
+
+          const matchedCategoryType = this.categoryTypes.find((categoryType:any)=>
+            categoryType.category_type === this.data?.data?.category_type
+          )
+
+          if(matchedCategoryType){
+            this.incomeDeclerationForm.patchValue({
+              category_type : matchedCategoryType
+            })
+          }
+        })
       }
     }
   }
@@ -126,15 +140,16 @@ export class AddIncomeDeclerationComponent implements OnInit {
     if(this.incomeDeclerationForm.get('has_asset')?.value){
       this.incomeService.getAllAssets().subscribe((response:any)=>{
         console.log('All Asset Types: ', response);
-        this.assetTypes = response.data;
-        this.incomeDeclerationForm.get('asset_type')?.enable();
+        this.categoryTypes = response.data;
+        this.incomeDeclerationForm.get('category_type')?.enable();
       })
     }
     else{
-      this.assetTypes = [];
+      this.categoryTypes = [];
       this.assetId = null;
-      this.categoryId = null
-      this.incomeDeclerationForm.get('asset_type')?.disable();
+      this.categoryId = null;
+      this.incomeDeclerationForm.get('category_type')?.setValue(null);
+      this.incomeDeclerationForm.get('category_type')?.disable();
     }
   }
 
@@ -196,6 +211,7 @@ export class AddIncomeDeclerationComponent implements OnInit {
           category_id : this.data?.data?.category_id,
           has_asset: this.incomeDeclerationForm.get('has_asset')?.value,
           frequency: this.incomeDeclerationForm.get('frequency')?.value,
+          category_type: this.incomeDeclerationForm.get('category_type')?.value?.category_type || null,
           main_classification: this.incomeDeclerationForm.get('main_classification')?.value,
           sub_classification: this.incomeDeclerationForm.get('sub_classification')?.value
         }

@@ -218,7 +218,7 @@ export let API = {
   },
 
   getCategoryTypes:(assetType:any)=>{
-    return API_URL + `categories/by-main-classification/${assetType}`
+    return API_URL + `categories/by-main-classification?main_classification=${assetType}`
   },
 
   updateAsset:(assetId:any)=>{

@@ -25,19 +25,19 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Select Asset Type</mat-label>
-        <mat-select formControlName="asset_type" (selectionChange)="onAssetTypeChange($event.value)">
-          <mat-option [value]="item" *ngFor="let item of assetTypes">{{item.asset_type}}</mat-option>
+        <mat-label>Select Category Type</mat-label>
+        <mat-select formControlName="category_type" (selectionChange)="onAssetTypeChange($event.value)">
+          <mat-option [value]="item" *ngFor="let item of categoryTypes">{{item?.category_type}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Frequency</mat-label>
         <mat-select formControlName="frequency">
-          <mat-option value=1>Monthly</mat-option>
-          <mat-option value=2>Quarterly</mat-option>
-          <mat-option value=3>Half-yearly</mat-option>
-          <mat-option value=4>Yearly</mat-option>
+          <mat-option value="Monthly">Monthly</mat-option>
+          <mat-option value="Quarterly">Quarterly</mat-option>
+          <mat-option value="Half-yearly">Half-yearly</mat-option>
+          <mat-option value="Yearly">Yearly</mat-option>
         </mat-select>
       </mat-form-field>
 
